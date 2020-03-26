@@ -7,6 +7,8 @@ import com.progmethgame.ProgMethGame;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
+		config.setTitle("ProgMeth Game");
+		
 		new Lwjgl3Application(new ProgMethGame(), config);
 	}
 }
