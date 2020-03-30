@@ -2,12 +2,15 @@ package com.progmethgame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Disposable;
+import com.progmethgame.ai.TickProcessor;
+import com.progmethgame.ai.WaypointProcessor;
 import com.progmethgame.control.GameController;
 import com.progmethgame.entity.Player;
 import com.progmethgame.graphic.EntityRenderer;
 import com.progmethgame.graphic.GameRenderer;
 import com.progmethgame.graphic.GameScreen;
 import com.progmethgame.map.TestMap;
+import com.progmethgame.physic.PhysicProcessor;
 
 public class GameRunner implements Disposable {
 	
@@ -19,7 +22,7 @@ public class GameRunner implements Disposable {
 	GameController controller;
 	GameScreen screen;
 	
-	EntityRenderer entityRenderer;
+	EntityProcessorProvider entityProcessor;
 	
 	public GameRunner() {
 		//GameState
@@ -28,35 +31,45 @@ public class GameRunner implements Disposable {
 
 		state.map = new TestMap();
 		
+		this.entityProcessor = new EntityProcessorProvider();
+		
 		//Graphic
-		this.entityRenderer = new EntityRenderer();
-		this.renderer = new GameRenderer(state, entityRenderer, (d) -> shortTick(d));
-		this.controller = new GameController(state);
+		this.entityProcessor.renderer = new EntityRenderer();
+		this.renderer = new GameRenderer(state, entityProcessor.renderer, (d) -> shortTick(d));
+		this.controller = new GameController(state, renderer);
 		this.screen = new GameScreen(this.renderer, controller);
 		
-		// Spawn Entity
-		state.player = new Player(entityRenderer);
+		//Physic
+		this.entityProcessor.physic = new PhysicProcessor(this.state.map);
+		
+		//AI
+		this.entityProcessor.waypoint = new WaypointProcessor(state.map);
+		this.entityProcessor.ticker = new TickProcessor();
 		
 		//Init Map
-		state.map.setupGameState(this.state);
+		state.map.setupGameState(this.state, this.entityProcessor);
 	}
 	
 	private void shortTick(float delta) {
 		tickAcc += delta;
 		if (tickAcc > tickRate) {
+			tick(tickAcc);
+
 			tickAcc = 0;
-			tick();
 		}
 		
-		controller.tick(delta);
+		//controller.tick(delta);
+
+		entityProcessor.physic.step(tickAcc);
 		
 		//Todo: Maybe clean up?
 		if (state.gameShouldClose)
 			Gdx.app.exit();
 	}
 	
-	private void tick() {
-		
+	private void tick(float delta) {
+		entityProcessor.waypoint.update(delta);
+		entityProcessor.ticker.tick(delta);
 	}
 	
 	public GameRenderer getRenderer() {
@@ -73,7 +86,4 @@ public class GameRunner implements Disposable {
 		this.screen.dispose();
 	}
 
-	public EntityRenderer getEntityRenderer() {
-		return entityRenderer;
-	}
 }

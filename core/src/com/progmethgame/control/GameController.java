@@ -4,17 +4,21 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.progmethgame.GameState;
+import com.progmethgame.graphic.GameRenderer;
 
 public class GameController implements InputProcessor {
 
 	GameState state;
+	GameRenderer renderer;
 
-	public GameController(GameState state) {
+	public GameController(GameState state, GameRenderer renderer) {
 		this.state = state;
+		this.renderer = renderer;
 	}
 	
-	public void tick(float delta) {
+	/*public void tick(float delta) {
 		//Temp
 		final float speed = 5;
 		Vector2 ppos = this.state.player.getPosition();
@@ -29,20 +33,51 @@ public class GameController implements InputProcessor {
 
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
 			ppos.x -= speed*delta;
-	}
+	}*/
+
 
 	@Override
 	public boolean keyDown(int keycode) {
-		if (keycode == Input.Keys.ESCAPE) {
+		switch (keycode) {
+		case Input.Keys.ESCAPE:
 			state.gameShouldClose = true;
 			return true;
+		case Input.Keys.W:
+			state.player.ctrlDir.y = 1;
+			return true;
+		case Input.Keys.S:
+			state.player.ctrlDir.y = -1;
+			return true;
+		case Input.Keys.A:
+			state.player.ctrlDir.x = -1;
+			return true;
+		case Input.Keys.D:
+			state.player.ctrlDir.x = 1;
+			return true;
+		default:
+			break;
 		}
 		return false;
 	}
 
 	@Override
 	public boolean keyUp(int keycode) {
-		// TODO Auto-generated method stub
+		switch (keycode) {
+		case Input.Keys.W:
+			state.player.ctrlDir.y = 0;
+			return true;
+		case Input.Keys.S:
+			state.player.ctrlDir.y = 0;
+			return true;
+		case Input.Keys.A:
+			state.player.ctrlDir.x = 0;
+			return true;
+		case Input.Keys.D:
+			state.player.ctrlDir.x = 0;
+			return true;
+		default:
+			break;
+		}
 		return false;
 	}
 
@@ -72,8 +107,11 @@ public class GameController implements InputProcessor {
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		// TODO Auto-generated method stub
-		return false;
+		Vector3 gameCoord = this.renderer.getCamera().unproject(new Vector3(screenX, screenY, 0f));
+		gameCoord.x -= 0.5;
+		gameCoord.y -= 0.5;
+		state.player.setFacing(new Vector2(gameCoord.x, gameCoord.y));
+		return true;
 	}
 
 	@Override

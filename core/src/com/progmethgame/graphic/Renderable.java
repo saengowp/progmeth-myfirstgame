@@ -1,7 +1,8 @@
-package com.progmethgame.entity.component;
+package com.progmethgame.graphic;
 
+import com.progmethgame.entity.base.EntityComponent;
 
-public interface Renderable {
+public interface Renderable extends EntityComponent{
 
 	public RenderComponent getRenderComponent();
 

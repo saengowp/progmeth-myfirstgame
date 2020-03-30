@@ -9,7 +9,9 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
 import com.progmethgame.GameState;
 
@@ -36,13 +38,14 @@ public class GameRenderer implements Disposable{
 		this.state = state;
 		this.updateCallback = updateCallback;
 	}
+	
 
 	public void render(float delta) {
 		updateCallback.accept(delta);
 		
 		//Follows player
-		Vector2 playerPos = state.player.getPosition();
-		camera.position.set(playerPos, 0);
+		final float followFactor = 0.1f;
+		camera.position.lerp(new Vector3(state.player.getPosition(), 0f), followFactor);
 		
 		this.camera.update();
 
