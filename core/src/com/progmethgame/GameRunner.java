@@ -60,7 +60,7 @@ public class GameRunner implements Disposable {
 		
 		//controller.tick(delta);
 
-		entityProcessor.physic.step(tickAcc);
+		entityProcessor.physic.step(delta);
 		
 		//Todo: Maybe clean up?
 		if (state.gameShouldClose)
