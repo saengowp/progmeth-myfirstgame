@@ -60,10 +60,12 @@ public class GameScreen implements Screen {
 		
 		player.setPosition(player.getX() + delta * player.velocity.x, player.getY() + delta * player.velocity.y);
 
+		int pX = (int) player.getX(), pY = (int) player.getY();
+
 		for (int i = -1; i <= 1; i++) {
 			for (int j = -1; j <= 1; j++) {
-				int xp = ((int) Math.round(player.getX())) + i;
-				int yp = ((int) Math.round(player.getY())) + j;
+				int xp = pX + i;
+				int yp = pY + j;
 				if (xp < 0 || xp >= mapWidht || yp < 0 || yp >= mapHeight || layer.getCell(xp, yp).getTile().getId() == 12) {
 					continue;
 				}
@@ -77,8 +79,7 @@ public class GameScreen implements Screen {
 					player.setX(player.getX() + (dx > 0 ? 1 - dx : - 1 - dx));
 				else
 					player.setY(player.getY() + (dy > 0 ? 1 - dy : - 1 - dy));
-				
-				
+							
 			}
 		}
 		
