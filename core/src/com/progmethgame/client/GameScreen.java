@@ -1,4 +1,4 @@
-package com.progmethgame.main;
+package com.progmethgame.client;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -25,22 +25,20 @@ public class GameScreen implements Screen {
 	Viewport viewport;
 	Batch batch;
 	
-	Player player;
-	
 	GameController controller;
+	GameClient client;
 
-	public GameScreen() {
-		Gdx.app.setLogLevel(Gdx.app.LOG_DEBUG);
-
-		this.map = new TmxMapLoader().load("map/test.tmx");
+	public GameScreen(GameClient client, GameController control) {
+		this.map = new TmxMapLoader().load("map/map.tmx");
 		this.mapRenderer = new OrthogonalTiledMapRenderer(map, 1/8f);
 		this.camera = new OrthographicCamera();
 		this.viewport = new FillViewport(20, 20, this.camera);
 		this.batch = new SpriteBatch();
 		
-		this.player = new Player();
+		this.controller = control;
 		
-		this.controller = new GameController(player);
+		this.client = client;
+		//this.controller = new GameController(player);
 	}
 	
 	
@@ -49,7 +47,7 @@ public class GameScreen implements Screen {
 		Gdx.input.setInputProcessor(controller);
 	}
 	
-	private void simulatePhysic(float delta) {
+	/*private void simulatePhysic(float delta) {
 		player.normalizeMovement();
 		
 		
@@ -84,22 +82,30 @@ public class GameScreen implements Screen {
 		}
 		
 	}
+	*/
 
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClearColor(1f, 1f, 1f, 1f );
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		simulatePhysic(delta);
+		//simulatePhysic(delta);
+		client.tick(delta);
 
+		ClientEntity player = client.entities.get(client.getPlayerId());
 		camera.position.lerp(new Vector3(player.getX(), player.getY(), 0f) , 5f * delta);
+		
+		
 		camera.update();
 		mapRenderer.setView(camera);
 		mapRenderer.render();
 		
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		player.draw(batch);
+		
+		for (ClientEntity e : client.entities.values()) {
+			e.draw(batch);
+		}
 		batch.end();
 		
 	}
@@ -128,7 +134,7 @@ public class GameScreen implements Screen {
 	public void dispose() {
 		this.map.dispose();
 		
-		this.player.dispose();
+		//this.player.dispose();
 	}
 
 }

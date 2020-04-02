@@ -1,4 +1,4 @@
-package com.progmethgame.main;
+package com.progmethgame.client;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
@@ -6,15 +6,15 @@ import com.badlogic.gdx.math.Vector2;
 
 public class GameController implements InputProcessor {
 	
-	Player player;
+	Vector2 movementVec;
 	
-	public GameController(Player player) {
-		this.player = player;
+	public GameController(Vector2 movementVec) {
+		this.movementVec = movementVec;
 	}
 
 	@Override
 	public boolean keyDown(int keycode) {
-		Vector2 control = player.controlVec;
+		Vector2 control = movementVec;
 
 		switch (keycode) {
 		case Keys.W:
@@ -36,7 +36,7 @@ public class GameController implements InputProcessor {
 
 	@Override
 	public boolean keyUp(int keycode) {
-		Vector2 control = player.controlVec;
+		Vector2 control = movementVec;
 
 		switch (keycode) {
 		case Keys.W:
