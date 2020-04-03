@@ -93,7 +93,7 @@ public class GameScreen implements Screen {
 		client.tick(delta);
 
 		ClientEntity player = client.entities.get(client.getPlayerId());
-		camera.position.lerp(new Vector3(player.getX(), player.getY(), 0f) , 5f * delta);
+		camera.position.lerp(new Vector3(player.getX(), player.getY(), 0f) , Math.min(1, 5f * delta));
 		
 		
 		camera.update();
