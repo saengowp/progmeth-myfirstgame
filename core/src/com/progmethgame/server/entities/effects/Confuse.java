@@ -10,12 +10,6 @@ public class Confuse extends StatusEffect {
 	}
 
 	@Override
-	public void tick(float delta) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void getEffect(Player p) {
 		// TODO Auto-generated method stub
 		p.setSpeed(-p.getSpeed());

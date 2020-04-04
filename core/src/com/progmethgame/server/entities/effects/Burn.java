@@ -24,10 +24,4 @@ public class Burn extends StatusEffect {
 
 	}
 
-	@Override
-	public void tick(float delta) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }
