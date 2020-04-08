@@ -4,8 +4,8 @@ import com.progmethgame.server.entities.Player;
 
 public class Stunt extends StatusEffect {
 
-	public Stunt(int cooldown) {
-		super(cooldown);
+	public Stunt() {
+		super(StatusType.STUNT);
 		// TODO Auto-generated constructor stub
 	}
 

@@ -4,8 +4,8 @@ import com.progmethgame.server.entities.Player;
 
 public class Confuse extends StatusEffect {
 
-	public Confuse(int cooldown) {
-		super(cooldown);
+	public Confuse() {
+		super(StatusType.CONFUSE);
 		// TODO Auto-generated constructor stub
 	}
 

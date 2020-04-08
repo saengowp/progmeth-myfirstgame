@@ -2,17 +2,19 @@ package com.progmethgame.server.entities;
 
 import com.progmethgame.server.entities.effects.StatusEffect;
 
-public class Player extends Entity implements Tickable{
-	private float speed;
+public class Player extends Entity{
 	private int dps;
 	private int hp;
 	StatusEffect effect;
+	private int tickCount;
+	private Enum[] gunSlot;
 
 	public Player(int gid) {
 		super(gid, EntityType.PLAYER);
 		this.speed = 5.0f;
 		this.dps = 0;
 		this.hp = 100;
+		this.tickCount = 0;
 	}
 
 	public float getSpeed() {
@@ -36,7 +38,16 @@ public class Player extends Entity implements Tickable{
 	}
 
 	public void setEffect(StatusEffect effect) {
-		this.effect = effect;
+		if (this.effect == null) {
+			this.effect = effect;
+			this.effect.getEffect(this);
+		}else if (this.effect.type == effect.type) {
+			this.effect.setDuration(effect.getMaxDuration());
+		}else {
+			this.effect.removeEffect(this);
+			this.effect = effect;
+			this.effect.getEffect(this);
+		}
 	}
 	public int dealDamge(int damage) {
 		if (this.hp > damage) {
@@ -50,7 +61,16 @@ public class Player extends Entity implements Tickable{
 	}
 	public void tick(float delta) {
 		//for 1 second
-		this.dealDamge(dps);
+		super.tick(delta);
+		if(tickCount == 0) {
+			this.dealDamge(dps);
+			if(this.effect.decreaseDuration()) {
+				this.effect.removeEffect(this);
+				this.effect = null;
+			}
+		}
+		this.tickCount++;
+		this.tickCount %= (int) 1/delta;
 	}
 	
 

@@ -35,7 +35,7 @@ public class GameRuntime {
 		for (Entity e : entities.values()) {
 			
 			//Simulate Physic
-			e.position.add(e.velocity.cpy().scl(delta));
+			e.tick(delta);
 			
 			//Collision
 			int pX = (int) e.position.x, pY = (int) e.position.y;

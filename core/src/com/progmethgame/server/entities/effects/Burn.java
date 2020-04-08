@@ -3,12 +3,11 @@ package com.progmethgame.server.entities.effects;
 import com.progmethgame.server.entities.Player;
 
 public class Burn extends StatusEffect {
-	int dps;
+	static final int dps = 5;
 
 	public Burn() {
 		// TODO Auto-generated constructor stub
-		super(5);
-		this.dps = 5;
+		super(StatusType.BURN);
 	}
 
 	@Override

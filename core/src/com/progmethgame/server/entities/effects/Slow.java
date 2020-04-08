@@ -3,12 +3,11 @@ package com.progmethgame.server.entities.effects;
 import com.progmethgame.server.entities.Player;
 
 public class Slow extends StatusEffect {
-	float slowrate;
+	static final float slowrate = 0.5f;
 
-	public Slow(int cooldown) {
-		super(cooldown);
+	public Slow() {
+		super(StatusType.SLOW);
 		// TODO Auto-generated constructor stub
-		this.slowrate = 0.5f;
 	}
 
 
@@ -16,7 +15,6 @@ public class Slow extends StatusEffect {
 	public void getEffect(Player p) {
 		// TODO Auto-generated method stub
 		p.setSpeed(p.getSpeed()*slowrate);
-
 	}
 
 	@Override

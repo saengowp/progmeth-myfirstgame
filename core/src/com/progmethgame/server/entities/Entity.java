@@ -2,14 +2,21 @@ package com.progmethgame.server.entities;
 
 import com.badlogic.gdx.math.Vector2;
 
-public abstract class Entity {
+public abstract class Entity implements Tickable{
 
 	public Vector2 position;
 	public Vector2 velocity;
+	public float speed;
 	
 	public enum EntityType {
 		PLAYER,
-		PLAYER_CONTROLABLE
+		PLAYER_CONTROLABLE,
+		BULLET_FIRE,
+		BULLET_SLOW,
+		BULLET_CONFUSE,
+		BULLET_STUNT,
+		BULLET_HOOK,
+		BULLET_TELEPORT
 	};
 	
 	public EntityType type;
@@ -30,6 +37,15 @@ public abstract class Entity {
 	@Override
 	public int hashCode() {
 		return gid;
+	}
+	
+	public void tick(float delta) {
+		//move
+		this.moveWithSpeed(this.speed, delta);
+	}
+	
+	public void moveWithSpeed(float speed,float delta) {
+		this.position.add(this.velocity.cpy().nor().scl(delta).scl(speed));
 	}
 
 }
