@@ -90,6 +90,7 @@ public class ClientEntity extends Sprite{
 	
 	public static ClientEntity fromData(EntityData data, ClientRuntime runtime) {
 		ClientEntity e = new ClientEntity(data.id, data.dispType, runtime);
+		e.update(data);
 		return e;
 	}
 }
