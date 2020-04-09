@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.Queue;
 import com.progmethgame.network.ServerBus;
 import com.progmethgame.network.ServerBusListener;
 import com.progmethgame.network.event.server.ServerAddEntityEvent;
@@ -25,6 +26,8 @@ public class ServerRuntime implements ServerBusListener, Disposable {
 	private GameMap map;
 	private HashMap<UUID, Entity> entities;
 	private HashMap<UUID, Player> players;
+	
+	private final Queue<Entity> entitiesAddQueue, entitiesRemovalQueue;
 
 	ServerBus bus;
 	Random rand;
@@ -32,9 +35,11 @@ public class ServerRuntime implements ServerBusListener, Disposable {
 	public ServerRuntime() throws IOException, GameError {
 		this.map = new GameMap();
 		this.entities = new HashMap<UUID, Entity>();
-		this.bus = new ServerBus(this);
 		this.rand = new Random();
 		this.players = new HashMap<UUID, Player>();
+		this.entitiesAddQueue = new Queue<Entity>();
+		this.entitiesRemovalQueue = new Queue<Entity>();
+		this.bus = new ServerBus(this);
 	}
 	
 	private void simulatePhysic(float delta) {
@@ -92,7 +97,7 @@ public class ServerRuntime implements ServerBusListener, Disposable {
 	}
 
 	public void addEntity(Entity e) {
-		entities.put(e.getGid(), e);
+		entitiesAddQueue.addLast(e);
 		ServerAddEntityEvent ev = new ServerAddEntityEvent();
 		ev.entityId = e.getGid();
 		ev.data = e.getData();
@@ -100,8 +105,7 @@ public class ServerRuntime implements ServerBusListener, Disposable {
 	}
 	
 	public void removeEntity(Entity e) {
-		entities.remove(e.getGid());
-		players.remove(e.getGid());
+		entitiesRemovalQueue.addLast(e);
 		ServerRemoveEntityEvent event = new ServerRemoveEntityEvent();
 		event.entityId = e.getGid();
 		bus.sendEvent(null, event);
@@ -109,12 +113,27 @@ public class ServerRuntime implements ServerBusListener, Disposable {
 
 	@Override
 	public void onTick(float delta) {
+		// Apply entity addition and removal.
+		while (!entitiesAddQueue.isEmpty()) {
+			entities.put(entitiesAddQueue.first().getGid(), entitiesAddQueue.first());
+			entitiesAddQueue.removeFirst();
+		}
+		while (!entitiesRemovalQueue.isEmpty()) {
+			entities.remove(entitiesRemovalQueue.first().getGid());
+			players.remove(entitiesRemovalQueue.removeFirst().getGid());
+		}
+		
+		//Tick
 		for (Entity e : entities.values()) {
 			e.tick(delta);
 		}
 		
+		//Physic
 		simulatePhysic(delta);
 		
+		
+		
+		//Sync entities data
 		for (Entity e : entities.values()) {
 			ServerUpdateEntityEvent event = new ServerUpdateEntityEvent();
 			event.data = e.getData();
@@ -128,11 +147,12 @@ public class ServerRuntime implements ServerBusListener, Disposable {
 		player.getPosition().set(1, 1);
 		
 		players.put(id, player);
-		addEntity(player);
 		
 		//======= Sync game state ===============================================
 		
 		bus.sendEvent(id, new ServerResetEvent());
+		
+		addEntity(player);
 		
 		//Sync entities
 		for (Entity e : entities.values()) {
