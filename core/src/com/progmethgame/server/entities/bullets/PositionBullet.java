@@ -13,8 +13,10 @@ public class PositionBullet extends Bullet {
 		switch(type) {
 		case BULLET_HOOK:
 			this.speed = 9.0f;
+			break;
 		case BULLET_TELEPORT:
 			this.speed = 9.0f;
+			break;
 		}
 	}
 	
@@ -24,13 +26,14 @@ public class PositionBullet extends Bullet {
 			float moveSpeed = 20f;
 			float delta = 1/20f;
 			hitPlayer.moveWithSpeed(moveSpeed, delta);
-			
+			break;
 		case BULLET_TELEPORT:
 			Vector2 OwnerPosition = Owner.position.cpy();
 			Vector2 hitPosition = hitPlayer.position.cpy();
 			
 			Owner.position = hitPosition;
 			hitPlayer.position = OwnerPosition;
+			break;
 		}
 	}
 
