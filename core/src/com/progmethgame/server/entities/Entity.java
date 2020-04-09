@@ -1,51 +1,67 @@
 package com.progmethgame.server.entities;
 
+import java.util.UUID;
+
 import com.badlogic.gdx.math.Vector2;
+import com.progmethgame.common.DisplayType;
+import com.progmethgame.network.EntityData;
 
-public abstract class Entity implements Tickable{
+public abstract class Entity implements Tickable {
 
-	public Vector2 position;
-	public Vector2 velocity;
-	public float speed;
-	
-	public enum EntityType {
-		PLAYER,
-		PLAYER_CONTROLABLE,
-		BULLET_FIRE,
-		BULLET_SLOW,
-		BULLET_CONFUSE,
-		BULLET_STUNT,
-		BULLET_HOOK,
-		BULLET_TELEPORT
-	};
-	
-	public EntityType type;
-	public int gid;
-	
-	public Entity(int gid, EntityType type) {
+	protected Vector2 position;
+	protected Vector2 velocity;
+
+	private DisplayType type;
+	private UUID gid;
+
+	public Entity(UUID gid, DisplayType type) {
 		this.gid = gid;
 		this.type = type;
 		this.position = new Vector2();
 		this.velocity = new Vector2();
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		return super.equals(obj);
+		return obj instanceof Entity && this.gid.equals(((Entity) obj).gid);
 	}
-	
+
 	@Override
 	public int hashCode() {
+		return gid.hashCode();
+	}
+
+	@Override
+	public void tick(float delta) {
+
+	}
+
+	public Vector2 getVelocity() {
+		return this.velocity;
+	}
+
+	public Vector2 getPosition() {
+		return this.position;
+	}
+
+	public DisplayType getType() {
+		return type;
+	}
+
+	public UUID getGid() {
 		return gid;
 	}
 	
-	public void tick(float delta) {
-		//move
-		this.moveWithSpeed(this.speed, delta);
-	}
-	
-	public void moveWithSpeed(float speed,float delta) {
-		this.position.add(this.velocity.cpy().nor().scl(delta).scl(speed));
+	/** Parse rendering data for GameClient
+	 * 
+	 * @return EntityData
+	 */
+	public EntityData getData() {
+		EntityData d = new EntityData();
+		d.id = this.gid;
+		d.dispType = this.type;
+		d.position = this.position;
+		return d;
 	}
 
 }

@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.progmethgame.network.ClientBus;
 
 public class GameScreen implements Screen {
 	
@@ -26,9 +27,9 @@ public class GameScreen implements Screen {
 	Batch batch;
 	
 	GameController controller;
-	GameClient client;
+	ClientRuntime runtime;
 
-	public GameScreen(GameClient client, GameController control) {
+	public GameScreen(ClientRuntime runtime, GameController control) {
 		this.map = new TmxMapLoader().load("map/map.tmx");
 		this.mapRenderer = new OrthogonalTiledMapRenderer(map, 1/8f);
 		this.camera = new OrthographicCamera();
@@ -36,9 +37,7 @@ public class GameScreen implements Screen {
 		this.batch = new SpriteBatch();
 		
 		this.controller = control;
-		
-		this.client = client;
-		//this.controller = new GameController(player);
+		this.runtime = runtime;
 	}
 	
 	
@@ -47,42 +46,6 @@ public class GameScreen implements Screen {
 		Gdx.input.setInputProcessor(controller);
 	}
 	
-	/*private void simulatePhysic(float delta) {
-		player.normalizeMovement();
-		
-		
-		TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(0);
-		final int mapWidht = map.getProperties().get("width", Integer.class);
-		final int mapHeight = map.getProperties().get("height", Integer.class);
-		//Collision
-		
-		player.setPosition(player.getX() + delta * player.velocity.x, player.getY() + delta * player.velocity.y);
-
-		int pX = (int) player.getX(), pY = (int) player.getY();
-
-		for (int i = -1; i <= 1; i++) {
-			for (int j = -1; j <= 1; j++) {
-				int xp = pX + i;
-				int yp = pY + j;
-				if (xp < 0 || xp >= mapWidht || yp < 0 || yp >= mapHeight || layer.getCell(xp, yp).getTile().getId() == 12) {
-					continue;
-				}
-				
-				float dx = player.getX() - xp, dy = player.getY() - yp;
-				if (Math.abs(dx) >= 1 || Math.abs(dy) >= 1) {
-					continue;
-				}
-				
-				if (Math.abs(dx) > Math.abs(dy))
-					player.setX(player.getX() + (dx > 0 ? 1 - dx : - 1 - dx));
-				else
-					player.setY(player.getY() + (dy > 0 ? 1 - dy : - 1 - dy));
-							
-			}
-		}
-		
-	}
-	*/
 
 	@Override
 	public void render(float delta) {
@@ -90,9 +53,9 @@ public class GameScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		//simulatePhysic(delta);
-		client.tick(delta);
+		runtime.tick(delta);
 
-		ClientEntity player = client.entities.get(client.getPlayerId());
+		ClientEntity player = runtime.getPlayer();
 		camera.position.lerp(new Vector3(player.getX(), player.getY(), 0f) , Math.min(1, 5f * delta));
 		
 		
@@ -103,7 +66,7 @@ public class GameScreen implements Screen {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		
-		for (ClientEntity e : client.entities.values()) {
+		for (ClientEntity e : runtime.getEntities()) {
 			e.draw(batch);
 		}
 		batch.end();

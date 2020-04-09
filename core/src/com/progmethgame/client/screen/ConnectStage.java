@@ -23,8 +23,7 @@ public class ConnectStage extends BaseStage {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				super.clicked(event, x, y);
-				game.startServer();
-				game.connect("127.0.0.1");
+				game.connect(null);
 			}
 		});
 		

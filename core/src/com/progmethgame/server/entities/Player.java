@@ -1,20 +1,28 @@
 package com.progmethgame.server.entities;
 
+import java.util.UUID;
+
+import com.badlogic.gdx.math.Vector2;
+import com.progmethgame.common.DisplayType;
 import com.progmethgame.server.entities.effects.StatusEffect;
 
 public class Player extends Entity{
 	private int dps;
 	private int hp;
-	StatusEffect effect;
+	private StatusEffect effect;
 	private int tickCount;
 	private Enum[] gunSlot;
+	
+	private float speed;
+	private Vector2 walkDirection;
 
-	public Player(int gid) {
-		super(gid, EntityType.PLAYER);
+	public Player(UUID gid) {
+		super(gid, DisplayType.PLAYER);
 		this.speed = 5.0f;
 		this.dps = 0;
 		this.hp = 100;
 		this.tickCount = 0;
+		this.walkDirection = new Vector2();
 	}
 
 	public float getSpeed() {
@@ -59,9 +67,10 @@ public class Player extends Entity{
 			return remainHp;
 		}
 	}
+	
+	@Override
 	public void tick(float delta) {
 		//for 1 second
-		super.tick(delta);
 		if(tickCount == 0) {
 			this.dealDamge(dps);
 			if(this.effect != null && this.effect.decreaseDuration()) {
@@ -71,6 +80,12 @@ public class Player extends Entity{
 		}
 		this.tickCount++;
 		this.tickCount %= (int) 1/delta;
+		
+		this.velocity.set(walkDirection.nor().scl(speed));
+	}
+	
+	public void setWalkDirection(Vector2 dir) {
+		walkDirection.set(dir);
 	}
 	
 
