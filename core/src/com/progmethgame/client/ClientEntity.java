@@ -27,6 +27,8 @@ public class ClientEntity extends Sprite{
 		this.timeBuf = new long[2];
 		this.timeBuf[0] = this.timeBuf[1] = System.currentTimeMillis();
 		
+		setOrigin(0.5f, 0.5f);
+		
 		updateTexture();
 	}
 	
@@ -71,6 +73,11 @@ public class ClientEntity extends Sprite{
 								)
 						));
 		setPosition(pos.x,  pos.y);
+		
+		Vector2 facingVec = posBuf[1].cpy().sub(posBuf[0]);
+		if (!facingVec.isZero()) {
+			setRotation(facingVec.angle() - 90);
+		}
 		//System.out.println((System.currentTimeMillis() - GameConfig.CLIENT_ENTITY_INTERPOLATION_TIME_MILLIS - timeBuf[0] ) + " " + (timeBuf[1] - timeBuf[0]));
 	//	System.out.println("Rendering X Y T X Y Y " + posBuf[0] + " " + timeBuf[0] + " " +posBuf[1] + " " + timeBuf[1] + " T " + System.currentTimeMillis());
 	}
