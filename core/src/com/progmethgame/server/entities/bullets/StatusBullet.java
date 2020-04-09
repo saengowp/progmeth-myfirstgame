@@ -21,12 +21,16 @@ public class StatusBullet extends Bullet {
 		switch(type) {
 		case BULLET_FIRE:
 			effect = new Burn();
+			break;
 		case BULLET_CONFUSE:
 			effect = new Confuse();
+			break;
 		case BULLET_SLOW:
 			effect = new Slow();
+			break;
 		case BULLET_STUNT:
 			effect = new Stunt();
+			break;
 			
 		}
 		

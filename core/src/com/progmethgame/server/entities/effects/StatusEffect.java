@@ -19,12 +19,16 @@ public abstract class StatusEffect {
 		switch(type) {
 		case BURN:
 			this.maxDuration = 5;
+			break;
 		case CONFUSE:
 			this.maxDuration = 5;
+			break;
 		case SLOW:
 			this.maxDuration = 5;
+			break;
 		case STUNT:
 			this.maxDuration = 2;
+			break;
 		}
 		this.duration = maxDuration;
 	}

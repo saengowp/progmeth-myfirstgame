@@ -21,5 +21,4 @@ public class Stunt extends StatusEffect {
 		// TODO Auto-generated method stub
 		p.setSpeed(5.0f);
 	}
-
 }
