@@ -4,6 +4,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.progmethgame.network.ClientBus;
+import com.progmethgame.network.event.client.PlayerFireEvent;
 import com.progmethgame.network.event.client.PlayerMovementEvent;
 
 public class GameController implements InputProcessor {
@@ -42,6 +43,9 @@ public class GameController implements InputProcessor {
 		case Keys.D:
 			control.x += 1; 
 			notifyMovement();
+			return true;
+		case Keys.SPACE:
+			bus.sendEvent(new PlayerFireEvent());
 			return true;
 		}
 

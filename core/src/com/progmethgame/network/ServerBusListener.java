@@ -9,4 +9,5 @@ public interface ServerBusListener {
 	public void onClientJoin(UUID id);
 	public void onClientDisconnect(UUID id);
 	public void onPlayerMove(UUID id, Vector2 direction);
+	public void onPlayerFire(UUID id);
 }

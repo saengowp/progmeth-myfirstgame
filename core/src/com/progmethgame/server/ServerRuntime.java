@@ -122,7 +122,7 @@ public class ServerRuntime implements ServerBusListener, Disposable {
 
 	@Override
 	public void onClientJoin(UUID id) {
-		Player player = new Player(id);
+		Player player = new Player(id, this);
 		player.getPosition().set(1, 1);
 		
 		players.put(id, player);
@@ -158,5 +158,10 @@ public class ServerRuntime implements ServerBusListener, Disposable {
 	@Override
 	public void dispose() {
 		bus.terminate();
+	}
+
+	@Override
+	public void onPlayerFire(UUID id) {
+		players.get(id).fire();
 	}
 }
