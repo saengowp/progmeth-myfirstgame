@@ -17,6 +17,8 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.progmethgame.server.blocks.Block;
+import com.progmethgame.server.blocks.BlockManager;
 
 public class GameMap {
 	
@@ -80,7 +82,7 @@ public class GameMap {
 		this.mapWidth = width;
 	}
 	
-	public boolean isSolid(int x, int y) {
-		return (x >= 0 && x < mapWidth && y >= 0 && y < mapHeight) && map[x][y] != 12;
+	public Block getBlock(int x, int y) {
+		return (x >= 0 && x < mapWidth && y >= 0 && y < mapHeight) ? BlockManager.fromId(map[x][y]):null;
 	}
 }

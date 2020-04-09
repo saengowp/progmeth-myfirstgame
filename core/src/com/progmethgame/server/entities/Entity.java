@@ -5,6 +5,7 @@ import java.util.UUID;
 import com.badlogic.gdx.math.Vector2;
 import com.progmethgame.common.DisplayType;
 import com.progmethgame.network.EntityData;
+import com.progmethgame.server.blocks.Block;
 
 public abstract class Entity implements Tickable {
 
@@ -62,6 +63,22 @@ public abstract class Entity implements Tickable {
 		d.dispType = this.type;
 		d.position = this.position;
 		return d;
+	}
+	
+	/** Call when entity touched other.
+	 * 
+	 * @param other
+	 */
+	public void onCollide(Entity other) {
+		
+	}
+	
+	/** Call when walked on the block
+	 * 
+	 * @param block
+	 */
+	public void onWalkOn(Block block) {
+		
 	}
 
 }

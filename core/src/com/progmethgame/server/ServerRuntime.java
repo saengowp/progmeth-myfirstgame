@@ -1,7 +1,10 @@
 package com.progmethgame.server;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Random;
 import java.util.UUID;
 
@@ -46,7 +49,7 @@ public class ServerRuntime implements ServerBusListener, Disposable {
 				for (int j = -1; j <= 1; j++) {
 					int xp = pX + i;
 					int yp = pY + j;
-					if (xp < 0 || xp >= map.mapWidth || yp < 0 || yp >= map.mapHeight || !map.isSolid(xp, yp)) {
+					if (xp < 0 || xp >= map.mapWidth || yp < 0 || yp >= map.mapHeight || !map.getBlock(xp, yp).isSolid()) {
 						continue;
 					}
 					
@@ -62,6 +65,27 @@ public class ServerRuntime implements ServerBusListener, Disposable {
 								
 				}
 			}
+		}
+		
+		//Entity-Entity collision
+		
+		HashSet<Entity> checked = new HashSet<Entity>();
+		for (Entity a : entities.values()) {
+			checked.add(a);
+			for (Entity b : entities.values()) {
+				if (checked.contains(b))
+					continue;
+				if (Math.abs(a.getPosition().x - b.getPosition().x) < 1 && Math.abs(a.getPosition().y - b.getPosition().y) < 1) {
+					a.onCollide(b);
+					b.onCollide(a);
+				}
+			}
+		}
+		
+		//Entity - Floor collision
+		
+		for (Entity e: entities.values()) {
+			e.onWalkOn(map.getBlock(Math.round(e.getPosition().x), Math.round(e.getPosition().y)));
 		}
 	}
 
