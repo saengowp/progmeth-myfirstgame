@@ -64,7 +64,7 @@ public class Player extends Entity{
 		super.tick(delta);
 		if(tickCount == 0) {
 			this.dealDamge(dps);
-			if(this.effect.decreaseDuration()) {
+			if(this.effect != null && this.effect.decreaseDuration()) {
 				this.effect.removeEffect(this);
 				this.effect = null;
 			}
