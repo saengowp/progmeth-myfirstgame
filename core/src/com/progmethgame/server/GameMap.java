@@ -64,7 +64,7 @@ public class GameMap {
 		String debug = "";
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
-				map[i][height - j -1] = 0x1FFFFFFF & Integer.parseUnsignedInt(dats[i + j * width].strip());
+				map[i][height - j -1] = 0x1FFFFFFF & Integer.parseUnsignedInt(dats[i + j * width].trim());
 			}
 		}
 		
