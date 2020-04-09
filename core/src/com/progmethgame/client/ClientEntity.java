@@ -46,6 +46,12 @@ public class ClientEntity extends Sprite{
 		case PLAYER:
 			texpath = "player.png";
 			break;
+		case TEST:
+			texpath = "test.png";
+			break;
+		case RICK:
+			texpath = "rick.png";
+			break;
 		}
 		
 		setRegion(runtime.getAssetManaget().get(texpath, Texture.class));

@@ -90,6 +90,9 @@ public class Player extends Entity{
 	}
 	
 	public void fire() {
+		TestEntity e = new TestEntity(UUID.randomUUID(), this.runtime);
+		e.getPosition().set(position);
+		runtime.addEntity(e);
 	}
 
 }

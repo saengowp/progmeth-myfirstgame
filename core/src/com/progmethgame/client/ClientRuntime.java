@@ -48,6 +48,8 @@ public class ClientRuntime implements ClientBusListener, Disposable {
 	
 	private void initAssets() {
 		assetsMan.load("player.png", Texture.class);
+		assetsMan.load("test.png", Texture.class);
+		assetsMan.load("rick.png", Texture.class);
 	}
 	
 	public AssetManager getAssetManaget() {
