@@ -84,5 +84,13 @@ public abstract class Entity implements Tickable {
 	public void onWalkOn(Block block) {
 		
 	}
+	
+	/** Call when entity hit solid block
+	 * 
+	 */
+	public void onCollideSolid(Block block) {
+		
+	}
 
 }
+

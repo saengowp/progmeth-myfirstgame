@@ -58,6 +58,8 @@ public class ServerRuntime implements ServerBusListener, Disposable {
 						continue;
 					}
 					
+					e.onCollideSolid(map.getBlock(xp, yp));
+					
 					if (Math.abs(dx) > Math.abs(dy))
 						e.getPosition().x +=  (dx > 0 ? 1 - dx : - 1 - dx);
 					else
