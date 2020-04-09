@@ -184,7 +184,7 @@ class Ticker {
 	
 	public void tick() throws InterruptedException {
 		while (System.currentTimeMillis() - lastTickMillis < tickRate * 1000)
-			Thread.sleep((long) (tickRate*1000 - (System.currentTimeMillis() - lastTickMillis)));
+			Thread.sleep(Math.min(1, (long) (tickRate*1000 - (System.currentTimeMillis() - lastTickMillis))));
 		lastTickDuration = System.currentTimeMillis() - lastTickMillis;
 		lastTickMillis = System.currentTimeMillis();
 	}
