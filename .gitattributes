@@ -1,0 +1,17 @@
+# Assets
+*.fnt text
+*.tmx text
+*.atlas
+
+# Build files
+*.properties text
+.gitignore text
+gradlew text
+*.gradle text
+
+#Sources
+*.md text
+*.java text
+
+
+
