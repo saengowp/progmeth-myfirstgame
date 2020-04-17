@@ -16,7 +16,7 @@ public abstract class Entity implements Tickable {
 	protected DisplayType type;
 	protected final UUID gid;
 	
-	protected final ServerRuntime runtime; 
+	public final ServerRuntime runtime; 
 
 	public Entity(UUID gid, DisplayType type, ServerRuntime runtime) {
 		this.gid = gid;
@@ -77,6 +77,14 @@ public abstract class Entity implements Tickable {
 		
 	}
 	
+	public void setPosition(Vector2 position) {
+		this.position = position;
+	}
+
+	public void setVelocity(Vector2 velocity) {
+		this.velocity = velocity;
+	}
+
 	/** Call when walked on the block
 	 * 
 	 * @param block
