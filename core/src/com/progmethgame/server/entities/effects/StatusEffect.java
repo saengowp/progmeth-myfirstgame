@@ -16,21 +16,7 @@ public abstract class StatusEffect {
 	
 	
 	public StatusEffect(StatusType type) {
-		switch(type) {
-		case BURN:
-			this.maxDuration = 5;
-			break;
-		case CONFUSE:
-			this.maxDuration = 5;
-			break;
-		case SLOW:
-			this.maxDuration = 5;
-			break;
-		case STUNT:
-			this.maxDuration = 2;
-			break;
-		}
-		this.duration = maxDuration;
+		
 	}
 	public int getMaxDuration() {
 		return maxDuration;
@@ -45,8 +31,7 @@ public abstract class StatusEffect {
 	}
 	public boolean decreaseDuration() {
 		this.duration -= 1;
-		return this.duration <= 0;
-				
+		return this.duration <= 0;			
 	}
 	
 }

@@ -7,6 +7,8 @@ public class Confuse extends StatusEffect {
 	public Confuse() {
 		super(StatusType.CONFUSE);
 		// TODO Auto-generated constructor stub
+		this.maxDuration = EffectConfig.CONFUSE_MAX_DURATION;
+		this.duration = maxDuration;
 	}
 
 	@Override

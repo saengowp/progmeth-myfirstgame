@@ -7,6 +7,8 @@ public class Stunt extends StatusEffect {
 	public Stunt() {
 		super(StatusType.STUNT);
 		// TODO Auto-generated constructor stub
+		this.maxDuration = EffectConfig.STUNT_MAX_DURATION;
+		this.duration = maxDuration;
 	}
 
 	@Override
