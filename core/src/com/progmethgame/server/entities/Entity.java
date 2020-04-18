@@ -78,11 +78,11 @@ public abstract class Entity implements Tickable {
 	}
 	
 	public void setPosition(Vector2 position) {
-		this.position = position;
+		this.position.set(position);
 	}
 
 	public void setVelocity(Vector2 velocity) {
-		this.velocity = velocity;
+		this.velocity.set(velocity);
 	}
 
 	/** Call when walked on the block
