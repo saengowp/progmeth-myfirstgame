@@ -6,7 +6,7 @@ import com.progmethgame.server.entities.effects.Stunt;
 
 public class StuntBullet extends Bullet {
 
-	public StuntBullet(DisplayType type, float speed, Player owner) {
+	public StuntBullet(Player owner) {
 		super(DisplayType.BULLET_STUNT, BulletConfig.STUNT_BULLET_SPEED, owner);
 		// TODO Auto-generated constructor stub
 	}
