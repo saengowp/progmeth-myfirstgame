@@ -6,7 +6,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.progmethgame.common.DisplayType;
 import com.progmethgame.common.GameConfig;
 import com.progmethgame.server.ServerRuntime;
-import com.progmethgame.server.entities.bullets.BulletTest;
+import com.progmethgame.server.entities.bullets.Bullet;
+import com.progmethgame.server.entities.bullets.TestBullet;
+import com.progmethgame.server.entities.bullets.BurnBullet;
+import com.progmethgame.server.entities.bullets.ConfuseBullet;
+import com.progmethgame.server.entities.bullets.HookBullet;
+import com.progmethgame.server.entities.bullets.SlowBullet;
+import com.progmethgame.server.entities.bullets.StuntBullet;
+import com.progmethgame.server.entities.bullets.TeleportBullet;
 import com.progmethgame.server.entities.effects.StatusEffect;
 
 public class Player extends Entity{
@@ -16,7 +23,8 @@ public class Player extends Entity{
 		SLOW_GUN,
 		HOOK_GUN,
 		TELEPORT_GUN,
-		STUNT_GUN
+		STUNT_GUN,
+		TEST_GUN
 	}
 	
 	private int dps;
@@ -24,7 +32,9 @@ public class Player extends Entity{
 	private StatusEffect effect;
 	private Vector2 faceDirection;
 	private int tickCount;
-	private GunType[] gunSlot;  
+	private GunType[] gunSlot;
+	private GunType holdedGun;
+	private int gunIndex;
 	
 	
 	private float speed;
@@ -39,12 +49,17 @@ public class Player extends Entity{
 		this.walkDirection = new Vector2();
 		
 		this.gunSlot = new GunType[] { 
+				GunType.TEST_GUN,
 				GunType.BURN_GUN, 
 				GunType.CONFUSE_GUN, 
 				GunType.SLOW_GUN, 
 				GunType.STUNT_GUN,
 				GunType.HOOK_GUN,
 				GunType.TELEPORT_GUN};
+		
+		this.gunIndex = 0;
+		this.holdedGun = gunSlot[gunIndex];
+		this.faceDirection = new Vector2(1,0);
 		}
 
 	public float getSpeed() {
@@ -123,9 +138,31 @@ public class Player extends Entity{
 	}
 
 	public void fire() {
-		BulletTest e = new BulletTest(this);
-		e.getPosition().set(position);
-		runtime.addEntity(e);
+		Bullet shotBullet;
+		switch(holdedGun) {
+		case BURN_GUN:
+			shotBullet = new BurnBullet(this);
+		case CONFUSE_GUN:
+			shotBullet = new ConfuseBullet(this);
+		case SLOW_GUN:
+			shotBullet = new SlowBullet(this);
+		case STUNT_GUN:
+			shotBullet = new StuntBullet(this);
+		case HOOK_GUN:
+			shotBullet = new HookBullet(this);
+		case TELEPORT_GUN:
+			shotBullet = new TeleportBullet(this);
+		default:
+			shotBullet = new TestBullet(this);
+		}
+		runtime.addEntity(shotBullet);
+		
+	}
+	
+	public void swapGun() {
+		gunIndex++;
+		gunIndex %= gunSlot.length;
+		holdedGun = gunSlot[gunIndex];
 	}
 	
 
