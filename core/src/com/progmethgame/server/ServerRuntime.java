@@ -205,4 +205,9 @@ public class ServerRuntime implements ServerBusListener, Disposable {
 		}
 		
 	}
+
+	@Override
+	public void onPlayerSwapGun(UUID id) {
+		players.get(id).swapGun();
+	}
 }

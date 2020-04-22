@@ -11,4 +11,5 @@ public interface ServerBusListener {
 	public void onPlayerMove(UUID id, Vector2 direction);
 	public void onPlayerFire(UUID id);
 	public void onDebug(UUID id, String debugMsg);
+	public void onPlayerSwapGun(UUID id);
 }
