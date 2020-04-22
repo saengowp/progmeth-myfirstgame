@@ -1,7 +1,9 @@
 package com.progmethgame.client;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -15,6 +17,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.progmethgame.network.ClientBus;
 
@@ -26,24 +29,30 @@ public class GameScreen implements Screen {
 	Viewport viewport;
 	Batch batch;
 	
+	Viewport hudViewport;
+	
 	GameController controller;
 	ClientRuntime runtime;
+	GameDebugger debugger;
 
-	public GameScreen(ClientRuntime runtime, GameController control) {
+	public GameScreen(ClientRuntime runtime, GameController control, GameDebugger debugger) {
 		this.map = new TmxMapLoader().load("map/map.tmx");
 		this.mapRenderer = new OrthogonalTiledMapRenderer(map, 1/8f);
 		this.camera = new OrthographicCamera();
 		this.viewport = new FillViewport(20, 20, this.camera);
 		this.batch = new SpriteBatch();
+		this.hudViewport = new ScreenViewport();
 		
 		this.controller = control;
 		this.runtime = runtime;
+		this.debugger = debugger;
 	}
 	
 	
 	@Override
 	public void show() {
-		Gdx.input.setInputProcessor(controller);
+		InputMultiplexer inputMultiplexer = new InputMultiplexer(debugger, controller); 
+		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
 	
 
@@ -69,13 +78,24 @@ public class GameScreen implements Screen {
 		for (ClientEntity e : runtime.getEntities()) {
 			e.draw(batch);
 		}
+		
 		batch.end();
 		
+		
+		Camera hudCam =  hudViewport.getCamera();
+		hudCam.update();
+		batch.setProjectionMatrix(hudCam.combined);
+		batch.begin();
+		
+		debugger.render(batch, hudViewport);
+		
+		batch.end();
 	}
 
 	@Override
 	public void resize(int width, int height) {
 		viewport.update(width, height);
+		hudViewport.update(width, height, true);
 	}
 
 	@Override

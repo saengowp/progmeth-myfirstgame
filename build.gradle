@@ -47,6 +47,7 @@ project(":desktop") {
         api "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         
+        implementation "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
         
     }
 }
@@ -60,7 +61,7 @@ project(":core") {
         implementation "com.esotericsoftware:kryonet:2.22.0-RC1"
 		implementation "jakarta.xml.bind:jakarta.xml.bind-api:2.3.2"
 		implementation "org.glassfish.jaxb:jaxb-runtime:2.3.2"
-
+		implementation "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
 
     }
 }

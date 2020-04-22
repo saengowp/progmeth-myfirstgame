@@ -8,11 +8,22 @@ import java.util.UUID;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.FileHandleResolver;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeType.Bitmap;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
+import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
+import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader.FreeTypeFontLoaderParameter;
 import com.badlogic.gdx.utils.Disposable;
 import com.progmethgame.network.ClientBus;
 import com.progmethgame.network.ClientBusListener;
 import com.progmethgame.network.EntityData;
+import com.progmethgame.network.event.client.ClientDebugEvent;
 
 public class ClientRuntime implements ClientBusListener, Disposable {
 	private GameScreen screen;
@@ -21,11 +32,13 @@ public class ClientRuntime implements ClientBusListener, Disposable {
 	private ClientBus bus;
 	private HashMap<UUID, ClientEntity> entities;
 	private AssetManager assetsMan;
+	private GameDebugger debugger;
 	
 	public ClientRuntime(GameMain gameControl, String ipaddr) {
 		this.gameControl = gameControl;
 		this.entities = new HashMap<UUID, ClientEntity>();
 		this.assetsMan = new AssetManager();
+		this.debugger = new GameDebugger(assetsMan, (str) -> bus.sendEvent(new ClientDebugEvent(str)));
 		initAssets();
 		
 		gameControl.displayMessage("Waiting...");
@@ -50,6 +63,18 @@ public class ClientRuntime implements ClientBusListener, Disposable {
 		assetsMan.load("player.png", Texture.class);
 		assetsMan.load("test.png", Texture.class);
 		assetsMan.load("rick.png", Texture.class);
+		
+		//Font
+		FileHandleResolver resolver = new InternalFileHandleResolver();
+		assetsMan.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
+		assetsMan.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
+		FreeTypeFontLoaderParameter fontParam = new  FreeTypeFontLoaderParameter();
+		fontParam.fontFileName = "futura.ttf";
+		fontParam.fontParameters.size = 20;
+		fontParam.fontParameters.color = Color.BLACK;
+		fontParam.fontParameters.borderColor = Color.WHITE;
+		fontParam.fontParameters.borderWidth = 1;
+		assetsMan.load("font.ttf", BitmapFont.class, fontParam);
 	}
 	
 	public AssetManager getAssetManaget() {
@@ -85,7 +110,7 @@ public class ClientRuntime implements ClientBusListener, Disposable {
 	public void onServerReady(UUID assignedId) {
 		Gdx.app.log("ClientRuntime", "Assigned player id " + assignedId.toString());
 		this.clientId = assignedId;
-		this.screen = new GameScreen(this, new GameController(bus));
+		this.screen = new GameScreen(this, new GameController(bus), debugger);
 		gameControl.setScreen(screen);
 	}
 

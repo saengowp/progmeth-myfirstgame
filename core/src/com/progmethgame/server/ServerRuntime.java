@@ -186,4 +186,17 @@ public class ServerRuntime implements ServerBusListener, Disposable {
 	public void onPlayerFire(UUID id) {
 		players.get(id).fire();
 	}
+
+	@Override
+	public void onDebug(UUID id, String debugMsg) {
+		switch (debugMsg) {
+		case "hello":
+			System.out.println("[ServerRuntime] Client " + id.toString() + " send a ping");
+			break;
+
+		default:
+			break;
+		}
+		
+	}
 }

@@ -12,6 +12,7 @@ import com.progmethgame.common.DisplayType;
 import com.progmethgame.network.event.base.ClientEvent;
 import com.progmethgame.network.event.base.GameEvent;
 import com.progmethgame.network.event.base.ServerEvent;
+import com.progmethgame.network.event.client.ClientDebugEvent;
 import com.progmethgame.network.event.client.ClientDisconnectEvent;
 import com.progmethgame.network.event.client.ClientJoinEvent;
 import com.progmethgame.network.event.client.PlayerFireEvent;
@@ -43,7 +44,8 @@ public class SerializationUtil {
 			EntityData.class,
 			DisplayType.class,
 			Vector2.class,
-			PlayerFireEvent.class
+			PlayerFireEvent.class,
+			ClientDebugEvent.class
 		};
 
 		for (Class c : dataType) 
