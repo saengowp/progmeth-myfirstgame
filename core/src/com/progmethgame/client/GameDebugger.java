@@ -1,5 +1,6 @@
 package com.progmethgame.client;
 
+import java.util.ArrayList;
 import java.util.function.Consumer;
 
 import com.badlogic.gdx.Gdx;
@@ -19,6 +20,8 @@ public class GameDebugger implements InputProcessor {
 	private boolean activated = false;
 	private final AssetManager assets;
 	private String command = "";
+	private ArrayList<String> history = new ArrayList<String>();
+	private int histPtr = 0;
 	private final Consumer<String> debugOutput;
 	
 	public GameDebugger(AssetManager assets, Consumer<String> debugOutput) {
@@ -52,6 +55,8 @@ public class GameDebugger implements InputProcessor {
 		case Keys.ENTER:
 			if (activated) {
 				sendDebug();
+				history.add(command);
+				histPtr = -1;
 			}
 		//Flow through
 		case Keys.ESCAPE:
@@ -66,6 +71,20 @@ public class GameDebugger implements InputProcessor {
 			if (!activated)
 				activated = true;
 			break;
+			
+		case Keys.UP:
+			if (activated && histPtr + 1 < history.size()) {
+				histPtr++;
+				command = history.get(history.size() - histPtr - 1);
+			}
+			break;
+			
+		case Keys.DOWN:
+			if (activated && histPtr -1 >= 0) {
+				histPtr--;
+				command = history.get(history.size() - histPtr - 1);
+			}
+			break;
 		
 		default:
 			break;
@@ -77,6 +96,7 @@ public class GameDebugger implements InputProcessor {
 	@Override
 	public boolean keyTyped(char character) {
 		if (activated) {
+			histPtr = -1;
 			if (character == '\b' && command.length() > 0)
 				command = command.substring(0, command.length() - 1);
 			else if (Character.isLetterOrDigit(character) || character == ' ')
