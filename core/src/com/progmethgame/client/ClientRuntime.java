@@ -127,8 +127,10 @@ public class ClientRuntime implements ClientBusListener, Disposable {
 
 	@Override
 	public void dispose() {
-		bus.dispose();
-		assetsMan.dispose();
+		if (bus != null)
+			bus.dispose();
+		if (assetsMan != null)
+			assetsMan.dispose();
 	}
 
 	@Override
