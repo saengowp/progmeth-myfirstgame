@@ -63,13 +63,14 @@ public class GameMap {
 		
 		String[] dats = data.split(",");
 		
-		String debug = "";
+		//String debug = "";
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
 				map[i][height - j -1] = 0x1FFFFFFF & Integer.parseUnsignedInt(dats[i + j * width].trim());
 			}
 		}
 		
+		/*
 		for (int i = height - 1; i >= 0; i--) {
 			for (int j = 0; j < width; j++)
 				debug += map[j][i] + " ";
@@ -77,7 +78,7 @@ public class GameMap {
 		}
 		
 		Gdx.app.debug("Map Data", debug);
-		
+		*/
 		this.mapHeight = height;
 		this.mapWidth = width;
 	}
