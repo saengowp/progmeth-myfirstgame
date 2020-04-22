@@ -10,6 +10,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -60,6 +61,7 @@ public class ClientRuntime implements ClientBusListener, Disposable {
 	}
 	
 	private void initAssets() {
+		//Texture
 		assetsMan.load("player.png", Texture.class);
 		assetsMan.load("test.png", Texture.class);
 		assetsMan.load("rick.png", Texture.class);
@@ -75,6 +77,9 @@ public class ClientRuntime implements ClientBusListener, Disposable {
 		fontParam.fontParameters.borderColor = Color.WHITE;
 		fontParam.fontParameters.borderWidth = 1;
 		assetsMan.load("font.ttf", BitmapFont.class, fontParam);
+		
+		//Music
+		assetsMan.load("music.ogg", Music.class);
 	}
 	
 	public AssetManager getAssetManaget() {
@@ -112,6 +117,11 @@ public class ClientRuntime implements ClientBusListener, Disposable {
 		this.clientId = assignedId;
 		this.screen = new GameScreen(this, new GameController(bus, this), debugger);
 		gameControl.setScreen(screen);
+		
+		//Doodoood doo doo dud
+		Music music = assetsMan.get("music.ogg", Music.class);
+		music.setLooping(true);
+		music.play();
 	}
 
 	@Override
