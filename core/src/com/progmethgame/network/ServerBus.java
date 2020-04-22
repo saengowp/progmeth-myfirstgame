@@ -79,6 +79,11 @@ public class ServerBus implements Runnable {
 					if (m.target == null || m.target.equals(curId)) {
 						packet.eventsList.add(m.event);
 					}
+					
+					if (packet.eventsList.size() > GameConfig.SERVER_MAX_PACKET) {
+						con.sendTCP(packet);
+						packet.eventsList.clear();
+					}
 				}
 				
 				con.sendTCP(packet);

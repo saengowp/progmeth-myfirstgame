@@ -20,6 +20,7 @@ import com.progmethgame.network.event.server.ServerResetEvent;
 import com.progmethgame.network.event.server.ServerUpdateEntityEvent;
 import com.progmethgame.server.entities.Entity;
 import com.progmethgame.server.entities.Player;
+import com.progmethgame.server.entities.TestEntity;
 
 public class ServerRuntime implements ServerBusListener, Disposable {
 	
@@ -193,7 +194,12 @@ public class ServerRuntime implements ServerBusListener, Disposable {
 		case "hello":
 			System.out.println("[ServerRuntime] Client " + id.toString() + " send a ping");
 			break;
-
+		case "spawntest":
+			TestEntity t = new TestEntity(UUID.randomUUID(), this);
+			t.getPosition().set(players.get(id).getPosition());
+			addEntity(t);
+			break;
+			
 		default:
 			break;
 		}
