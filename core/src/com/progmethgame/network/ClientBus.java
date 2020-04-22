@@ -3,6 +3,7 @@ package com.progmethgame.network;
 import java.io.IOException;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Disposable;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -10,7 +11,7 @@ import com.progmethgame.network.event.base.ClientEvent;
 import com.progmethgame.network.event.base.ServerEvent;
 import com.progmethgame.server.NetworkPacket;
 
-public class ClientBus {
+public class ClientBus implements Disposable {
 	private final Client client;
 	
 	/** Connect to the server. Constructor might block for few second.
@@ -43,6 +44,12 @@ public class ClientBus {
 					});
 				}
 			}
+			
+			@Override
+			public void disconnected(Connection connection) {
+				super.disconnected(connection);
+				Gdx.app.postRunnable(()->listener.onDisconnect());
+			}
 		});
 		
 		Gdx.app.log("GameClient", "Connecting to " + ipaddr);
@@ -52,4 +59,16 @@ public class ClientBus {
 	public void sendEvent(ClientEvent event) {
 		client.sendTCP(event);
 	}
+
+	@Override
+	public void dispose() {
+		client.stop();
+		try {
+			client.dispose();
+		} catch (IOException e) {
+			// Do nothing, It's dying anyway.
+			e.printStackTrace();
+		}
+	}
+	
 }

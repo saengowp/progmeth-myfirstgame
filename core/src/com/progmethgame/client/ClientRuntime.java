@@ -51,7 +51,7 @@ public class ClientRuntime implements ClientBusListener, Disposable {
 				bus = new ClientBus(ipaddr, this);
 			} catch (IOException e) {
 				Gdx.app.error("ClientBus", "Error while initializing client bus", e);
-				Gdx.app.postRunnable(()->gameControl.displayMessage("Error " + e.getMessage()));
+				Gdx.app.postRunnable(()->gameControl.displayMessageQuitable("Error " + e.getMessage()));
 				return;
 			}
 			
@@ -110,7 +110,7 @@ public class ClientRuntime implements ClientBusListener, Disposable {
 	public void onServerReady(UUID assignedId) {
 		Gdx.app.log("ClientRuntime", "Assigned player id " + assignedId.toString());
 		this.clientId = assignedId;
-		this.screen = new GameScreen(this, new GameController(bus), debugger);
+		this.screen = new GameScreen(this, new GameController(bus, this), debugger);
 		gameControl.setScreen(screen);
 	}
 
@@ -127,6 +127,16 @@ public class ClientRuntime implements ClientBusListener, Disposable {
 
 	@Override
 	public void dispose() {
+		bus.dispose();
 		assetsMan.dispose();
+	}
+
+	@Override
+	public void onDisconnect() {
+		gameControl.displayMessageQuitable("Server Disconnected");
+	}
+	
+	public void quit() {
+		gameControl.displayMessageQuitable("Game Exited");
 	}
 }

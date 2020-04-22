@@ -11,10 +11,12 @@ public class GameController implements InputProcessor {
 	
 	private final Vector2 movementVec;
 	private final ClientBus bus;
+	private final ClientRuntime runtime;
 	
-	public GameController(ClientBus bus) {
+	public GameController(ClientBus bus, ClientRuntime runtime) {
 		this.movementVec = new Vector2();
 		this.bus = bus;
+		this.runtime = runtime;
 	}
 	
 	private void notifyMovement() {
@@ -72,6 +74,9 @@ public class GameController implements InputProcessor {
 		case Keys.D:
 			control.x -= 1; 
 			notifyMovement();
+			return true;
+		case Keys.ESCAPE:
+			runtime.quit();
 			return true;
 		}
 		return false;

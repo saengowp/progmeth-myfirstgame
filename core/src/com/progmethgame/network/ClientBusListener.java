@@ -16,4 +16,9 @@ public interface ClientBusListener {
 	 * 
 	 */
 	public void onServerReset();
+	
+	/** Called when server disconnect eg. Connection lost, Server closed
+	 * 
+	 */
+	public void onDisconnect();
 }
