@@ -23,7 +23,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader.FreeTypeFontLoa
 import com.badlogic.gdx.utils.Disposable;
 import com.progmethgame.network.ClientBus;
 import com.progmethgame.network.ClientBusListener;
-import com.progmethgame.network.EntityData;
+import com.progmethgame.common.EntityData;
 import com.progmethgame.network.event.client.ClientDebugEvent;
 
 public class ClientRuntime implements ClientBusListener, Disposable {
