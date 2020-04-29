@@ -69,6 +69,7 @@ public class GameScreen implements Screen {
 		
 		
 		camera.update();
+		viewport.apply();
 		mapRenderer.setView(camera);
 		mapRenderer.render();
 		
@@ -84,6 +85,8 @@ public class GameScreen implements Screen {
 		
 		Camera hudCam =  hudViewport.getCamera();
 		hudCam.update();
+		hudViewport.apply();
+		
 		batch.setProjectionMatrix(hudCam.combined);
 		batch.begin();
 		
