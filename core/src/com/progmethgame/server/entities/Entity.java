@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import com.badlogic.gdx.math.Vector2;
 import com.progmethgame.common.DisplayType;
-import com.progmethgame.network.EntityData;
+import com.progmethgame.common.EntityData;
 import com.progmethgame.server.ServerRuntime;
 import com.progmethgame.server.blocks.Block;
 
