@@ -6,6 +6,7 @@ import java.util.UUID;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.progmethgame.client.graphic.component.Overlay;
@@ -95,9 +96,9 @@ public class ClientEntity extends Sprite{
 	//	System.out.println("Rendering X Y T X Y Y " + posBuf[0] + " " + timeBuf[0] + " " +posBuf[1] + " " + timeBuf[1] + " T " + System.currentTimeMillis());
 	}
 	
-	public void drawOverlay(Viewport view, Batch batch) {
+	public void drawOverlay(Viewport view, Batch batch, Rectangle rect) {
 		for (Overlay o : overlays)
-			o.render(view, batch, this);
+			o.render(view, batch, rect, this);
 	}
 	
 	public static ClientEntity fromData(EntityData data, ClientRuntime runtime) {

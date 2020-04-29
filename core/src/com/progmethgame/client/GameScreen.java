@@ -12,6 +12,8 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -91,7 +93,15 @@ public class GameScreen implements Screen {
 		batch.setProjectionMatrix(hudCam.combined);
 		batch.begin();
 		for (ClientEntity e : context.getEntities().values()) {
-			e.drawOverlay(hudViewport, batch);
+			Rectangle rect = new Rectangle();
+			Vector2 posvec = new Vector2(e.getX(), e.getY());
+			viewport.project(posvec);
+			Vector2 uvec = new Vector2(e.getX() + 1, e.getY() + 1);
+			viewport.project(uvec);
+			rect.setPosition(posvec);
+			rect.setSize(uvec.x - posvec.x, uvec.y - posvec.y);
+			
+			e.drawOverlay(hudViewport, batch, rect);
 		}
 		debugger.render(batch, hudViewport);
 		batch.end();

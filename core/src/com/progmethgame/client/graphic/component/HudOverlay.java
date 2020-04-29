@@ -3,6 +3,7 @@ package com.progmethgame.client.graphic.component;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.progmethgame.client.ClientEntity;
 import com.progmethgame.common.context.GameContext;
@@ -10,7 +11,7 @@ import com.progmethgame.common.context.GameContext;
 public class HudOverlay extends Overlay {
 
 	@Override
-	public void render(Viewport view, Batch batch, ClientEntity target) {
+	public void render(Viewport view, Batch batch, Rectangle rect, ClientEntity target) {
 		
 		//Don't render other player's hud.
 		if (!GameContext.getClientContext().getClientUUID().equals(target.getGid()))
