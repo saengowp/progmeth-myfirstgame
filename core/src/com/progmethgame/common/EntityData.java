@@ -1,9 +1,8 @@
-package com.progmethgame.network;
+package com.progmethgame.common;
 
 import java.util.UUID;
 
 import com.badlogic.gdx.math.Vector2;
-import com.progmethgame.common.DisplayType;
 
 /** Store data needed to render entity on the client-side.
  *
