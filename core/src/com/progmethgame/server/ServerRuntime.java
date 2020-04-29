@@ -200,6 +200,10 @@ public class ServerRuntime implements ServerBusListener, Disposable, ServerConte
 			t.getPosition().set(players.get(id).getPosition());
 			addEntity(t);
 			break;
+		
+		case "hurtme":
+			players.get(id).dealDamge(10);
+			break;
 			
 		default:
 			break;

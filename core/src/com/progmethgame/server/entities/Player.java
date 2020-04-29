@@ -40,6 +40,8 @@ public class Player extends Entity{
 	
 	private float speed;
 	private Vector2 walkDirection;
+	
+	HudOverlay hud;
 
 	public Player(UUID gid) {
 		super(gid, DisplayType.PLAYER);
@@ -62,7 +64,8 @@ public class Player extends Entity{
 		this.holdedGun = gunSlot[gunIndex];
 		this.faceDirection = new Vector2(1,0);
 		
-		this.overlays.add(new HudOverlay());
+		this.hud = new HudOverlay();
+		this.overlays.add(this.hud);
 	}
 
 	public float getSpeed() {
@@ -127,6 +130,8 @@ public class Player extends Entity{
 		this.tickCount %= (int) 1/GameConfig.SERVER_TICK_RATE;
 		
 		this.velocity.set(walkDirection.nor().scl(speed));
+		
+		this.hud.health = hp/100f;
 	}
 	
 	public void setWalkDirection(Vector2 dir) {

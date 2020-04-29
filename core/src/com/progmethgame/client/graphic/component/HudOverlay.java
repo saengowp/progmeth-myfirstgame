@@ -9,7 +9,9 @@ import com.progmethgame.client.ClientEntity;
 import com.progmethgame.common.context.GameContext;
 
 public class HudOverlay extends Overlay {
-
+	
+	public float health;
+	
 	@Override
 	public void render(Viewport view, Batch batch, Rectangle rect, ClientEntity target) {
 		
@@ -20,6 +22,9 @@ public class HudOverlay extends Overlay {
 		AssetManager assets = GameContext.getClientContext().getAssetManager();
 		Texture hudBg = assets.get("hud.png", Texture.class);
 		batch.draw(hudBg, 0, 0);
+		
+		Healthbar.render(batch, 10, 10, assets, health);
+		
 	}
 
 }

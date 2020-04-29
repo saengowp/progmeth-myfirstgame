@@ -61,6 +61,8 @@ public class ClientRuntime implements ClientBusListener, Disposable, ClientConte
 		assetsMan.load("test.png", Texture.class);
 		assetsMan.load("rick.png", Texture.class);
 		assetsMan.load("hud.png", Texture.class);
+		assetsMan.load("healthbar.png", Texture.class);
+		assetsMan.load("healthbarfill.png", Texture.class);
 		
 		//Font
 		FileHandleResolver resolver = new InternalFileHandleResolver();
