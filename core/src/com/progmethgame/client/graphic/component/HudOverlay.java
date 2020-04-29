@@ -3,6 +3,7 @@ package com.progmethgame.client.graphic.component;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.progmethgame.client.ClientEntity;
@@ -11,6 +12,7 @@ import com.progmethgame.common.context.GameContext;
 public class HudOverlay extends Overlay {
 	
 	public float health;
+	public String text; //Temporary
 	
 	@Override
 	public void render(Viewport view, Batch batch, Rectangle rect, ClientEntity target) {
@@ -24,6 +26,7 @@ public class HudOverlay extends Overlay {
 		batch.draw(hudBg, 0, 0);
 		
 		Healthbar.render(batch, 10, 10, assets, health);
+		assets.get("font.ttf", BitmapFont.class).draw(batch, text, 10, 100);
 		
 	}
 
