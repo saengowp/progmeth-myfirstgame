@@ -3,6 +3,7 @@ package com.progmethgame.server.entities;
 import java.util.UUID;
 
 import com.badlogic.gdx.math.Vector2;
+import com.progmethgame.client.graphic.component.HudOverlay;
 import com.progmethgame.common.DisplayType;
 import com.progmethgame.common.GameConfig;
 import com.progmethgame.common.context.GameContext;
@@ -60,7 +61,9 @@ public class Player extends Entity{
 		this.gunIndex = 0;
 		this.holdedGun = gunSlot[gunIndex];
 		this.faceDirection = new Vector2(1,0);
-		}
+		
+		this.overlays.add(new HudOverlay());
+	}
 
 	public float getSpeed() {
 		return speed;

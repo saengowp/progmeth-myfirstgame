@@ -1,10 +1,14 @@
 package com.progmethgame.client;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.viewport.Viewport;
+import com.progmethgame.client.graphic.component.Overlay;
 import com.progmethgame.common.DisplayType;
 import com.progmethgame.common.EntityData;
 import com.progmethgame.common.GameConfig;
@@ -16,6 +20,7 @@ public class ClientEntity extends Sprite{
 	private ClientRuntime runtime;
 	private Vector2[] posBuf;
 	private long[] timeBuf;
+	private ArrayList<Overlay> overlays;
 	
 	public ClientEntity(UUID gid, DisplayType type, ClientRuntime runtime) {
 		this.gid = gid;
@@ -26,6 +31,7 @@ public class ClientEntity extends Sprite{
 		this.posBuf[1] = new Vector2();
 		this.timeBuf = new long[2];
 		this.timeBuf[0] = this.timeBuf[1] = System.currentTimeMillis();
+		this.overlays = new ArrayList<Overlay>();
 		
 		setOrigin(0.5f, 0.5f);
 		
@@ -67,6 +73,7 @@ public class ClientEntity extends Sprite{
 		timeBuf[1] = System.currentTimeMillis();
 		
 		updateTexture();
+		overlays = data.overlays;
 	}
 	
 	public void tick(float delta) {
@@ -86,6 +93,11 @@ public class ClientEntity extends Sprite{
 		}
 		//System.out.println((System.currentTimeMillis() - GameConfig.CLIENT_ENTITY_INTERPOLATION_TIME_MILLIS - timeBuf[0] ) + " " + (timeBuf[1] - timeBuf[0]));
 	//	System.out.println("Rendering X Y T X Y Y " + posBuf[0] + " " + timeBuf[0] + " " +posBuf[1] + " " + timeBuf[1] + " T " + System.currentTimeMillis());
+	}
+	
+	public void drawOverlay(Viewport view, Batch batch) {
+		for (Overlay o : overlays)
+			o.render(view, batch, this);
 	}
 	
 	public static ClientEntity fromData(EntityData data, ClientRuntime runtime) {

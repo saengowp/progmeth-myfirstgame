@@ -8,6 +8,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.Serializer;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
+import com.progmethgame.client.graphic.component.HudOverlay;
 import com.progmethgame.common.DisplayType;
 import com.progmethgame.common.EntityData;
 import com.progmethgame.network.event.base.ClientEvent;
@@ -48,7 +49,8 @@ public class SerializationUtil {
 			Vector2.class,
 			PlayerFireEvent.class,
 			ClientDebugEvent.class,
-			PlayerSwapGunEvent.class
+			PlayerSwapGunEvent.class,
+			HudOverlay.class
 		};
 
 		for (Class c : dataType) 

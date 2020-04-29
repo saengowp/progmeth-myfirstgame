@@ -90,9 +90,10 @@ public class GameScreen implements Screen {
 		
 		batch.setProjectionMatrix(hudCam.combined);
 		batch.begin();
-		
+		for (ClientEntity e : context.getEntities().values()) {
+			e.drawOverlay(hudViewport, batch);
+		}
 		debugger.render(batch, hudViewport);
-		
 		batch.end();
 	}
 

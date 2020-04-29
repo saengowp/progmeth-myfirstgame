@@ -1,8 +1,10 @@
 package com.progmethgame.server.entities;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import com.badlogic.gdx.math.Vector2;
+import com.progmethgame.client.graphic.component.Overlay;
 import com.progmethgame.common.DisplayType;
 import com.progmethgame.common.EntityData;
 import com.progmethgame.server.blocks.Block;
@@ -14,12 +16,15 @@ public abstract class Entity implements Tickable {
 
 	protected DisplayType type;
 	protected final UUID gid;
+	
+	protected ArrayList<Overlay> overlays;
 
 	public Entity(UUID gid, DisplayType type) {
 		this.gid = gid;
 		this.type = type;
 		this.position = new Vector2();
 		this.velocity = new Vector2();
+		this.overlays = new ArrayList<Overlay>();
 	}
 	
 	public Entity(DisplayType type) {
@@ -66,6 +71,7 @@ public abstract class Entity implements Tickable {
 		d.id = this.gid;
 		d.dispType = this.type;
 		d.position = this.position;
+		d.overlays = this.overlays;
 		return d;
 	}
 	
