@@ -54,7 +54,7 @@ public class ClientEntity extends Sprite{
 			break;
 		}
 		
-		setRegion(runtime.getAssetManaget().get(texpath, Texture.class));
+		setRegion(runtime.getAssetManager().get(texpath, Texture.class));
 		setSize(1, 1);
 	}
 	

@@ -1,6 +1,7 @@
 package com.progmethgame.server.entities.bullets;
 
 import com.progmethgame.common.DisplayType;
+import com.progmethgame.common.context.GameContext;
 import com.progmethgame.server.entities.Player;
 import com.progmethgame.server.entities.effects.Burn;
 
@@ -16,7 +17,7 @@ public class BurnBullet extends Bullet {
 		// TODO Auto-generated method stub
 		if(!hitPlayer.equals(owner)) {
 			hitPlayer.setEffect(new Burn());
-			runtime.removeEntity(this);
+			GameContext.getServerContext().removeEntity(this);
 		}
 	}
 }

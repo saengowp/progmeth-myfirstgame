@@ -5,7 +5,6 @@ import java.util.UUID;
 import com.badlogic.gdx.math.Vector2;
 import com.progmethgame.common.DisplayType;
 import com.progmethgame.common.EntityData;
-import com.progmethgame.server.ServerRuntime;
 import com.progmethgame.server.blocks.Block;
 
 public abstract class Entity implements Tickable {
@@ -15,15 +14,16 @@ public abstract class Entity implements Tickable {
 
 	protected DisplayType type;
 	protected final UUID gid;
-	
-	public final ServerRuntime runtime; 
 
-	public Entity(UUID gid, DisplayType type, ServerRuntime runtime) {
+	public Entity(UUID gid, DisplayType type) {
 		this.gid = gid;
 		this.type = type;
 		this.position = new Vector2();
 		this.velocity = new Vector2();
-		this.runtime = runtime;
+	}
+	
+	public Entity(DisplayType type) {
+		this(UUID.randomUUID(), type);
 	}
 
 	@Override

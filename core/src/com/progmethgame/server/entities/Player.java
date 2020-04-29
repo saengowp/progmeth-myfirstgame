@@ -5,7 +5,7 @@ import java.util.UUID;
 import com.badlogic.gdx.math.Vector2;
 import com.progmethgame.common.DisplayType;
 import com.progmethgame.common.GameConfig;
-import com.progmethgame.server.ServerRuntime;
+import com.progmethgame.common.context.GameContext;
 import com.progmethgame.server.entities.bullets.Bullet;
 import com.progmethgame.server.entities.bullets.TestBullet;
 import com.progmethgame.server.entities.bullets.BurnBullet;
@@ -40,8 +40,8 @@ public class Player extends Entity{
 	private float speed;
 	private Vector2 walkDirection;
 
-	public Player(UUID gid, ServerRuntime runtime) {
-		super(gid, DisplayType.PLAYER, runtime);
+	public Player(UUID gid) {
+		super(gid, DisplayType.PLAYER);
 		this.speed = 5.0f;
 		this.dps = 0;
 		this.hp = 100;
@@ -155,7 +155,7 @@ public class Player extends Entity{
 		default:
 			shotBullet = new TestBullet(this);
 		}
-		runtime.addEntity(shotBullet);
+		GameContext.getServerContext().addEntity(shotBullet);
 		
 	}
 	

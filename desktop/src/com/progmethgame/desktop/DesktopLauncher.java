@@ -2,7 +2,7 @@ package com.progmethgame.desktop;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.progmethgame.client.GameMain;
+import com.progmethgame.launcher.GameLauncher;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
@@ -10,6 +10,6 @@ public class DesktopLauncher {
 		config.setTitle("ProgMeth Game");
 		config.useVsync(true);
 		
-		new Lwjgl3Application(new GameMain(), config);
+		new Lwjgl3Application(new GameLauncher(), config);
 	}
 }

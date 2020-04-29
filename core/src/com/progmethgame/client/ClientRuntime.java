@@ -1,9 +1,9 @@
 package com.progmethgame.client;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import com.badlogic.gdx.Gdx;
@@ -14,49 +14,44 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeType.Bitmap;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader.FreeTypeFontLoaderParameter;
 import com.badlogic.gdx.utils.Disposable;
+import com.progmethgame.common.EntityData;
+import com.progmethgame.common.context.ClientContext;
+import com.progmethgame.launcher.GameLauncher;
 import com.progmethgame.network.ClientBus;
 import com.progmethgame.network.ClientBusListener;
-import com.progmethgame.common.EntityData;
-import com.progmethgame.network.event.client.ClientDebugEvent;
 
-public class ClientRuntime implements ClientBusListener, Disposable {
+public class ClientRuntime implements ClientBusListener, Disposable, ClientContext {
 	private GameScreen screen;
-	private GameMain gameControl;
 	private UUID clientId;
 	private ClientBus bus;
 	private HashMap<UUID, ClientEntity> entities;
 	private AssetManager assetsMan;
-	private GameDebugger debugger;
 	
-	public ClientRuntime(GameMain gameControl, String ipaddr) {
-		this.gameControl = gameControl;
+	public ClientRuntime(String ipaddr) {
 		this.entities = new HashMap<UUID, ClientEntity>();
 		this.assetsMan = new AssetManager();
-		this.debugger = new GameDebugger(assetsMan, (str) -> bus.sendEvent(new ClientDebugEvent(str)));
 		initAssets();
 		
-		gameControl.displayMessage("Waiting...");
+		GameLauncher.getLauncher().displayMessage("Waiting...");
 		this.assetsMan.finishLoading();
 		
 		new Thread(() -> {
-			Gdx.app.postRunnable(()->gameControl.displayMessage("Connecting... " + ipaddr));
+			Gdx.app.postRunnable(()->GameLauncher.getLauncher().displayMessage("Connecting... " + ipaddr));
 			
 			try {
 				bus = new ClientBus(ipaddr, this);
 			} catch (IOException e) {
 				Gdx.app.error("ClientBus", "Error while initializing client bus", e);
-				Gdx.app.postRunnable(()->gameControl.displayMessageQuitable("Error " + e.getMessage()));
+				Gdx.app.postRunnable(()->GameLauncher.getLauncher().displayMessageQuitable("Error " + e.getMessage()));
 				return;
 			}
 			
-			Gdx.app.postRunnable(()->gameControl.displayMessage("Connected. Awaiting server READY signal"));
+			Gdx.app.postRunnable(()->GameLauncher.getLauncher().displayMessage("Connected. Awaiting server READY signal"));
 		}).start();
 	}
 	
@@ -82,16 +77,25 @@ public class ClientRuntime implements ClientBusListener, Disposable {
 		assetsMan.load("music.ogg", Music.class);
 	}
 	
-	public AssetManager getAssetManaget() {
+	
+	
+	@Override
+	public AssetManager getAssetManager() {
 		return this.assetsMan;
 	}
 	
-	public ClientEntity getPlayer() {
-		return entities.get(clientId);
+	@Override
+	public ClientBus getNetworkBus() {
+		return bus;
 	}
 	
-	public Collection<ClientEntity> getEntities() {
-		return Collections.unmodifiableCollection(this.entities.values());
+	@Override
+	public UUID getClientUUID() {
+		return clientId;
+	}
+	
+	public Map<UUID, ClientEntity> getEntities() {
+		return Collections.unmodifiableMap(entities);
 	}
 
 	@Override
@@ -115,8 +119,9 @@ public class ClientRuntime implements ClientBusListener, Disposable {
 	public void onServerReady(UUID assignedId) {
 		Gdx.app.log("ClientRuntime", "Assigned player id " + assignedId.toString());
 		this.clientId = assignedId;
-		this.screen = new GameScreen(this, new GameController(bus, this), debugger);
-		gameControl.setScreen(screen);
+		
+		this.screen = new GameScreen();
+		GameLauncher.getLauncher().setScreen(screen);
 		
 		//Doodoood doo doo dud
 		Music music = assetsMan.get("music.ogg", Music.class);
@@ -127,7 +132,7 @@ public class ClientRuntime implements ClientBusListener, Disposable {
 
 	@Override
 	public void onServerReset() {
-		gameControl.displayMessage("Resetting level");
+		GameLauncher.getLauncher().displayMessage("Resetting level");
 		entities.clear();
 	}
 
@@ -146,10 +151,11 @@ public class ClientRuntime implements ClientBusListener, Disposable {
 
 	@Override
 	public void onDisconnect() {
-		gameControl.displayMessageQuitable("Server Disconnected");
+		GameLauncher.getLauncher().displayMessageQuitable("Server Disconnected");
 	}
 	
+	@Override
 	public void quit() {
-		gameControl.displayMessageQuitable("Game Exited");
+		GameLauncher.getLauncher().displayMessageQuitable("Game Exited");
 	}
 }

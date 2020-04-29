@@ -1,8 +1,6 @@
 package com.progmethgame.server;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
@@ -11,6 +9,7 @@ import java.util.UUID;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Queue;
+import com.progmethgame.common.context.ServerContext;
 import com.progmethgame.network.ServerBus;
 import com.progmethgame.network.ServerBusListener;
 import com.progmethgame.network.event.server.ServerAddEntityEvent;
@@ -22,7 +21,7 @@ import com.progmethgame.server.entities.Entity;
 import com.progmethgame.server.entities.Player;
 import com.progmethgame.server.entities.TestEntity;
 
-public class ServerRuntime implements ServerBusListener, Disposable {
+public class ServerRuntime implements ServerBusListener, Disposable, ServerContext {
 	
 	private GameMap map;
 	private HashMap<UUID, Entity> entities;
@@ -97,6 +96,7 @@ public class ServerRuntime implements ServerBusListener, Disposable {
 		}
 	}
 
+	@Override
 	public void addEntity(Entity e) {
 		entitiesAddQueue.addLast(e);
 		ServerAddEntityEvent ev = new ServerAddEntityEvent();
@@ -105,6 +105,7 @@ public class ServerRuntime implements ServerBusListener, Disposable {
 		bus.sendEvent(null, ev);
 	}
 	
+	@Override
 	public void removeEntity(Entity e) {
 		entitiesRemovalQueue.addLast(e);
 		ServerRemoveEntityEvent event = new ServerRemoveEntityEvent();
@@ -144,7 +145,7 @@ public class ServerRuntime implements ServerBusListener, Disposable {
 
 	@Override
 	public void onClientJoin(UUID id) {
-		Player player = new Player(id, this);
+		Player player = new Player(id);
 		player.getPosition().set(1, 1);
 		
 		players.put(id, player);
@@ -195,7 +196,7 @@ public class ServerRuntime implements ServerBusListener, Disposable {
 			System.out.println("[ServerRuntime] Client " + id.toString() + " send a ping");
 			break;
 		case "spawntest":
-			TestEntity t = new TestEntity(UUID.randomUUID(), this);
+			TestEntity t = new TestEntity();
 			t.getPosition().set(players.get(id).getPosition());
 			addEntity(t);
 			break;
