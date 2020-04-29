@@ -121,6 +121,7 @@ public class ClientRuntime implements ClientBusListener, Disposable {
 		//Doodoood doo doo dud
 		Music music = assetsMan.get("music.ogg", Music.class);
 		music.setLooping(true);
+		music.setVolume(0.1f);
 		music.play();
 	}
 
