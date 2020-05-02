@@ -19,6 +19,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader.FreeTypeFontLoaderParameter;
 import com.badlogic.gdx.utils.Disposable;
+import com.progmethgame.common.DisplayType;
 import com.progmethgame.common.EntityData;
 import com.progmethgame.common.context.ClientContext;
 import com.progmethgame.launcher.GameLauncher;
@@ -57,9 +58,10 @@ public class ClientRuntime implements ClientBusListener, Disposable, ClientConte
 	
 	private void initAssets() {
 		//Texture
-		assetsMan.load("player.png", Texture.class);
-		assetsMan.load("test.png", Texture.class);
-		assetsMan.load("rick.png", Texture.class);
+		for (DisplayType t : DisplayType.values()) {
+			assetsMan.load(t.filename(), Texture.class);
+		}
+		
 		assetsMan.load("hud.png", Texture.class);
 		assetsMan.load("healthbar.png", Texture.class);
 		assetsMan.load("healthbarfill.png", Texture.class);
