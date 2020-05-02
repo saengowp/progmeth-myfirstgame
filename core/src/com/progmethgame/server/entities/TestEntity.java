@@ -10,8 +10,8 @@ public class TestEntity extends Entity {
 
 	private int cooldown = 0;
 	
-	public TestEntity(UUID gid, ServerRuntime runtime) {
-		super(gid, DisplayType.TEST, runtime);
+	public TestEntity() {
+		super(DisplayType.TEST);
 	}
 	
 	@Override

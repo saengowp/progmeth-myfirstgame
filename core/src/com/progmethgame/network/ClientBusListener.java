@@ -2,6 +2,8 @@ package com.progmethgame.network;
 
 import java.util.UUID;
 
+import com.progmethgame.common.EntityData;
+
 public interface ClientBusListener {
 	public void onEntityAdd(UUID id, EntityData data);
 	public void onEntityRemove(UUID id);

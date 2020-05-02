@@ -1,7 +1,7 @@
 package com.progmethgame.network.event.server;
 
+import com.progmethgame.common.EntityData;
 import com.progmethgame.network.ClientBusListener;
-import com.progmethgame.network.EntityData;
 import com.progmethgame.network.event.base.ServerEvent;
 
 public class ServerUpdateEntityEvent extends ServerEvent {

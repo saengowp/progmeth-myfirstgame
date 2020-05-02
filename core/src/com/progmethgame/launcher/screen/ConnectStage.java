@@ -1,4 +1,4 @@
-package com.progmethgame.client.screen;
+package com.progmethgame.launcher.screen;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -8,11 +8,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.progmethgame.client.GameMain;
+import com.progmethgame.launcher.GameLauncher;
 
 public class ConnectStage extends BaseStage {
 	
-	public ConnectStage(GameMain game) {
+	public ConnectStage(GameLauncher game) {
 		super();
 		
 		Table table = new Table();

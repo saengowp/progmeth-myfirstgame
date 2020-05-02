@@ -1,4 +1,4 @@
-package com.progmethgame.client.screen;
+package com.progmethgame.launcher.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;

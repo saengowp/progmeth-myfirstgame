@@ -3,6 +3,7 @@ package com.progmethgame.client;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
+import com.progmethgame.common.context.GameContext;
 import com.progmethgame.network.ClientBus;
 import com.progmethgame.network.event.client.PlayerFireEvent;
 import com.progmethgame.network.event.client.PlayerMovementEvent;
@@ -12,12 +13,10 @@ public class GameController implements InputProcessor {
 	
 	private final Vector2 movementVec;
 	private final ClientBus bus;
-	private final ClientRuntime runtime;
 	
-	public GameController(ClientBus bus, ClientRuntime runtime) {
+	public GameController() {
 		this.movementVec = new Vector2();
-		this.bus = bus;
-		this.runtime = runtime;
+		this.bus = GameContext.getClientContext().getNetworkBus();
 	}
 	
 	private void notifyMovement() {
@@ -80,7 +79,7 @@ public class GameController implements InputProcessor {
 			notifyMovement();
 			return true;
 		case Keys.ESCAPE:
-			runtime.quit();
+			GameContext.getClientContext().quit();
 			return true;
 		}
 		return false;

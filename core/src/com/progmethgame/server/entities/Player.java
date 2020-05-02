@@ -3,9 +3,11 @@ package com.progmethgame.server.entities;
 import java.util.UUID;
 
 import com.badlogic.gdx.math.Vector2;
+import com.progmethgame.client.graphic.component.HealthOverlay;
+import com.progmethgame.client.graphic.component.HudOverlay;
 import com.progmethgame.common.DisplayType;
 import com.progmethgame.common.GameConfig;
-import com.progmethgame.server.ServerRuntime;
+import com.progmethgame.common.context.GameContext;
 import com.progmethgame.server.entities.bullets.Bullet;
 import com.progmethgame.server.entities.bullets.TestBullet;
 import com.progmethgame.server.entities.bullets.BurnBullet;
@@ -39,9 +41,12 @@ public class Player extends Entity{
 	
 	private float speed;
 	private Vector2 walkDirection;
+	
+	HudOverlay hud;
+	HealthOverlay healthOv;
 
-	public Player(UUID gid, ServerRuntime runtime) {
-		super(gid, DisplayType.PLAYER, runtime);
+	public Player(UUID gid) {
+		super(gid, DisplayType.PLAYER);
 		this.speed = 5.0f;
 		this.dps = 0;
 		this.hp = 100;
@@ -60,7 +65,15 @@ public class Player extends Entity{
 		this.gunIndex = 0;
 		this.holdedGun = gunSlot[gunIndex];
 		this.faceDirection = new Vector2(1,0);
-		}
+		
+		this.hud = new HudOverlay();
+		this.hud.health = 0;
+		this.hud.text = "";
+		this.overlays.add(this.hud);
+		this.healthOv = new HealthOverlay();
+		this.healthOv.health = 0;
+		this.overlays.add(healthOv);
+	}
 
 	public float getSpeed() {
 		return speed;
@@ -124,6 +137,10 @@ public class Player extends Entity{
 		this.tickCount %= (int) 1/GameConfig.SERVER_TICK_RATE;
 		
 		this.velocity.set(walkDirection.nor().scl(speed));
+		
+		this.hud.health = hp/100f;
+		this.hud.text = "Debug: Gun type:" + (this.gunSlot[this.gunIndex].toString());
+		this.healthOv.health = hp/100f;
 	}
 	
 	public void setWalkDirection(Vector2 dir) {
@@ -155,7 +172,7 @@ public class Player extends Entity{
 		default:
 			shotBullet = new TestBullet(this);
 		}
-		runtime.addEntity(shotBullet);
+		GameContext.getServerContext().addEntity(shotBullet);
 		
 	}
 	

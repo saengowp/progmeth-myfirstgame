@@ -1,14 +1,30 @@
 package com.progmethgame.common;
 
+/**
+ * Represent different available texture on the client.
+ *
+ */
 public enum DisplayType {
-	PLAYER,
-	PLAYER_CONTROLABLE,
-	BULLET_BURN,
-	BULLET_SLOW,
-	BULLET_CONFUSE,
-	BULLET_STUNT,
-	BULLET_HOOK,
-	BULLET_TELEPORT,
-	RICK,
-	TEST
+	PLAYER("player.png"),
+	BULLET_BURN("test.png"),
+	BULLET_SLOW("test.png"),
+	BULLET_CONFUSE("test.png"),
+	BULLET_STUNT("test.png"),
+	BULLET_HOOK("test.png"),
+	BULLET_TELEPORT("test.png"),
+	RICK("rick.png"),
+	TEST("test.png");
+	
+	/**
+	 *  Location of the file associated with this DisplayType
+	 */
+	private final String filename;
+	
+	private DisplayType(String filename) {
+		this.filename = filename;
+	}
+	
+	public String filename() {
+		return this.filename;
+	}
 }

@@ -1,8 +1,6 @@
 package com.progmethgame.client;
 
 import java.util.ArrayList;
-import java.util.function.Consumer;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
@@ -10,6 +8,8 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.progmethgame.common.context.GameContext;
+import com.progmethgame.network.event.client.ClientDebugEvent;
 
 /** Debugging Interface.
  *  It provides debugging command line's rendering, input, and network component.
@@ -22,11 +22,9 @@ public class GameDebugger implements InputProcessor {
 	private String command = "";
 	private ArrayList<String> history = new ArrayList<String>();
 	private int histPtr = 0;
-	private final Consumer<String> debugOutput;
 	
-	public GameDebugger(AssetManager assets, Consumer<String> debugOutput) {
-		this.assets = assets;
-		this.debugOutput = debugOutput;
+	public GameDebugger() {
+		this.assets = GameContext.getClientContext().getAssetManager();
 	}
 	
 	public void render(Batch batch, Viewport hudViewport) {
@@ -39,7 +37,7 @@ public class GameDebugger implements InputProcessor {
 	
 	private void sendDebug() {
 		Gdx.app.log("Debugger", "Sending " + command);
-		debugOutput.accept(command);
+		GameContext.getClientContext().getNetworkBus().sendEvent(new ClientDebugEvent(command));
 	}
 
 	@Override
