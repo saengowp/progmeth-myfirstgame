@@ -1,14 +1,13 @@
 package com.progmethgame.server.entities;
 
-import java.util.UUID;
-
 import com.progmethgame.common.DisplayType;
 import com.progmethgame.common.GameConfig;
-import com.progmethgame.server.ServerRuntime;
 
 public class TestEntity extends Entity {
 
 	private int cooldown = 0;
+	protected DisplayType cool = DisplayType.TEST;
+	protected DisplayType hot = DisplayType.RICK;
 	
 	public TestEntity() {
 		super(DisplayType.TEST);
@@ -25,9 +24,9 @@ public class TestEntity extends Entity {
 			cooldown--;
 		
 		if (cooldown > 0) {
-			this.type = DisplayType.RICK;
+			this.type = hot;
 		} else {
-			this.type = DisplayType.TEST;
+			this.type = cool;
 		}
 	}
 

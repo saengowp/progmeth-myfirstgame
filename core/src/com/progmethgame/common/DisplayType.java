@@ -14,7 +14,9 @@ public enum DisplayType {
 	BULLET_TELEPORT("test.png"),
 	RICK("rick.png"),
 	TEST("test.png"),
-	POTION("potion.png");
+	POTION("potion.png"),
+	SMALLCUBE("smallcube.png"),
+	SMALLCUBEEX("smallcubeexcited.png");
 	
 	/**
 	 *  Location of the file associated with this DisplayType
