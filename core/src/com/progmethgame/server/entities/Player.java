@@ -3,7 +3,7 @@ package com.progmethgame.server.entities;
 import java.util.UUID;
 
 import com.badlogic.gdx.math.Vector2;
-import com.progmethgame.client.graphic.component.HealthOverlay;
+import com.progmethgame.client.graphic.component.StatusOverlay;
 import com.progmethgame.client.graphic.component.HudOverlay;
 import com.progmethgame.common.DisplayType;
 import com.progmethgame.common.GameConfig;
@@ -44,7 +44,7 @@ public class Player extends Entity{
 	private Vector2 walkDirection;
 	
 	HudOverlay hud;
-	HealthOverlay healthOv;
+	StatusOverlay healthOv;
 
 	public Player(UUID gid) {
 		super(gid, DisplayType.PLAYER);
@@ -71,7 +71,7 @@ public class Player extends Entity{
 		this.hud.health = 0;
 		this.hud.text = "";
 		this.overlays.add(this.hud);
-		this.healthOv = new HealthOverlay();
+		this.healthOv = new StatusOverlay();
 		this.healthOv.health = 0;
 		this.overlays.add(healthOv);
 	}
@@ -143,6 +143,8 @@ public class Player extends Entity{
 		this.hud.text = "Debug: Gun type:" + (this.gunSlot[this.gunIndex].toString());
 		this.healthOv.health = hp/100f;
 		this.hud.gunIcon = bulletFromGun(holdedGun).getType();
+		this.hud.effectIcon = effect != null ? effect.getDisplayType() : null;
+		this.healthOv.effectIcon = effect != null ? effect.getDisplayType() : null;
 	}
 	
 	public void setWalkDirection(Vector2 dir) {

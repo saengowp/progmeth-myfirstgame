@@ -8,7 +8,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.Serializer;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
-import com.progmethgame.client.graphic.component.HealthOverlay;
+import com.progmethgame.client.graphic.component.StatusOverlay;
 import com.progmethgame.client.graphic.component.Healthbar;
 import com.progmethgame.client.graphic.component.HudOverlay;
 import com.progmethgame.common.DisplayType;
@@ -55,7 +55,7 @@ public class SerializationUtil {
 			ClientDebugEvent.class,
 			PlayerSwapGunEvent.class,
 			HudOverlay.class,
-			HealthOverlay.class,
+			StatusOverlay.class,
 			ServerPlaySoundEvent.class,
 			SoundType.class
 		};

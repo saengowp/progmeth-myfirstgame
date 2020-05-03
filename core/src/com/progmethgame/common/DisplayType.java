@@ -13,7 +13,8 @@ public enum DisplayType {
 	BULLET_HOOK("test.png"),
 	BULLET_TELEPORT("test.png"),
 	RICK("rick.png"),
-	TEST("test.png");
+	TEST("test.png"),
+	POTION("potion.png");
 	
 	/**
 	 *  Location of the file associated with this DisplayType

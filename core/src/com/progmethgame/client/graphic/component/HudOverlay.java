@@ -28,14 +28,19 @@ public class HudOverlay extends Overlay {
 		Texture hudBg = assets.get("hud.png", Texture.class);
 		batch.draw(hudBg, 0, 0);
 		
-		Healthbar.render(batch, 10, 10, 300, 20, assets, health);
+		Healthbar.render(batch, 10, 10, 300, 20, health);
 		
 		BitmapFont fnt = assets.get("font.ttf", BitmapFont.class);
 		fnt.draw(batch, text, 10, 400);
-		fnt.draw(batch, "Debug2: gunIcon " + gunIcon, 10, 380);
+		fnt.draw(batch, "Debug2: gunIcon " + gunIcon + "\n Effect Icon" + (effectIcon != null ? effectIcon.toString() : "None"), 10, 380);
 		
 		Texture gunBg = assets.get(gunIcon.filename(), Texture.class);
 		batch.draw(gunBg, 10, 40, 100, 100);
+		
+		if (effectIcon != null) {
+			Texture effectTex = assets.get(effectIcon.filename(), Texture.class);
+			batch.draw(effectTex ,120, 40, 100, 100);
+		}
 		
 	}
 
