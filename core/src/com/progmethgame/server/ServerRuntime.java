@@ -9,10 +9,12 @@ import java.util.UUID;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Queue;
+import com.progmethgame.common.SoundType;
 import com.progmethgame.common.context.ServerContext;
 import com.progmethgame.network.ServerBus;
 import com.progmethgame.network.ServerBusListener;
 import com.progmethgame.network.event.server.ServerAddEntityEvent;
+import com.progmethgame.network.event.server.ServerPlaySoundEvent;
 import com.progmethgame.network.event.server.ServerReadyEvent;
 import com.progmethgame.network.event.server.ServerRemoveEntityEvent;
 import com.progmethgame.network.event.server.ServerResetEvent;
@@ -214,5 +216,10 @@ public class ServerRuntime implements ServerBusListener, Disposable, ServerConte
 	@Override
 	public void onPlayerSwapGun(UUID id) {
 		players.get(id).swapGun();
+	}
+
+	@Override
+	public void playSound(SoundType s) {
+		bus.sendEvent(null, new ServerPlaySoundEvent(s));
 	}
 }

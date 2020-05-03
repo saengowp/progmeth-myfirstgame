@@ -13,6 +13,7 @@ import com.progmethgame.client.graphic.component.Healthbar;
 import com.progmethgame.client.graphic.component.HudOverlay;
 import com.progmethgame.common.DisplayType;
 import com.progmethgame.common.EntityData;
+import com.progmethgame.common.SoundType;
 import com.progmethgame.network.event.base.ClientEvent;
 import com.progmethgame.network.event.base.GameEvent;
 import com.progmethgame.network.event.base.ServerEvent;
@@ -23,6 +24,7 @@ import com.progmethgame.network.event.client.PlayerFireEvent;
 import com.progmethgame.network.event.client.PlayerMovementEvent;
 import com.progmethgame.network.event.client.PlayerSwapGunEvent;
 import com.progmethgame.network.event.server.ServerAddEntityEvent;
+import com.progmethgame.network.event.server.ServerPlaySoundEvent;
 import com.progmethgame.network.event.server.ServerReadyEvent;
 import com.progmethgame.network.event.server.ServerRemoveEntityEvent;
 import com.progmethgame.network.event.server.ServerResetEvent;
@@ -53,7 +55,9 @@ public class SerializationUtil {
 			ClientDebugEvent.class,
 			PlayerSwapGunEvent.class,
 			HudOverlay.class,
-			HealthOverlay.class
+			HealthOverlay.class,
+			ServerPlaySoundEvent.class,
+			SoundType.class
 		};
 
 		for (Class c : dataType) 

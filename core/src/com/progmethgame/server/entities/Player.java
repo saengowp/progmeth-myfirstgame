@@ -7,6 +7,7 @@ import com.progmethgame.client.graphic.component.HealthOverlay;
 import com.progmethgame.client.graphic.component.HudOverlay;
 import com.progmethgame.common.DisplayType;
 import com.progmethgame.common.GameConfig;
+import com.progmethgame.common.SoundType;
 import com.progmethgame.common.context.GameContext;
 import com.progmethgame.server.entities.bullets.Bullet;
 import com.progmethgame.server.entities.bullets.TestBullet;
@@ -155,6 +156,8 @@ public class Player extends Entity{
 	}
 
 	public void fire() {
+		GameContext.getServerContext().playSound(SoundType.PEW);
+		
 		Bullet shotBullet;
 		switch(holdedGun) {
 		case BURN_GUN:
