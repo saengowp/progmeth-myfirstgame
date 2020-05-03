@@ -12,7 +12,7 @@ public class HealthOverlay extends Overlay {
 	
 	@Override
 	public void render(Viewport view, Batch batch, Rectangle rect, ClientEntity target) {
-		Healthbar.render(batch, (int) rect.x, (int) rect.y + (int) rect.height + 10, GameContext.getClientContext().getAssetManager(), health);
+		Healthbar.render(batch, (int) rect.x, (int) rect.y + (int) rect.height + 10, (int) rect.width, (int) (rect.height/10), GameContext.getClientContext().getAssetManager(), health);
 	}
 
 }

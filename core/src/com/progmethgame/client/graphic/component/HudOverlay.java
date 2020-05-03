@@ -25,7 +25,7 @@ public class HudOverlay extends Overlay {
 		Texture hudBg = assets.get("hud.png", Texture.class);
 		batch.draw(hudBg, 0, 0);
 		
-		Healthbar.render(batch, 10, 10, assets, health);
+		Healthbar.render(batch, 10, 10, 300, 20, assets, health);
 		assets.get("font.ttf", BitmapFont.class).draw(batch, text, 10, 100);
 		
 	}
