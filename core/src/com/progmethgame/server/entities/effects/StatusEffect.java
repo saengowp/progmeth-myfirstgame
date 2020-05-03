@@ -1,5 +1,6 @@
 package com.progmethgame.server.entities.effects;
 
+import com.progmethgame.common.DisplayType;
 import com.progmethgame.server.entities.Player;
 
 public abstract class StatusEffect {
@@ -14,10 +15,16 @@ public abstract class StatusEffect {
 	}
 	public StatusType type;
 	
+	protected DisplayType dispType;
 	
 	public StatusEffect(StatusType type) {
-		
+		this.dispType = DisplayType.POTION;
 	}
+	
+	public DisplayType getDisplayType() {
+		return this.dispType;
+	}
+	
 	public int getMaxDuration() {
 		return maxDuration;
 	}

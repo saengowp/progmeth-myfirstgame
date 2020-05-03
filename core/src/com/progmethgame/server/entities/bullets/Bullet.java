@@ -28,6 +28,12 @@ public abstract class Bullet extends Entity {
 		}
 	}
 	
+	@Override
+	public void onCollide(Entity other) {
+		if (other instanceof Player && !((Player) other).equals(owner))
+			onCollide((Player) other);
+	}
+	
 	
 
 }

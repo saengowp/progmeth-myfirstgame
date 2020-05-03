@@ -105,6 +105,17 @@ public abstract class Entity implements Tickable {
 	public void onCollideSolid(Block block) {
 		
 	}
+	
+	
+	/**
+	 * Return physical size for physic engine's onCollide(Entity) calculation.
+	 * 
+	 * Size in this case is the side length of the bounding square.
+	 * The bounding box has the same center as the default bound.
+	 */
+	public float getPhysicalSize() {
+		return 1;
+	}
 
 }
 

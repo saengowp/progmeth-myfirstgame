@@ -8,11 +8,12 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.Serializer;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
-import com.progmethgame.client.graphic.component.HealthOverlay;
+import com.progmethgame.client.graphic.component.StatusOverlay;
 import com.progmethgame.client.graphic.component.Healthbar;
 import com.progmethgame.client.graphic.component.HudOverlay;
 import com.progmethgame.common.DisplayType;
 import com.progmethgame.common.EntityData;
+import com.progmethgame.common.SoundType;
 import com.progmethgame.network.event.base.ClientEvent;
 import com.progmethgame.network.event.base.GameEvent;
 import com.progmethgame.network.event.base.ServerEvent;
@@ -23,6 +24,7 @@ import com.progmethgame.network.event.client.PlayerFireEvent;
 import com.progmethgame.network.event.client.PlayerMovementEvent;
 import com.progmethgame.network.event.client.PlayerSwapGunEvent;
 import com.progmethgame.network.event.server.ServerAddEntityEvent;
+import com.progmethgame.network.event.server.ServerPlaySoundEvent;
 import com.progmethgame.network.event.server.ServerReadyEvent;
 import com.progmethgame.network.event.server.ServerRemoveEntityEvent;
 import com.progmethgame.network.event.server.ServerResetEvent;
@@ -53,7 +55,9 @@ public class SerializationUtil {
 			ClientDebugEvent.class,
 			PlayerSwapGunEvent.class,
 			HudOverlay.class,
-			HealthOverlay.class
+			StatusOverlay.class,
+			ServerPlaySoundEvent.class,
+			SoundType.class
 		};
 
 		for (Class c : dataType) 

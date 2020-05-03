@@ -11,6 +11,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -19,7 +20,10 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader.FreeTypeFontLoaderParameter;
 import com.badlogic.gdx.utils.Disposable;
+import com.progmethgame.common.DisplayType;
 import com.progmethgame.common.EntityData;
+import com.progmethgame.common.GameConfig;
+import com.progmethgame.common.SoundType;
 import com.progmethgame.common.context.ClientContext;
 import com.progmethgame.launcher.GameLauncher;
 import com.progmethgame.network.ClientBus;
@@ -57,9 +61,10 @@ public class ClientRuntime implements ClientBusListener, Disposable, ClientConte
 	
 	private void initAssets() {
 		//Texture
-		assetsMan.load("player.png", Texture.class);
-		assetsMan.load("test.png", Texture.class);
-		assetsMan.load("rick.png", Texture.class);
+		for (DisplayType t : DisplayType.values()) {
+			assetsMan.load(t.filename(), Texture.class);
+		}
+		
 		assetsMan.load("hud.png", Texture.class);
 		assetsMan.load("healthbar.png", Texture.class);
 		assetsMan.load("healthbarfill.png", Texture.class);
@@ -78,6 +83,11 @@ public class ClientRuntime implements ClientBusListener, Disposable, ClientConte
 		
 		//Music
 		assetsMan.load("music.ogg", Music.class);
+		
+		//Sound
+		for (SoundType s : SoundType.values()) {
+			assetsMan.load(s.getFilepath(), Sound.class);
+		}
 	}
 	
 	
@@ -129,7 +139,7 @@ public class ClientRuntime implements ClientBusListener, Disposable, ClientConte
 		//Doodoood doo doo dud
 		Music music = assetsMan.get("music.ogg", Music.class);
 		music.setLooping(true);
-		music.setVolume(0.1f);
+		music.setVolume(GameConfig.AUDIO_VOLUME);
 		music.play();
 	}
 
@@ -160,5 +170,11 @@ public class ClientRuntime implements ClientBusListener, Disposable, ClientConte
 	@Override
 	public void quit() {
 		GameLauncher.getLauncher().displayMessageQuitable("Game Exited");
+	}
+
+	@Override
+	public void onPlaySound(SoundType sound) {
+		Sound s = assetsMan.get(sound.getFilepath(), Sound.class);
+		s.play(GameConfig.AUDIO_VOLUME);
 	}
 }
