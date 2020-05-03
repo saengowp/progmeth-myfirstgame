@@ -8,7 +8,7 @@ public enum DisplayType {
 	PLAYER("player.png"),
 	BULLET_BURN("test.png"),
 	BULLET_SLOW("test.png"),
-	BULLET_CONFUSE("test.png"),
+	BULLET_CONFUSE("rick.png"),
 	BULLET_STUNT("test.png"),
 	BULLET_HOOK("test.png"),
 	BULLET_TELEPORT("test.png"),

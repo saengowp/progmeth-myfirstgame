@@ -142,6 +142,7 @@ public class Player extends Entity{
 		this.hud.health = hp/100f;
 		this.hud.text = "Debug: Gun type:" + (this.gunSlot[this.gunIndex].toString());
 		this.healthOv.health = hp/100f;
+		this.hud.gunIcon = bulletFromGun(holdedGun).getType();
 	}
 	
 	public void setWalkDirection(Vector2 dir) {
@@ -154,28 +155,41 @@ public class Player extends Entity{
 	public Vector2 getFaceDirection() {
 		return faceDirection;
 	}
+	
+	private Bullet bulletFromGun(GunType t) {
+		//Might need refactoring.
+		Bullet shotBullet;
+		switch(t) {
+		case BURN_GUN:
+			shotBullet = new BurnBullet(this);
+			break;
+		case CONFUSE_GUN:
+			shotBullet = new ConfuseBullet(this);
+			break;
+		case SLOW_GUN:
+			shotBullet = new SlowBullet(this);
+			break;
+		case STUNT_GUN:
+			shotBullet = new StuntBullet(this);
+			break;
+		case HOOK_GUN:
+			shotBullet = new HookBullet(this);
+			break;
+		case TELEPORT_GUN:
+			shotBullet = new TeleportBullet(this);
+			break;
+		default:
+			shotBullet = new TestBullet(this);
+			break;
+		}
+		return shotBullet;
+	}
 
 	public void fire() {
 		GameContext.getServerContext().playSound(SoundType.PEW);
 		
-		Bullet shotBullet;
-		switch(holdedGun) {
-		case BURN_GUN:
-			shotBullet = new BurnBullet(this);
-		case CONFUSE_GUN:
-			shotBullet = new ConfuseBullet(this);
-		case SLOW_GUN:
-			shotBullet = new SlowBullet(this);
-		case STUNT_GUN:
-			shotBullet = new StuntBullet(this);
-		case HOOK_GUN:
-			shotBullet = new HookBullet(this);
-		case TELEPORT_GUN:
-			shotBullet = new TeleportBullet(this);
-		default:
-			shotBullet = new TestBullet(this);
-		}
-		GameContext.getServerContext().addEntity(shotBullet);
+		
+		GameContext.getServerContext().addEntity(bulletFromGun(holdedGun));
 		
 	}
 	
