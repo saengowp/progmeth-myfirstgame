@@ -70,10 +70,12 @@ public class Player extends Entity{
 		this.hud = new HudOverlay();
 		this.hud.health = 0;
 		this.hud.text = "";
-		this.overlays.add(this.hud);
+		
 		this.healthOv = new StatusOverlay();
 		this.healthOv.health = 0;
+		
 		this.overlays.add(healthOv);
+		this.overlays.add(this.hud);
 	}
 
 	public float getSpeed() {
