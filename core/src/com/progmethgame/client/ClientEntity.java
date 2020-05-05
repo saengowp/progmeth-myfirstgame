@@ -60,7 +60,7 @@ public class ClientEntity extends Sprite{
 		timeBuf[0] = timeBuf[1];
 		timeBuf[1] = System.currentTimeMillis();
 		
-		updateTexture();
+		
 		overlays = data.overlays;
 	}
 	
@@ -79,6 +79,8 @@ public class ClientEntity extends Sprite{
 		if (!facingVec.isZero()) {
 			setRotation(facingVec.angle() - 90);
 		}
+		
+		updateTexture();
 		//System.out.println((System.currentTimeMillis() - GameConfig.CLIENT_ENTITY_INTERPOLATION_TIME_MILLIS - timeBuf[0] ) + " " + (timeBuf[1] - timeBuf[0]));
 	//	System.out.println("Rendering X Y T X Y Y " + posBuf[0] + " " + timeBuf[0] + " " +posBuf[1] + " " + timeBuf[1] + " T " + System.currentTimeMillis());
 	}
