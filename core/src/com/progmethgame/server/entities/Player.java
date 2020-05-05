@@ -3,10 +3,11 @@ package com.progmethgame.server.entities;
 import java.util.UUID;
 
 import com.badlogic.gdx.math.Vector2;
-import com.progmethgame.client.graphic.component.HealthOverlay;
+import com.progmethgame.client.graphic.component.StatusOverlay;
 import com.progmethgame.client.graphic.component.HudOverlay;
 import com.progmethgame.common.DisplayType;
 import com.progmethgame.common.GameConfig;
+import com.progmethgame.common.SoundType;
 import com.progmethgame.common.context.GameContext;
 import com.progmethgame.server.entities.bullets.Bullet;
 import com.progmethgame.server.entities.bullets.TestBullet;
@@ -43,7 +44,7 @@ public class Player extends Entity{
 	private Vector2 walkDirection;
 	
 	HudOverlay hud;
-	HealthOverlay healthOv;
+	StatusOverlay healthOv;
 
 	public Player(UUID gid) {
 		super(gid, DisplayType.PLAYER);
@@ -69,10 +70,12 @@ public class Player extends Entity{
 		this.hud = new HudOverlay();
 		this.hud.health = 0;
 		this.hud.text = "";
-		this.overlays.add(this.hud);
-		this.healthOv = new HealthOverlay();
+		
+		this.healthOv = new StatusOverlay();
 		this.healthOv.health = 0;
+		
 		this.overlays.add(healthOv);
+		this.overlays.add(this.hud);
 	}
 
 	public float getSpeed() {
@@ -141,6 +144,9 @@ public class Player extends Entity{
 		this.hud.health = hp/100f;
 		this.hud.text = "Debug: Gun type:" + (this.gunSlot[this.gunIndex].toString());
 		this.healthOv.health = hp/100f;
+		this.hud.gunIcon = bulletFromGun(holdedGun).getType();
+		this.hud.effectIcon = effect != null ? effect.getDisplayType() : null;
+		this.healthOv.effectIcon = effect != null ? effect.getDisplayType() : null;
 	}
 	
 	public void setWalkDirection(Vector2 dir) {
@@ -153,26 +159,41 @@ public class Player extends Entity{
 	public Vector2 getFaceDirection() {
 		return faceDirection;
 	}
-
-	public void fire() {
+	
+	private Bullet bulletFromGun(GunType t) {
+		//Might need refactoring.
 		Bullet shotBullet;
-		switch(holdedGun) {
+		switch(t) {
 		case BURN_GUN:
 			shotBullet = new BurnBullet(this);
+			break;
 		case CONFUSE_GUN:
 			shotBullet = new ConfuseBullet(this);
+			break;
 		case SLOW_GUN:
 			shotBullet = new SlowBullet(this);
+			break;
 		case STUNT_GUN:
 			shotBullet = new StuntBullet(this);
+			break;
 		case HOOK_GUN:
 			shotBullet = new HookBullet(this);
+			break;
 		case TELEPORT_GUN:
 			shotBullet = new TeleportBullet(this);
+			break;
 		default:
 			shotBullet = new TestBullet(this);
+			break;
 		}
-		GameContext.getServerContext().addEntity(shotBullet);
+		return shotBullet;
+	}
+
+	public void fire() {
+		GameContext.getServerContext().playSound(SoundType.PEW);
+		
+		
+		GameContext.getServerContext().addEntity(bulletFromGun(holdedGun));
 		
 	}
 	

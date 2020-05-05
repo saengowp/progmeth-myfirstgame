@@ -9,16 +9,19 @@ import java.util.UUID;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Queue;
+import com.progmethgame.common.SoundType;
 import com.progmethgame.common.context.ServerContext;
 import com.progmethgame.network.ServerBus;
 import com.progmethgame.network.ServerBusListener;
 import com.progmethgame.network.event.server.ServerAddEntityEvent;
+import com.progmethgame.network.event.server.ServerPlaySoundEvent;
 import com.progmethgame.network.event.server.ServerReadyEvent;
 import com.progmethgame.network.event.server.ServerRemoveEntityEvent;
 import com.progmethgame.network.event.server.ServerResetEvent;
 import com.progmethgame.network.event.server.ServerUpdateEntityEvent;
 import com.progmethgame.server.entities.Entity;
 import com.progmethgame.server.entities.Player;
+import com.progmethgame.server.entities.SmallTestEntity;
 import com.progmethgame.server.entities.TestEntity;
 
 public class ServerRuntime implements ServerBusListener, Disposable, ServerContext {
@@ -59,16 +62,17 @@ public class ServerRuntime implements ServerBusListener, Disposable, ServerConte
 					}
 					
 					float dx = e.getPosition().x - xp, dy = e.getPosition().y - yp;
-					if (Math.abs(dx) >= 1 || Math.abs(dy) >= 1) {
+					float collisionRadius = (float) (e.getPhysicalSize()/2 + 0.5);
+					if (Math.abs(dx) >= collisionRadius || Math.abs(dy) >= collisionRadius) {
 						continue;
 					}
 					
 					e.onCollideSolid(map.getBlock(xp, yp));
 					
 					if (Math.abs(dx) > Math.abs(dy))
-						e.getPosition().x +=  (dx > 0 ? 1 - dx : - 1 - dx);
+						e.getPosition().x +=  (dx > 0 ? collisionRadius - dx : - collisionRadius - dx);
 					else
-						e.getPosition().y += (dy > 0 ? 1 - dy : - 1 - dy);
+						e.getPosition().y += (dy > 0 ? collisionRadius - dy : - collisionRadius - dy);
 								
 				}
 			}
@@ -82,7 +86,8 @@ public class ServerRuntime implements ServerBusListener, Disposable, ServerConte
 			for (Entity b : entities.values()) {
 				if (checked.contains(b))
 					continue;
-				if (Math.abs(a.getPosition().x - b.getPosition().x) < 1 && Math.abs(a.getPosition().y - b.getPosition().y) < 1) {
+				float collisionRad = (a.getPhysicalSize() + b.getPhysicalSize())/2 ;
+				if (Math.abs(a.getPosition().x - b.getPosition().x) < collisionRad && Math.abs(a.getPosition().y - b.getPosition().y) < collisionRad) {
 					a.onCollide(b);
 					b.onCollide(a);
 				}
@@ -195,12 +200,19 @@ public class ServerRuntime implements ServerBusListener, Disposable, ServerConte
 		case "hello":
 			System.out.println("[ServerRuntime] Client " + id.toString() + " send a ping");
 			break;
-		case "spawntest":
+		case "spawntest": {
 			TestEntity t = new TestEntity();
 			t.getPosition().set(players.get(id).getPosition());
 			addEntity(t);
 			break;
-		
+		}
+		case "spawntestsmall": {
+			TestEntity t = new SmallTestEntity();
+			t.getPosition().set(players.get(id).getPosition());
+			t.getVelocity().set(players.get(id).getFaceDirection());
+			addEntity(t);
+			break;
+		}
 		case "hurtme":
 			players.get(id).dealDamge(10);
 			break;
@@ -214,5 +226,10 @@ public class ServerRuntime implements ServerBusListener, Disposable, ServerConte
 	@Override
 	public void onPlayerSwapGun(UUID id) {
 		players.get(id).swapGun();
+	}
+
+	@Override
+	public void playSound(SoundType s) {
+		bus.sendEvent(null, new ServerPlaySoundEvent(s));
 	}
 }
