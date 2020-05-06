@@ -37,7 +37,7 @@ public class GameScreen implements Screen {
 
 	public GameScreen() {
 		this.map = new TmxMapLoader().load("map/map.tmx");
-		this.mapRenderer = new OrthogonalTiledMapRenderer(map, 1/8f);
+		this.mapRenderer = new OrthogonalTiledMapRenderer(map, 1f/map.getProperties().get("tilewidth", Integer.class));
 		this.camera = new OrthographicCamera();
 		this.viewport = new FillViewport(20, 20, this.camera);
 		this.batch = new SpriteBatch();
