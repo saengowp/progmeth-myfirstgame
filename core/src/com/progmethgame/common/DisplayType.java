@@ -20,7 +20,11 @@ public enum DisplayType {
 	EFFECT_BURN("effects/burn.png"),
 	EFFECT_CONFUSE("effects/confuse.png"),
 	EFFECT_SLOW("effects/slow.png"),
-	EFFECT_STUNT("effects/stunt.png");
+	EFFECT_STUNT("effects/stunt.png"),
+	PLAYER_BLUE("players/TopBlue.png"),
+	PLAYER_BLUE_ICON("players/Blue.png"),
+	PLAYER_RED("players/TopRed.png"),
+	PLAYER_RED_ICON("players/Red.png");
 	
 	
 	
