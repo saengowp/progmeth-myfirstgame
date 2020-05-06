@@ -30,6 +30,27 @@ public class Player extends Entity{
 		TEST_GUN
 	}
 	
+	enum Color {
+		BLUE(DisplayType.PLAYER_BLUE_ICON, DisplayType.PLAYER_BLUE),
+		RED(DisplayType.PLAYER_RED_ICON, DisplayType.PLAYER_RED);
+		
+		private DisplayType top;
+		private DisplayType front;
+		
+		private Color(DisplayType front, DisplayType top) {
+			this.front = front;
+			this.top = top;
+		}
+		
+		public DisplayType getTop() {
+			return this.top;
+		}
+		
+		public DisplayType getFront() {
+			return this.front;
+		}
+	};
+	
 	private int dps;
 	private int hp;
 	private StatusEffect effect;
@@ -42,6 +63,7 @@ public class Player extends Entity{
 	
 	private float speed;
 	private Vector2 walkDirection;
+	private boolean movable;
 	
 	HudOverlay hud;
 	StatusOverlay healthOv;
@@ -53,6 +75,7 @@ public class Player extends Entity{
 		this.hp = 100;
 		this.tickCount = 0;
 		this.walkDirection = new Vector2();
+		this.movable = true;
 		
 		this.gunSlot = new GunType[] { 
 				GunType.TEST_GUN,
@@ -76,6 +99,21 @@ public class Player extends Entity{
 		
 		this.overlays.add(healthOv);
 		this.overlays.add(this.hud);
+		
+		setColor(
+				Color.values()[
+				               Math.abs((int) gid.getLeastSignificantBits()) 
+				               % Color.values().length
+				               ]);
+	}
+	
+	public void setColor(Color c) {
+		this.hud.playerIcon = c.getFront();
+		this.setDisplay(c.getTop());
+	}
+
+	public void setMovable(boolean movable) {
+		this.movable = movable;
 	}
 
 	public float getSpeed() {
@@ -111,7 +149,9 @@ public class Player extends Entity{
 			//remove old effect and set new effect
 			this.effect.removeEffect(this);
 			this.effect = effect;
-			this.effect.getEffect(this);
+			if(effect!=null) {
+				this.effect.getEffect(this);
+			}
 		}
 	}
 	
@@ -150,7 +190,9 @@ public class Player extends Entity{
 	}
 	
 	public void setWalkDirection(Vector2 dir) {
-		walkDirection.set(dir);
+		if(movable) {
+			walkDirection.set(dir);
+		}
 		if (!dir.isZero()) {
 			this.faceDirection = dir.cpy().nor();
 		}

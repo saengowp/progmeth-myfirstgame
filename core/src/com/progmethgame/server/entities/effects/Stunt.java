@@ -1,5 +1,6 @@
 package com.progmethgame.server.entities.effects;
 
+import com.progmethgame.common.DisplayType;
 import com.progmethgame.server.entities.Player;
 
 public class Stunt extends StatusEffect {
@@ -9,18 +10,19 @@ public class Stunt extends StatusEffect {
 		// TODO Auto-generated constructor stub
 		this.maxDuration = EffectConfig.STUNT_MAX_DURATION;
 		this.duration = maxDuration;
+		this.dispType = DisplayType.EFFECT_STUNT;
 	}
 
 	@Override
 	public void getEffect(Player p) {
 		// TODO Auto-generated method stub
-		p.setSpeed(0);
+		p.setMovable(false);
 
 	}
 
 	@Override
 	public void removeEffect(Player p) {
 		// TODO Auto-generated method stub
-		p.setSpeed(5.0f);
+		p.setMovable(true);
 	}
 }

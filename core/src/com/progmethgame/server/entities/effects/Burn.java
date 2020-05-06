@@ -1,5 +1,6 @@
 package com.progmethgame.server.entities.effects;
 
+import com.progmethgame.common.DisplayType;
 import com.progmethgame.server.entities.Player;
 
 public class Burn extends StatusEffect {
@@ -10,6 +11,7 @@ public class Burn extends StatusEffect {
 		super(StatusType.BURN);
 		this.maxDuration = EffectConfig.BURN_MAX_DURATION;
 		this.duration = maxDuration;
+		this.dispType = DisplayType.EFFECT_BURN;
 	}
 
 	@Override

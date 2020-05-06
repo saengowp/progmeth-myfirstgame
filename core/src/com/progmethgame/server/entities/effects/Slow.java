@@ -1,5 +1,6 @@
 package com.progmethgame.server.entities.effects;
 
+import com.progmethgame.common.DisplayType;
 import com.progmethgame.server.entities.Player;
 
 public class Slow extends StatusEffect {
@@ -10,6 +11,7 @@ public class Slow extends StatusEffect {
 		// TODO Auto-generated constructor stub
 		this.maxDuration = EffectConfig.SLOW_MAX_DURATION;
 		this.duration = maxDuration;
+		this.dispType = DisplayType.EFFECT_SLOW;
 	}
 
 

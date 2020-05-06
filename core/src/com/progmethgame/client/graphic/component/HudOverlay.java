@@ -16,10 +16,10 @@ public class HudOverlay extends Overlay {
 	public String text; //Temporary
 	public DisplayType gunIcon;
 	public DisplayType effectIcon;
+	public DisplayType playerIcon;
 	
 	@Override
 	public void render(Viewport view, Batch batch, Rectangle rect, ClientEntity target) {
-		
 		//Don't render other player's hud.
 		if (!GameContext.getClientContext().getClientUUID().equals(target.getGid()))
 			return;
@@ -41,6 +41,9 @@ public class HudOverlay extends Overlay {
 			Texture effectTex = assets.get(effectIcon.filename(), Texture.class);
 			batch.draw(effectTex ,120, 40, 100, 100);
 		}
+		
+		Texture playerTex = assets.get(playerIcon.filename(), Texture.class);
+		batch.draw(playerTex, 230, 40, 100, 100);
 		
 	}
 

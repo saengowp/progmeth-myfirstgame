@@ -40,6 +40,10 @@ public abstract class Entity implements Tickable {
 	public int hashCode() {
 		return gid.hashCode();
 	}
+	
+	public void setDisplay(DisplayType t) {
+		this.type = t;
+	}
 
 	@Override
 	public void tick(float delta) {
