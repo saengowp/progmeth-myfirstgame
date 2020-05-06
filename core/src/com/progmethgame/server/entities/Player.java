@@ -42,6 +42,7 @@ public class Player extends Entity{
 	
 	private float speed;
 	private Vector2 walkDirection;
+	private boolean movable;
 	
 	HudOverlay hud;
 	StatusOverlay healthOv;
@@ -53,6 +54,7 @@ public class Player extends Entity{
 		this.hp = 100;
 		this.tickCount = 0;
 		this.walkDirection = new Vector2();
+		this.movable = true;
 		
 		this.gunSlot = new GunType[] { 
 				GunType.TEST_GUN,
@@ -76,6 +78,10 @@ public class Player extends Entity{
 		
 		this.overlays.add(healthOv);
 		this.overlays.add(this.hud);
+	}
+
+	public void setMovable(boolean movable) {
+		this.movable = movable;
 	}
 
 	public float getSpeed() {
@@ -111,7 +117,9 @@ public class Player extends Entity{
 			//remove old effect and set new effect
 			this.effect.removeEffect(this);
 			this.effect = effect;
-			this.effect.getEffect(this);
+			if(effect!=null) {
+				this.effect.getEffect(this);
+			}
 		}
 	}
 	
@@ -150,7 +158,9 @@ public class Player extends Entity{
 	}
 	
 	public void setWalkDirection(Vector2 dir) {
-		walkDirection.set(dir);
+		if(movable) {
+			walkDirection.set(dir);
+		}
 		if (!dir.isZero()) {
 			this.faceDirection = dir.cpy().nor();
 		}
