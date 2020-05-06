@@ -11,7 +11,8 @@ public abstract class StatusEffect {
 		BURN,
 		CONFUSE,
 		SLOW,
-		STUNT
+		STUNT,
+		HOOKED
 	}
 	public StatusType type;
 	
