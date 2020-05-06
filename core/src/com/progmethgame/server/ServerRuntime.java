@@ -57,7 +57,7 @@ public class ServerRuntime implements ServerBusListener, Disposable, ServerConte
 				for (int j = -1; j <= 1; j++) {
 					int xp = pX + i;
 					int yp = pY + j;
-					if (xp < 0 || xp >= map.mapWidth || yp < 0 || yp >= map.mapHeight || !map.getBlock(xp, yp).isSolid()) {
+					if (xp < 0 || xp >= map.getWidth() || yp < 0 || yp >= map.getHeight() || !map.getBlock(xp, yp).isSolid()) {
 						continue;
 					}
 					
@@ -151,7 +151,7 @@ public class ServerRuntime implements ServerBusListener, Disposable, ServerConte
 	@Override
 	public void onClientJoin(UUID id) {
 		Player player = new Player(id);
-		player.getPosition().set(1, 1);
+		map.onPlayerEnter(player);
 		
 		players.put(id, player);
 		

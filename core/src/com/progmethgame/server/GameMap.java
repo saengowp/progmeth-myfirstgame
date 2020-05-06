@@ -17,13 +17,17 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.math.Vector2;
 import com.progmethgame.server.blocks.Block;
 import com.progmethgame.server.blocks.BlockManager;
+import com.progmethgame.server.entities.Player;
 
 public class GameMap {
 	
-	public int map[][];
-	public int mapWidth, mapHeight;
+	private int map[][];
+	private int mapWidth, mapHeight;
+	private final Vector2[] spawnPoints = {new Vector2(2, 2), new Vector2(18, 18)};
+	private int spawnPointsIdx = 0;
 	
 	public GameMap() throws GameError {
 		Gdx.app.debug("Map", "Initializing");
@@ -85,5 +89,18 @@ public class GameMap {
 	
 	public Block getBlock(int x, int y) {
 		return (x >= 0 && x < mapWidth && y >= 0 && y < mapHeight) ? BlockManager.fromId(map[x][y]):null;
+	}
+	
+	public void onPlayerEnter(Player player) {
+		player.getPosition().set(spawnPoints[spawnPointsIdx++]);
+		spawnPointsIdx %= spawnPoints.length;
+	}
+	
+	public int getWidth() {
+		return mapWidth;
+	}
+	
+	public int getHeight() {
+		return mapHeight;
 	}
 }
