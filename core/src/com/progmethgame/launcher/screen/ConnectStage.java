@@ -27,6 +27,7 @@ public class ConnectStage extends BaseStage {
 		table.setFillParent(true);
 		table.columnDefaults(0).left();
 		table.columnDefaults(1).width(200).padLeft(10);
+		//table.setDebug(true);
 		
 		TextButton createSrvBtn = new TextButton("Create", skin);
 		createSrvBtn.addListener(new ClickListener() {
@@ -39,7 +40,7 @@ public class ConnectStage extends BaseStage {
 		
 		table.add(new Label("Create New Host:", skin));
 		table.add(createSrvBtn);
-		table.row();
+		table.row().padTop(10);
 		table.add(new Label("Join Another Host:", skin));
 		
 		TextField ipaddrfield = new TextField("127.0.0.1", skin);
@@ -70,6 +71,7 @@ public class ConnectStage extends BaseStage {
 		getBatch().draw(this.background, 0, 0, 500, 500);
 		getBatch().end();
 		getViewport().apply();
+		getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 		super.draw();
 	}
 	
