@@ -1,6 +1,6 @@
 package com.progmethgame.server;
 
-public class GameError extends Exception{
+public class GameError extends RuntimeException {
 
 	/**
 	 * 

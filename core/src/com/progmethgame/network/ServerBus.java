@@ -3,6 +3,7 @@ package com.progmethgame.network;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -126,6 +127,10 @@ public class ServerBus implements Runnable {
 	 */
 	public void sendEvent(UUID clientId, ServerEvent event) {
 		outputEventQueue.add(new ServerEventBroadcast(clientId, event));
+	}
+	
+	public List<UUID> getConnectionUUIDs() {
+		return new ArrayList<UUID>(clientConnections.values());
 	}
 	
 }

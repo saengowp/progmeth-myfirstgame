@@ -8,4 +8,5 @@ public interface ServerContext extends Disposable{
 	public void addEntity(Entity e);
 	public void removeEntity(Entity e);
 	public void playSound(SoundType s);
+	public void reset();
 }

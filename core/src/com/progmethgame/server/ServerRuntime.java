@@ -1,6 +1,7 @@
 package com.progmethgame.server;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
@@ -36,7 +37,7 @@ public class ServerRuntime implements ServerBusListener, Disposable, ServerConte
 	ServerBus bus;
 	Random rand;
 	
-	public ServerRuntime() throws IOException, GameError {
+	public ServerRuntime() throws IOException {
 		this.map = new GameMap();
 		this.entities = new HashMap<UUID, Entity>();
 		this.rand = new Random();
@@ -223,6 +224,11 @@ public class ServerRuntime implements ServerBusListener, Disposable, ServerConte
 			addEntity(e);
 			break;
 		}
+		
+		case "reset": {
+			reset();
+			break;
+		}
 			
 		default:
 			break;
@@ -238,6 +244,18 @@ public class ServerRuntime implements ServerBusListener, Disposable, ServerConte
 	@Override
 	public void playSound(SoundType s) {
 		bus.sendEvent(null, new ServerPlaySoundEvent(s));
+	}
+	
+	@Override
+	public void reset() {
+		entities.clear();
+		entitiesAddQueue.clear();
+		entitiesRemovalQueue.clear();
+		map = new GameMap();
+		players.clear();
+		for (UUID id: bus.getConnectionUUIDs()) {
+			onClientJoin(id);
+		}
 	}
 
 }
