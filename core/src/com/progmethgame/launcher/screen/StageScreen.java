@@ -5,10 +5,18 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+/**
+ * A screen that display a stage
+ */
 public class StageScreen implements Screen {
 
+	/** Current stage */
 	private Stage stage;
 
+	/**
+	 *  Set a current stage
+	 * @param stage stage to show
+	 */
 	public void setStage(Stage stage) {
 		this.stage = stage;
 		show();

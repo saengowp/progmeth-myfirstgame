@@ -1,6 +1,13 @@
 package com.progmethgame.server;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -12,46 +19,76 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
+import com.progmethgame.common.GameConfig;
 import com.progmethgame.server.blocks.Block;
 import com.progmethgame.server.blocks.BlockManager;
 import com.progmethgame.server.entities.Player;
 
+/**
+ * Store map's state and managed entity's interaction with the map
+ */
 public class GameMap {
 	
+	/** 2d array of map's block id */
 	private int map[][];
-	private int mapWidth, mapHeight;
+	
+	/** width of the map */
+	private int mapWidth;
+	
+	/** height of the map */
+	private int mapHeight;
+	
+	/** List of available spawn location */
 	private final Vector2[] spawnPoints = {new Vector2(2, 2), new Vector2(18, 18)};
+	
+	/** Index of the next spawn location*/
 	private int spawnPointsIdx = 0;
 	
-	public GameMap() throws GameError {
+	/**
+	 * Read and initialize the map
+	 * @throws ServerStartupError
+	 */
+	public GameMap() throws ServerStartupError {
 		Gdx.app.debug("Map", "Initializing");
 		try {
 			parseMap();
-		} catch (ParserConfigurationException | SAXException | IOException e) {
-			throw new GameError("Map Load fail", e);
+		} catch (MapParserException e) {
+			throw new ServerStartupError("Map Load fail", e);
 		}
 		
 		Gdx.app.debug("Map", "Map initialized");
 	}
 	
-	private void parseMap() throws ParserConfigurationException, SAXException, IOException {
-		FileHandle file = Gdx.files.internal("map/map.tmx");
+	/**
+	 * Parse the map file into 2d block id array.
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 */
+	private void parseMap() throws MapParserException {
 		DocumentBuilderFactory dbF = DocumentBuilderFactory.newInstance();
-		DocumentBuilder db = dbF.newDocumentBuilder();
-		Document doc = db.parse(file.read());
+		DocumentBuilder db;
+		try {
+			db = dbF.newDocumentBuilder();
+		} catch (ParserConfigurationException e) {
+			throw new MapParserException("Error while initializing document builder", e);
+		}
+		
+		Document doc;
+		try (InputStream s = ClassLoader.getSystemResourceAsStream(GameConfig.MAP_FILEPATH)){
+			doc = db.parse(s);
+		} catch (SAXException | IOException e) {
+			throw new MapParserException("Error whild XML parsing the map file", e);
+		}
 		
 		NodeList layers = doc.getElementsByTagName("layer");
 		Node tilelayer = layers.item(0);
 		NodeList layerchild = tilelayer.getChildNodes();
 		int width = Integer.valueOf(tilelayer.getAttributes().getNamedItem("width").getNodeValue());
 		int height = Integer.valueOf(tilelayer.getAttributes().getNamedItem("height").getNodeValue());
-		String data = "";
+		String data = null;
 		for (int i = 0; i < layerchild.getLength(); i++) {
 			Node n = layerchild.item(i);
 			if (n.getNodeName() == "data") {
@@ -59,6 +96,9 @@ public class GameMap {
 				data = n.getTextContent();
 			}
 		}
+		
+		if (data == null)
+			throw new MapParserException("No data found");
 		
 		
 		Gdx.app.debug("Map Data","W " + width + "H " + height);
@@ -87,20 +127,45 @@ public class GameMap {
 		this.mapWidth = width;
 	}
 	
+	/**
+	 * Retriev the block at specified position
+	 * @param x
+	 * @param y
+	 * @return Block at that location or null if there's no block there
+	 */
 	public Block getBlock(int x, int y) {
 		return (x >= 0 && x < mapWidth && y >= 0 && y < mapHeight) ? BlockManager.fromId(map[x][y]):null;
 	}
 	
+	/**
+	 * Initialize the player's state
+	 * 
+	 * @param player
+	 */
 	public void onPlayerEnter(Player player) {
 		player.getPosition().set(spawnPoints[spawnPointsIdx++]);
 		spawnPointsIdx %= spawnPoints.length;
 	}
 	
+	/**
+	 * @return Map's width
+	 */
 	public int getWidth() {
 		return mapWidth;
 	}
 	
+	/**
+	 * 
+	 * @return Map's height
+	 */
 	public int getHeight() {
 		return mapHeight;
+	}
+
+	/**
+	 *  Reset the map
+	 */
+	public void reset() {
+		this.spawnPointsIdx = 0;
 	}
 }

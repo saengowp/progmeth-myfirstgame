@@ -8,10 +8,26 @@ import com.badlogic.gdx.utils.Disposable;
 import com.progmethgame.client.ClientEntity;
 import com.progmethgame.network.ClientBus;
 
+/**
+ * Client's context. Provides client's data interface and action
+ */
 public interface ClientContext extends Disposable{
 	
+	/**
+	 * Get AssetManager
+	 * @return
+	 */
 	public AssetManager getAssetManager();
+	
+	/**
+	 * Get client-server's communication bus.
+	 * @return
+	 */
 	public ClientBus getNetworkBus();
+	
+	/**
+	 * Quit the game and return to main screen.
+	 */
 	public void quit();
 	
 	/**
@@ -20,7 +36,7 @@ public interface ClientContext extends Disposable{
 	public void tick(float delta);
 	
 	/**
-	 * Return unmodifiable mapping of all entities.
+	 * Return unmodifiable list of all entities.
 	 */
 	public Map<UUID, ClientEntity> getEntities();
 	

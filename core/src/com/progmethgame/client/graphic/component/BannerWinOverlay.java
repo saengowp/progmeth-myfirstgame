@@ -10,13 +10,21 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.progmethgame.client.ClientEntity;
 import com.progmethgame.common.context.GameContext;
 
+/**
+ * Overlay for Victory or Lose message display
+ */
 public class BannerWinOverlay extends Overlay {
 	
+	/** Player to show winning message to*/
 	private UUID winningPlayer;
 	
 	public BannerWinOverlay() {
 	}
 	
+	/**
+	 * Create banner which show winPlayer as the winner
+	 * @param winPlayer
+	 */
 	public BannerWinOverlay(UUID winPlayer) {
 		this.winningPlayer = winPlayer;
 	}
@@ -29,8 +37,6 @@ public class BannerWinOverlay extends Overlay {
 		} else {
 			text = "Game Over";
 		}
-		
-		
 		
 		BitmapFont fnt = GameContext.getClientContext().getAssetManager().get("fontbig.ttf", BitmapFont.class);
 		GlyphLayout textl = new GlyphLayout(fnt, text);

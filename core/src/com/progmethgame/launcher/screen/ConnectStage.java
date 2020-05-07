@@ -3,24 +3,31 @@ package com.progmethgame.launcher.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.progmethgame.launcher.GameLauncher;
 
+/**
+ * Display connection and main menu dialog
+ */
 public class ConnectStage extends BaseStage {
 	
+	/** Background texture */
 	private Texture background;
+	
+	/** Background's viewport */
 	private Viewport bgView;
 	
-	public ConnectStage(GameLauncher game) {
+	/**
+	 * Create a new connect stage
+	 * @param game
+	 */
+	public ConnectStage() {
 		super();
 		
 		Table table = new Table();
@@ -34,7 +41,7 @@ public class ConnectStage extends BaseStage {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				super.clicked(event, x, y);
-				game.connect(null);
+				GameLauncher.getLauncher().connect(null);
 			}
 		});
 		
@@ -51,7 +58,7 @@ public class ConnectStage extends BaseStage {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				super.clicked(event, x, y);
-				game.connect(ipaddrfield.getText());
+				GameLauncher.getLauncher().connect(ipaddrfield.getText());
 			}
 		});
 		table.add(joinBtn);
@@ -64,6 +71,7 @@ public class ConnectStage extends BaseStage {
 	
 	@Override
 	public void draw() {
+		// Render the background
 		this.bgView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 		this.bgView.apply();
 		getBatch().setProjectionMatrix(this.bgView.getCamera().combined);
@@ -72,6 +80,8 @@ public class ConnectStage extends BaseStage {
 		getBatch().end();
 		getViewport().apply();
 		getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+		
+		// Render the UI
 		super.draw();
 	}
 	

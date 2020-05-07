@@ -6,9 +6,16 @@ import com.progmethgame.common.EntityData;
 import com.progmethgame.network.ClientBusListener;
 import com.progmethgame.network.event.base.ServerEvent;
 
+/**
+ * Server added an entity
+ *
+ */
 public class ServerAddEntityEvent extends ServerEvent {
 
+	/** id of the added entity */
 	public UUID entityId;
+	
+	/** data of the added entity */
 	public EntityData data;
 	
 	@Override

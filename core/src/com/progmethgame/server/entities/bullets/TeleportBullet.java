@@ -16,7 +16,7 @@ public class TeleportBullet extends Bullet {
 		Vector2 ownerPosition = owner.getPosition().cpy();
 		Vector2 hitPosition = hitPlayer.getPosition().cpy();
 		//swap position
-		hitPlayer.setPosition(ownerPosition);
-		owner.setPosition(hitPosition);
+		hitPlayer.getPosition().set(ownerPosition);
+		owner.getPosition().set(hitPosition);
 	}
 }

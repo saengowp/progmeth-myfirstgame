@@ -10,7 +10,6 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.progmethgame.client.graphic.component.StatusOverlay;
 import com.progmethgame.client.graphic.component.BannerWinOverlay;
-import com.progmethgame.client.graphic.component.Healthbar;
 import com.progmethgame.client.graphic.component.HudOverlay;
 import com.progmethgame.common.DisplayType;
 import com.progmethgame.common.EntityData;
@@ -30,10 +29,18 @@ import com.progmethgame.network.event.server.ServerReadyEvent;
 import com.progmethgame.network.event.server.ServerRemoveEntityEvent;
 import com.progmethgame.network.event.server.ServerResetEvent;
 import com.progmethgame.network.event.server.ServerUpdateEntityEvent;
-import com.progmethgame.server.NetworkPacket;
-import com.progmethgame.server.entities.Entity;
 
+/**
+ * Utility class for configuring a kyro serializer.
+ * @author pigt
+ *
+ */
 public class SerializationUtil {
+	
+	/**
+	 * Set up kyro serializer
+	 * @param k kyro
+	 */
 	public static void registerKryo(Kryo k) {
 		Class[] dataType = {
 			NetworkPacket.class,
@@ -69,6 +76,10 @@ public class SerializationUtil {
 	}
 }
 
+/**
+ * UUID Serializer
+ *
+ */
 class UUIDSerializer extends Serializer<UUID> {
 
 	@Override

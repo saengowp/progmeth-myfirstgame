@@ -92,7 +92,7 @@ public class Player extends Entity{
 		
 		this.hud = new HudOverlay();
 		this.hud.health = 0;
-		this.hud.text = "";
+		this.hud.weaponName = "";
 		
 		this.healthOv = new StatusOverlay();
 		this.healthOv.health = 0;
@@ -182,10 +182,9 @@ public class Player extends Entity{
 		this.velocity.set(walkDirection.nor().scl(speed));
 		
 		this.hud.health = hp/100f;
-		this.hud.text = "Debug: Gun type:" + (this.gunSlot[this.gunIndex].toString());
+		this.hud.weaponName = "Debug: Gun type:" + (this.gunSlot[this.gunIndex].toString());
 		this.healthOv.health = hp/100f;
 		this.hud.gunIcon = bulletFromGun(holdedGun).getType();
-		this.hud.effectIcon = effect != null ? effect.getDisplayType() : null;
 		this.healthOv.effectIcon = effect != null ? effect.getDisplayType() : null;
 	}
 	

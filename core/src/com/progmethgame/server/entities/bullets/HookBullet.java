@@ -16,6 +16,6 @@ public class HookBullet extends Bullet {
 	public void onCollide(Player hitPlayer) {
 		//set velocity to hooked player
 		hitPlayer.setEffect(new Stunt());
-		hitPlayer.setVelocity((owner.getPosition().cpy().add(hitPlayer.getPosition().cpy().scl(-1)).nor().scl(hookSpeed)));
+		hitPlayer.getVelocity().set((owner.getPosition().cpy().add(hitPlayer.getPosition().cpy().scl(-1)).nor().scl(hookSpeed)));
 	}
 }

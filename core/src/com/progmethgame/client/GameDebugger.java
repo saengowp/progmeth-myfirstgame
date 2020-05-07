@@ -12,29 +12,40 @@ import com.progmethgame.common.context.GameContext;
 import com.progmethgame.network.event.client.ClientDebugEvent;
 
 /** Debugging Interface.
- *  It provides debugging command line's rendering, input, and network component.
+ *  Provides debugging command line's rendering, input, and networking component.
  *
  */
 public class GameDebugger implements InputProcessor {
 	
+	/** Debugger is activated by user? */
 	private boolean activated = false;
-	private final AssetManager assets;
+	
+	/** Current command text field */
 	private String command = "";
+	
+	/** Command history */
 	private ArrayList<String> history = new ArrayList<String>();
-	private int histPtr = 0;
 	
-	public GameDebugger() {
-		this.assets = GameContext.getClientContext().getAssetManager();
-	}
+	/** Index of command selected by the user relative to the rear */
+	private int histPtr;
 	
+	/**
+	 * Render the debugger's UI
+	 * @param batch screen's batch
+	 * @param hudViewport screen's viewport
+	 */
 	public void render(Batch batch, Viewport hudViewport) {
 		if (!activated)
 			return;
 		
+		AssetManager assets = GameContext.getClientContext().getAssetManager();
 		assets.get("font.ttf", BitmapFont.class).draw(batch, "DEBUGGER: [ESC] to close [ENTER] to trigger the command", 0, hudViewport.getScreenHeight());
 		assets.get("font.ttf", BitmapFont.class).draw(batch, "COMMAND:" + command, 0, 20);
 	}
 	
+	/**
+	 * Send current command to the server
+	 */
 	private void sendDebug() {
 		Gdx.app.log("Debugger", "Sending " + command);
 		GameContext.getClientContext().getNetworkBus().sendEvent(new ClientDebugEvent(command));
@@ -47,9 +58,7 @@ public class GameDebugger implements InputProcessor {
 
 	@Override
 	public boolean keyUp(int keycode) {
-		
 		switch (keycode) {
-		
 		case Keys.ENTER:
 			if (activated) {
 				sendDebug();
@@ -64,26 +73,22 @@ public class GameDebugger implements InputProcessor {
 				return true;
 			}
 			break;
-			
 		case Keys.SLASH:
 			if (!activated)
 				activated = true;
 			break;
-			
 		case Keys.UP:
 			if (activated && histPtr + 1 < history.size()) {
 				histPtr++;
 				command = history.get(history.size() - histPtr - 1);
 			}
 			break;
-			
 		case Keys.DOWN:
 			if (activated && histPtr -1 >= 0) {
 				histPtr--;
 				command = history.get(history.size() - histPtr - 1);
 			}
 			break;
-		
 		default:
 			break;
 		}

@@ -4,78 +4,76 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.progmethgame.common.context.GameContext;
-import com.progmethgame.network.ClientBus;
 import com.progmethgame.network.event.client.PlayerFireEvent;
 import com.progmethgame.network.event.client.PlayerMovementEvent;
 import com.progmethgame.network.event.client.PlayerSwapGunEvent;
 
-public class GameController implements InputProcessor {
+/**
+ * Game's input device processor
+ */
+public class GameInputController implements InputProcessor {
 	
+	/** Player's movement direction vector */
 	private final Vector2 movementVec;
-	private final ClientBus bus;
 	
-	public GameController() {
+	/** Initialize controller */
+	public GameInputController() {
 		this.movementVec = new Vector2();
-		this.bus = GameContext.getClientContext().getNetworkBus();
 	}
 	
+	/** Notify direction vector changes to the server */
 	private void notifyMovement() {
 		PlayerMovementEvent e = new PlayerMovementEvent();
 		e.movementVec = movementVec;
-		bus.sendEvent(e);
+		GameContext.getClientContext().getNetworkBus().sendEvent(e);
 	}
 
 	@Override
 	public boolean keyDown(int keycode) {
-		Vector2 control = movementVec;
-
 		switch (keycode) {
 		case Keys.W:
-			control.y += 1;
+			movementVec.y += 1;
 			notifyMovement();
 			return true;
 		case Keys.A:
-			control.x += -1;
+			movementVec.x += -1;
 			notifyMovement();
 			return true;
 		case Keys.S:
-			control.y += -1;
+			movementVec.y += -1;
 			notifyMovement();
 			return true;
 		case Keys.D:
-			control.x += 1; 
+			movementVec.x += 1; 
 			notifyMovement();
 			return true;
 		case Keys.SPACE:
-			bus.sendEvent(new PlayerFireEvent());
+			GameContext.getClientContext().getNetworkBus().sendEvent(new PlayerFireEvent());
 			return true;
 		case Keys.E:
-			bus.sendEvent(new PlayerSwapGunEvent());
+			GameContext.getClientContext().getNetworkBus().sendEvent(new PlayerSwapGunEvent());
 			return true;
 		}
-
 		return false;
 	}
 
 	@Override
 	public boolean keyUp(int keycode) {
-		Vector2 control = movementVec;
-
 		switch (keycode) {
 		case Keys.W:
-			control.y -= 1;
+			movementVec.y -= 1;
 			notifyMovement();
 			return true;
 		case Keys.A:
-			control.x -= -1;
+			movementVec.x -= -1;
 			notifyMovement();
 			return true;
 		case Keys.S:
-			control.y -= -1;
+			movementVec.y -= -1;
 			notifyMovement();
 			return true;
 		case Keys.D:
-			control.x -= 1; 
+			movementVec.x -= 1; 
 			notifyMovement();
 			return true;
 		case Keys.ESCAPE:
