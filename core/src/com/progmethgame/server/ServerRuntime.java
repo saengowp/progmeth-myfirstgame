@@ -23,6 +23,7 @@ import com.progmethgame.server.entities.Entity;
 import com.progmethgame.server.entities.Player;
 import com.progmethgame.server.entities.SmallTestEntity;
 import com.progmethgame.server.entities.TestEntity;
+import com.progmethgame.server.entities.WinningBannerEntity;
 
 public class ServerRuntime implements ServerBusListener, Disposable, ServerContext {
 	
@@ -217,6 +218,12 @@ public class ServerRuntime implements ServerBusListener, Disposable, ServerConte
 			players.get(id).dealDamge(10);
 			break;
 			
+		case "iwin": {
+			WinningBannerEntity e = new WinningBannerEntity(id);
+			addEntity(e);
+			break;
+		}
+			
 		default:
 			break;
 		}
@@ -232,4 +239,5 @@ public class ServerRuntime implements ServerBusListener, Disposable, ServerConte
 	public void playSound(SoundType s) {
 		bus.sendEvent(null, new ServerPlaySoundEvent(s));
 	}
+
 }

@@ -17,6 +17,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader.FreeTypeFontGeneratorParameters;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader.FreeTypeFontLoaderParameter;
 import com.badlogic.gdx.utils.Disposable;
@@ -83,6 +84,13 @@ public class ClientRuntime implements ClientBusListener, Disposable, ClientConte
 		fontParam.fontParameters.borderColor = Color.WHITE;
 		fontParam.fontParameters.borderWidth = 1;
 		assetsMan.load("font.ttf", BitmapFont.class, fontParam);
+		FreeTypeFontLoaderParameter fontBigParam = new FreeTypeFontLoaderParameter();
+		fontBigParam.fontFileName = "futura.ttf";
+		fontBigParam.fontParameters.size = 100;
+		fontBigParam.fontParameters.color = Color.BLACK;
+		fontBigParam.fontParameters.borderColor = Color.WHITE;
+		fontBigParam.fontParameters.borderWidth = 1;
+		assetsMan.load("fontbig.ttf", BitmapFont.class, fontBigParam);
 		
 		//Music
 		assetsMan.load("music.ogg", Music.class);
