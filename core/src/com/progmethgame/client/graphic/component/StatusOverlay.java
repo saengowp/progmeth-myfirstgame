@@ -22,7 +22,7 @@ public class StatusOverlay extends Overlay {
 		int h = (int) rect.height;
 		
 		AssetManager assetMan = GameContext.getClientContext().getAssetManager();
-		Healthbar.render(batch, x, y + h + 10, w, h/10,  health);
+		Healthbar.render(batch, x, y + h + 10, w, h/10,  health, "healthbar.png", "healthbarfill.png");
 		
 		if (effectIcon != null) {
 			Texture effectTex = assetMan.get(effectIcon.filename(), Texture.class);

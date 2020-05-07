@@ -26,16 +26,16 @@ public class HudOverlay extends Overlay {
 		
 		AssetManager assets = GameContext.getClientContext().getAssetManager();
 		Texture hudBg = assets.get("hud.png", Texture.class);
-		batch.draw(hudBg, 0, 0);
+		batch.draw(hudBg, 0, 0, 960, 540);
 		
-		Healthbar.render(batch, 10, 10, 300, 20, health);
+		Healthbar.render(batch, 150, 0, 510, 78, health, "HUDhpbarblack.png", "HUDhpbar.png");
 		
 		BitmapFont fnt = assets.get("font.ttf", BitmapFont.class);
-		fnt.draw(batch, text, 10, 400);
-		fnt.draw(batch, "Debug2: gunIcon " + gunIcon + "\n Effect Icon" + (effectIcon != null ? effectIcon.toString() : "None"), 10, 380);
+		fnt.draw(batch, text, 315, 110);
+		//fnt.draw(batch, "Debug2: gunIcon " + gunIcon + "\n Effect Icon" + (effectIcon != null ? effectIcon.toString() : "None"), 10, 380);
 		
 		Texture gunBg = assets.get(gunIcon.filename(), Texture.class);
-		batch.draw(gunBg, 10, 40, 100, 100);
+		batch.draw(gunBg, 214, 73, 60, 60);
 		
 		if (effectIcon != null) {
 			Texture effectTex = assets.get(effectIcon.filename(), Texture.class);
@@ -43,7 +43,7 @@ public class HudOverlay extends Overlay {
 		}
 		
 		Texture playerTex = assets.get(playerIcon.filename(), Texture.class);
-		batch.draw(playerTex, 230, 40, 100, 100);
+		batch.draw(playerTex, 52, 49, 138, 138);
 		
 	}
 
