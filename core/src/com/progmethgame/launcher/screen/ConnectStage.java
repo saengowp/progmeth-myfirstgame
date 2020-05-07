@@ -65,7 +65,7 @@ public class ConnectStage extends BaseStage {
 		this.addActor(table);
 		
 		this.background = new Texture("launchbg.png");
-		this.bgView = new FillViewport(500, 500);
+		this.bgView = new FillViewport(1280, 720);
 	}
 	
 	@Override
@@ -75,7 +75,7 @@ public class ConnectStage extends BaseStage {
 		this.bgView.apply();
 		getBatch().setProjectionMatrix(this.bgView.getCamera().combined);
 		getBatch().begin();
-		getBatch().draw(this.background, 0, 0, 500, 500);
+		getBatch().draw(this.background, 0, 0, 1280, 720);
 		getBatch().end();
 		getViewport().apply();
 		getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
