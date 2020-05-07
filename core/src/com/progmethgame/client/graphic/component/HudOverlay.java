@@ -37,10 +37,11 @@ public class HudOverlay extends Overlay {
 		Texture gunBg = assets.get(gunIcon.filename(), Texture.class);
 		batch.draw(gunBg, 214, 73, 60, 60);
 		
-		if (effectIcon != null) {
+		/*if (effectIcon != null) {
 			Texture effectTex = assets.get(effectIcon.filename(), Texture.class);
 			batch.draw(effectTex ,120, 40, 100, 100);
 		}
+		*/
 		
 		Texture playerTex = assets.get(playerIcon.filename(), Texture.class);
 		batch.draw(playerTex, 52, 49, 138, 138);
