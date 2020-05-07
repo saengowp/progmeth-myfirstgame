@@ -41,7 +41,7 @@ public class ClientEntity extends Sprite{
 	
 	/**
 	 * Create new entity from data
-	 * @param data
+	 * @param data entity's data
 	 */
 	public ClientEntity(EntityData data) {
 		this.lastPosBuffer = new Vector2[2];
@@ -83,7 +83,7 @@ public class ClientEntity extends Sprite{
 
 	/**
 	 *  Update this entity's state using EntityData
-	 * @param data
+	 * @param data updated data
 	 */
 	public void update(EntityData data) {
 		this.gid = data.id;

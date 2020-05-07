@@ -1,13 +1,7 @@
 package com.progmethgame.server;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -19,7 +13,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 import com.progmethgame.common.GameConfig;
 import com.progmethgame.server.blocks.Block;
@@ -63,9 +56,7 @@ public class GameMap {
 	
 	/**
 	 * Parse the map file into 2d block id array.
-	 * @throws ParserConfigurationException
-	 * @throws SAXException
-	 * @throws IOException
+	 * @throws MapParserException
 	 */
 	private void parseMap() throws MapParserException {
 		DocumentBuilderFactory dbF = DocumentBuilderFactory.newInstance();

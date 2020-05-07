@@ -25,7 +25,6 @@ public class ConnectStage extends BaseStage {
 	
 	/**
 	 * Create a new connect stage
-	 * @param game
 	 */
 	public ConnectStage() {
 		super();
