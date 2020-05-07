@@ -1,7 +1,6 @@
 package com.progmethgame.server;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
@@ -26,31 +25,60 @@ import com.progmethgame.server.entities.SmallTestEntity;
 import com.progmethgame.server.entities.TestEntity;
 import com.progmethgame.server.entities.WinningBannerEntity;
 
+/**
+ * Manage the game state.
+ * 
+ * This class processes the client's event, manage the entities, calculate the physic.
+ *
+ */
 public class ServerRuntime implements ServerBusListener, Disposable, ServerContext {
 	
+	/** Current game's map */
 	private GameMap map;
+	
+	/** List of entities */
 	private HashMap<UUID, Entity> entities;
+	
+	/** List of players */
 	private HashMap<UUID, Player> players;
 	
-	private final Queue<Entity> entitiesAddQueue, entitiesRemovalQueue;
+	/** Queue for entities to be added */
+	private final Queue<Entity> entitiesAddQueue;
+	
+	/** Queue for entities to be removed */
+	private final Queue<Entity> entitiesRemovalQueue;
 
+	/** Communication bus */
 	ServerBus bus;
+	
+	/** Random number generator */
 	Random rand;
 	
-	public ServerRuntime() throws IOException {
+	/**
+	 * Create a server and aquire the port
+	 * @throws ServerStartupError
+	 */
+	public ServerRuntime() throws ServerStartupError {
 		this.map = new GameMap();
 		this.entities = new HashMap<UUID, Entity>();
 		this.rand = new Random();
 		this.players = new HashMap<UUID, Player>();
 		this.entitiesAddQueue = new Queue<Entity>();
 		this.entitiesRemovalQueue = new Queue<Entity>();
-		this.bus = new ServerBus(this);
+		try {
+			this.bus = new ServerBus(this);
+		} catch (IOException e) {
+			throw new ServerStartupError("Can't initialize the bus:\nIOError:" + e.getMessage(), e);
+		}
 	}
 	
+	/**
+	 * Perform physic simulation on entities
+	 * @param delta time-step
+	 */
 	private void simulatePhysic(float delta) {
 		for (Entity e : entities.values()) {
 			e.getPosition().add(e.getVelocity().cpy().scl(delta));
-			
 			
 			//Collision
 			int pX = (int) e.getPosition().x, pY = (int) e.getPosition().y;
@@ -81,7 +109,6 @@ public class ServerRuntime implements ServerBusListener, Disposable, ServerConte
 		}
 		
 		//Entity-Entity collision
-		
 		HashSet<Entity> checked = new HashSet<Entity>();
 		for (Entity a : entities.values()) {
 			checked.add(a);
@@ -97,7 +124,6 @@ public class ServerRuntime implements ServerBusListener, Disposable, ServerConte
 		}
 		
 		//Entity - Floor collision
-		
 		for (Entity e: entities.values()) {
 			e.onWalkOn(map.getBlock(Math.round(e.getPosition().x), Math.round(e.getPosition().y)));
 		}
@@ -140,8 +166,6 @@ public class ServerRuntime implements ServerBusListener, Disposable, ServerConte
 		//Physic
 		simulatePhysic(delta);
 		
-		
-		
 		//Sync entities data
 		for (Entity e : entities.values()) {
 			ServerUpdateEntityEvent event = new ServerUpdateEntityEvent();
@@ -157,13 +181,11 @@ public class ServerRuntime implements ServerBusListener, Disposable, ServerConte
 		
 		players.put(id, player);
 		
-		//======= Sync game state ===============================================
-		
+		//Sync game state
 		bus.sendEvent(id, new ServerResetEvent());
-		
 		addEntity(player);
 		
-		//Sync entities
+		//Sync other entities
 		for (Entity e : entities.values()) {
 			ServerAddEntityEvent addevent = new ServerAddEntityEvent();
 			addevent.entityId = e.getGid();
@@ -171,6 +193,7 @@ public class ServerRuntime implements ServerBusListener, Disposable, ServerConte
 			bus.sendEvent(id, addevent);
 		}
 		
+		//Tell the client we're ready
 		ServerReadyEvent readyevent = new ServerReadyEvent();
 		readyevent.assignedId = id;
 		bus.sendEvent(id, readyevent);
@@ -218,22 +241,18 @@ public class ServerRuntime implements ServerBusListener, Disposable, ServerConte
 		case "hurtme":
 			players.get(id).dealDamge(10);
 			break;
-			
 		case "iwin": {
 			WinningBannerEntity e = new WinningBannerEntity(id);
 			addEntity(e);
 			break;
 		}
-		
 		case "reset": {
 			reset();
 			break;
 		}
-			
 		default:
 			break;
 		}
-		
 	}
 
 	@Override
@@ -251,7 +270,7 @@ public class ServerRuntime implements ServerBusListener, Disposable, ServerConte
 		entities.clear();
 		entitiesAddQueue.clear();
 		entitiesRemovalQueue.clear();
-		map = new GameMap();
+		map.reset();
 		players.clear();
 		for (UUID id: bus.getConnectionUUIDs()) {
 			onClientJoin(id);

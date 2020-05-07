@@ -4,12 +4,13 @@ import java.util.UUID;
 
 import com.progmethgame.network.ServerBusListener;
 
-/** Event emitted from game clients
- *
+/** 
+ * Event emitted from the game clients
  */
 public abstract class ClientEvent extends GameEvent<ServerBusListener> {
 	
-	/** ID of the client connection who emitted this event
+	/** 
+	 * ID of the client connection who emitted this event
 	 */
 	public UUID clientId;
 	

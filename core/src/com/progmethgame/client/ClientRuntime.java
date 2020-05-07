@@ -17,7 +17,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader.FreeTypeFontGeneratorParameters;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader.FreeTypeFontLoaderParameter;
 import com.badlogic.gdx.utils.Disposable;
@@ -30,21 +29,40 @@ import com.progmethgame.launcher.GameLauncher;
 import com.progmethgame.network.ClientBus;
 import com.progmethgame.network.ClientBusListener;
 
+/**
+ * Store and manage the game's state
+ */
 public class ClientRuntime implements ClientBusListener, Disposable, ClientContext {
+	
+	/** Screen */
 	private GameScreen screen;
+	
+	/** Client id assigned by the server. This is also the controllable player's entity UUID */
 	private UUID clientId;
+	
+	/** Communication bus */
 	private ClientBus bus;
+	
+	/** Store entities*/
 	private HashMap<UUID, ClientEntity> entities;
+	
+	/** Assets loader */
 	private AssetManager assetsMan;
 	
+	/**
+	 * Create new runtime, connect to the server and display the game.
+	 * @param ipaddr server's IP address
+	 */
 	public ClientRuntime(String ipaddr) {
+		GameLauncher.getLauncher().displayMessage("Waiting...");
+		
+		// Initialization
 		this.entities = new HashMap<UUID, ClientEntity>();
 		this.assetsMan = new AssetManager();
 		initAssets();
-		
-		GameLauncher.getLauncher().displayMessage("Waiting...");
 		this.assetsMan.finishLoading();
 		
+		// Initialize the bus (time-consuming)
 		new Thread(() -> {
 			Gdx.app.postRunnable(()->GameLauncher.getLauncher().displayMessage("Connecting... " + ipaddr));
 			
@@ -52,7 +70,7 @@ public class ClientRuntime implements ClientBusListener, Disposable, ClientConte
 				bus = new ClientBus(ipaddr, this);
 			} catch (IOException e) {
 				Gdx.app.error("ClientBus", "Error while initializing client bus", e);
-				Gdx.app.postRunnable(()->GameLauncher.getLauncher().displayMessageQuitable("Error " + e.getMessage()));
+				Gdx.app.postRunnable(()->GameLauncher.getLauncher().displayError(e));
 				return;
 			}
 			
@@ -60,19 +78,22 @@ public class ClientRuntime implements ClientBusListener, Disposable, ClientConte
 		}).start();
 	}
 	
+	/**
+	 * Initialize all assets required
+	 */
 	private void initAssets() {
-		//Texture
+		//DisplayType's textures
 		for (DisplayType t : DisplayType.values()) {
 			assetsMan.load(t.filename(), Texture.class);
 		}
 		
+		// Custom textures
 		assetsMan.load("hud.png", Texture.class);
 		assetsMan.load("healthbar.png", Texture.class);
 		assetsMan.load("healthbarfill.png", Texture.class);
 		assetsMan.load("HUDhpbarblack.png", Texture.class);
 		assetsMan.load("HUDhpbar.png", Texture.class);
-		
-		
+			
 		//Font
 		FileHandleResolver resolver = new InternalFileHandleResolver();
 		assetsMan.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
@@ -101,7 +122,10 @@ public class ClientRuntime implements ClientBusListener, Disposable, ClientConte
 		}
 	}
 	
-	
+	@Override
+	public Map<UUID, ClientEntity> getEntities() {
+		return Collections.unmodifiableMap(entities);
+	}
 	
 	@Override
 	public AssetManager getAssetManager() {
@@ -117,14 +141,10 @@ public class ClientRuntime implements ClientBusListener, Disposable, ClientConte
 	public UUID getClientUUID() {
 		return clientId;
 	}
-	
-	public Map<UUID, ClientEntity> getEntities() {
-		return Collections.unmodifiableMap(entities);
-	}
 
 	@Override
 	public void onEntityAdd(UUID id, EntityData data) {
-		entities.put(id, ClientEntity.fromData(data, this));
+		entities.put(id, new ClientEntity(data));
 	}
 
 	@Override
@@ -144,10 +164,11 @@ public class ClientRuntime implements ClientBusListener, Disposable, ClientConte
 		Gdx.app.log("ClientRuntime", "Assigned player id " + assignedId.toString());
 		this.clientId = assignedId;
 		
+		// Init screen
 		this.screen = new GameScreen();
 		GameLauncher.getLauncher().setScreen(screen);
 		
-		//Doodoood doo doo dud
+		// Init music
 		Music music = assetsMan.get("music.ogg", Music.class);
 		music.setLooping(true);
 		music.setVolume(GameConfig.AUDIO_VOLUME);

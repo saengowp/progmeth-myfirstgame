@@ -1,4 +1,4 @@
-package com.progmethgame.server;
+package com.progmethgame.network;
 
 import java.util.ArrayList;
 

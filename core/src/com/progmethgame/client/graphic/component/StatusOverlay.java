@@ -9,9 +9,15 @@ import com.progmethgame.client.ClientEntity;
 import com.progmethgame.common.DisplayType;
 import com.progmethgame.common.context.GameContext;
 
+/**
+ * Displays status on top of the player's character
+ */
 public class StatusOverlay extends Overlay {
 
+	/** Player's health */
 	public float health;
+	
+	/** Effect applied to the player */
 	public DisplayType effectIcon;
 	
 	@Override
@@ -28,7 +34,6 @@ public class StatusOverlay extends Overlay {
 			Texture effectTex = assetMan.get(effectIcon.filename(), Texture.class);
 			batch.draw(effectTex, x , y, w, h);
 		}
-		
 	}
 
 }

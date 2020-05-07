@@ -1,8 +1,7 @@
 package com.progmethgame.common;
 
 /**
- * Represent different available texture on the client.
- *
+ * Represent textures available on the client.
  */
 public enum DisplayType {
 	PLAYER("player.png"),
@@ -26,17 +25,23 @@ public enum DisplayType {
 	PLAYER_RED("players/TopRed.png"),
 	PLAYER_RED_ICON("players/Red.png");
 	
-	
-	
 	/**
 	 *  Location of the file associated with this DisplayType
 	 */
 	private final String filename;
 	
+	/**
+	 * Create new DisplayType
+	 * @param filename path to texture's file
+	 */
 	private DisplayType(String filename) {
 		this.filename = filename;
 	}
 	
+	/**
+	 * Get texture's file path.
+	 * @return
+	 */
 	public String filename() {
 		return this.filename;
 	}

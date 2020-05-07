@@ -9,6 +9,9 @@ import com.progmethgame.common.DisplayType;
 import com.progmethgame.common.EntityData;
 import com.progmethgame.server.blocks.Block;
 
+/**
+ * Represent a logical entity on the server
+ */
 public abstract class Entity implements Tickable {
 
 	protected Vector2 position;

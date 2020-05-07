@@ -18,33 +18,43 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.progmethgame.common.context.ClientContext;
+import com.progmethgame.common.GameConfig;
 import com.progmethgame.common.context.GameContext;
 
+/**
+ * Handle rendering of the game
+ */
 public class GameScreen implements Screen {
 	
+	/** Game's map */
 	private TiledMap map;
+	
+	/** Map's renderer */
 	private TiledMapRenderer mapRenderer;
+	
+	/** Game's camera */
 	private OrthographicCamera camera;
+	
+	/** Game's viewport */
 	private Viewport viewport;
+	
+	/** Rendering Batch */
 	private Batch batch;
 	
+	/** Screen's viewport */
 	private Viewport hudViewport;
 	
+	/** Debugger UI */
 	private GameDebugger debugger;
-	private ClientContext context;
-	
 
 	public GameScreen() {
-		this.map = new TmxMapLoader().load("map/map.tmx");
+		this.map = new TmxMapLoader().load(GameConfig.MAP_FILEPATH);
 		this.mapRenderer = new OrthogonalTiledMapRenderer(map, 1f/map.getProperties().get("tilewidth", Integer.class));
 		this.camera = new OrthographicCamera();
-		this.viewport = new FillViewport(20, 20, this.camera);
+		this.viewport = new FillViewport(GameConfig.CLIENT_MAP_VIEWPORT_SIZE, GameConfig.CLIENT_MAP_VIEWPORT_SIZE, this.camera);
 		this.batch = new SpriteBatch();
 		this.hudViewport = new ScreenViewport();
-		
 		this.debugger = new GameDebugger();
-		this.context = GameContext.getClientContext();
 	}
 	
 	
@@ -53,8 +63,11 @@ public class GameScreen implements Screen {
 		setupInput();
 	}
 	
+	/**
+	 * Setup input controller
+	 */
 	private void setupInput() {
-		GameController controller = new GameController();
+		GameInputController controller = new GameInputController();
 		InputMultiplexer inputMultiplexer = new InputMultiplexer(debugger, controller); 
 		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
@@ -62,37 +75,37 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
+		// Apply time-step
+		GameContext.getClientContext().tick(delta);
+
+		// Follows the player
+		ClientEntity player = GameContext.getClientContext().getEntities().get(GameContext.getClientContext().getClientUUID());
+		camera.position.lerp(new Vector3(player.getX(), player.getY(), 0f) , Math.min(1, 5f * delta));
+		
+		// Clear the screen
 		Gdx.gl.glClearColor(1f, 1f, 1f, 1f );
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		context.tick(delta);
-
-		ClientEntity player = context.getEntities().get(context.getClientUUID());
-		camera.position.lerp(new Vector3(player.getX(), player.getY(), 0f) , Math.min(1, 5f * delta));
-		
-		
+		// Render the entity
 		camera.update();
 		viewport.apply();
 		mapRenderer.setView(camera);
 		mapRenderer.render();
-		
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		
-		for (ClientEntity e : context.getEntities().values()) {
+		for (ClientEntity e : GameContext.getClientContext().getEntities().values()) {
 			e.draw(batch);
 		}
-		
 		batch.end();
 		
-		
+		// Render the HUD and Debugger
 		Camera hudCam =  hudViewport.getCamera();
 		hudCam.update();
 		hudViewport.apply();
-		
 		batch.setProjectionMatrix(hudCam.combined);
 		batch.begin();
-		for (ClientEntity e : context.getEntities().values()) {
+		for (ClientEntity e : GameContext.getClientContext().getEntities().values()) {
+			//Project the entity to screen coordinate
 			Rectangle rect = new Rectangle();
 			Vector2 posvec = new Vector2(e.getX(), e.getY());
 			viewport.project(posvec);
@@ -101,6 +114,7 @@ public class GameScreen implements Screen {
 			rect.setPosition(posvec);
 			rect.setSize(uvec.x - posvec.x, uvec.y - posvec.y);
 			
+			//Draw
 			e.drawOverlay(hudViewport, batch, rect);
 		}
 		debugger.render(batch, hudViewport);
@@ -131,8 +145,6 @@ public class GameScreen implements Screen {
 	@Override
 	public void dispose() {
 		this.map.dispose();
-		
-		//this.player.dispose();
 	}
 
 }
