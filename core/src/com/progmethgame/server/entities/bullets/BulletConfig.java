@@ -3,8 +3,8 @@ package com.progmethgame.server.entities.bullets;
 public final class BulletConfig {
 	
 	//Hook Bullet
-	public static final float HOOK_BLLET_SPEED = 9.0f;
-	public static final float HOOK_SPEED = 5.0f;
+	public static final float HOOK_BLLET_SPEED = 6.0f;
+	public static final float HOOK_SPEED = 15.0f;
 
 	//Teleport Bullet
 	public static final float TELEPORT_BULLET_SPEED = 9.0f;

@@ -13,5 +13,5 @@ public final class EffectConfig {
 	public static final float SLOW_RATE = 0.5f;
 	
 	//Stunt
-	public static final int STUNT_MAX_DURATION = 2;
+	public static final int STUNT_MAX_DURATION = 1;
 }

@@ -62,6 +62,7 @@ public class Player extends Entity{
 	private float speed;
 	private Vector2 walkDirection;
 	private boolean movable;
+	private boolean confuse;
 	
 	HudOverlay hud;
 	StatusOverlay healthOv;
@@ -74,6 +75,7 @@ public class Player extends Entity{
 		this.tickCount = 0;
 		this.walkDirection = new Vector2();
 		this.movable = true;
+		this.confuse = false;
 		
 		this.faceDirection = new Vector2(1,0);
 		this.gunSlot = new Gun[] { 
@@ -113,6 +115,10 @@ public class Player extends Entity{
 	public void setMovable(boolean movable) {
 		this.movable = movable;
 	}
+	
+	public void setConfuse(boolean confuse) {
+		this.confuse = confuse;
+	}
 
 	public float getSpeed() {
 		return speed;
@@ -135,23 +141,23 @@ public class Player extends Entity{
 	}
 
 	public void setEffect(StatusEffect effect) {
-		//check if no effect
-		if (this.effect == null) {
-			this.effect = effect;
-			if(effect!=null) {
-				this.effect.getEffect(this);
+		//check if effect is null
+		if(effect ==null) {
+			if(this.effect != null) {
+				//remove remaining effect
+				this.effect.removeEffect(this);
 			}
+			this.effect = null;
 			
-		}else if (this.effect.type == effect.type) {
-			//expand the duration
-			this.effect.setDuration(effect.getMaxDuration());
 		}else {
-			//remove old effect and set new effect
-			this.effect.removeEffect(this);
-			this.effect = effect;
-			if(effect!=null) {
-				this.effect.getEffect(this);
+			if(this.effect!=null) {
+					//remove remaining effect
+					this.effect.removeEffect(this);
 			}
+			//set new effect
+			this.effect = effect;
+			//get effect
+			this.effect.getEffect(this);
 		}
 	}
 	
@@ -178,9 +184,9 @@ public class Player extends Entity{
 		}
 		this.tickCount++;
 		this.tickCount %= (int) 1/GameConfig.SERVER_TICK_RATE;
-		
-		this.velocity.set(walkDirection.nor().scl(speed));
-		
+		if(movable) {
+			this.velocity.set(walkDirection.nor().scl(speed));
+		}
 		this.hud.health = hp/100f;
 		
 		this.hud.weaponName = this.gunSlot[this.gunIndex].getName()+"\nStatus: "+this.gunSlot[this.gunIndex].getStatus();
@@ -192,9 +198,10 @@ public class Player extends Entity{
 	}
 	
 	public void setWalkDirection(Vector2 dir) {
-		if(movable) {
-			walkDirection.set(dir);
+		if(confuse) {
+			dir.set(dir.scl(-1));
 		}
+		walkDirection.set(dir);
 		if (!dir.isZero()) {
 			this.faceDirection = dir.cpy().nor();
 		}
@@ -205,7 +212,6 @@ public class Player extends Entity{
 	}
 
 	public void fire() {
-		GameContext.getServerContext().playSound(SoundType.PEW);
 		holdedGun.shoot();
 		
 	}

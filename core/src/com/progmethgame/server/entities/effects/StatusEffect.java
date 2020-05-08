@@ -34,12 +34,15 @@ public abstract class StatusEffect {
 	public int getDuration() {
 		return duration;
 	}
-	public void setDuration(int duration) {
-		this.duration = duration;
-	}
 	public boolean decreaseDuration() {
 		this.duration -= 1;
 		return this.duration <= 0;			
+	}
+	public void resetDuration() {
+		this.duration = maxDuration;
+	}
+	public StatusType getType() {
+		return type;
 	}
 	
 	public abstract StatusEffect cpy();

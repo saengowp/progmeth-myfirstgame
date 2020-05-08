@@ -1,5 +1,6 @@
 package com.progmethgame.server.entities.guns;
 
+import com.progmethgame.common.SoundType;
 import com.progmethgame.common.context.GameContext;
 import com.progmethgame.server.entities.Player;
 import com.progmethgame.server.entities.bullets.Bullet;
@@ -22,6 +23,7 @@ public abstract class Gun {
 	
 	public void shoot() {
 		if(cooldown <= 0) {
+			GameContext.getServerContext().playSound(SoundType.PEW);
 			GameContext.getServerContext().addEntity(bullet.cpy());
 			this.cooldown = maxCooldown;
 		}	

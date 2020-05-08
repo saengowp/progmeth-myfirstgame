@@ -16,13 +16,13 @@ public class Confuse extends StatusEffect {
 	@Override
 	public void getEffect(Player p) {
 		// TODO Auto-generated method stub
-		p.setSpeed(-p.getSpeed());
+		p.setConfuse(true);
 	}
 
 	@Override
 	public void removeEffect(Player p) {
 		// TODO Auto-generated method stub
-		p.setSpeed(-p.getSpeed());
+		p.setConfuse(false);
 	}
 	
 	public Confuse cpy() {

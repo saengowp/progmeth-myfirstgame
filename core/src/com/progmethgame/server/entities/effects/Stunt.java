@@ -16,6 +16,7 @@ public class Stunt extends StatusEffect {
 	@Override
 	public void getEffect(Player p) {
 		// TODO Auto-generated method stub
+		p.getVelocity().setZero();
 		p.setMovable(false);
 
 	}
