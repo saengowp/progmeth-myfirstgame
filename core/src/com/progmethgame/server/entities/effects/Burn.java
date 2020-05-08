@@ -26,5 +26,8 @@ public class Burn extends StatusEffect {
 		p.setDps(p.getDps()-dps);
 
 	}
-
+	
+	public Burn cpy() {
+		return new Burn();
+	}
 }

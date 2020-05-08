@@ -25,4 +25,8 @@ public class Stunt extends StatusEffect {
 		// TODO Auto-generated method stub
 		p.setMovable(true);
 	}
+	
+	public Stunt cpy() {
+		return new Stunt();
+	}
 }

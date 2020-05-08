@@ -27,4 +27,11 @@ public class Slow extends StatusEffect {
 		p.setSpeed(p.getSpeed()/slowrate);
 	}
 
+
+	@Override
+	public Slow cpy() {
+		// TODO Auto-generated method stub
+		return new Slow();
+	}
+
 }

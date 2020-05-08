@@ -42,4 +42,6 @@ public abstract class StatusEffect {
 		return this.duration <= 0;			
 	}
 	
+	public abstract StatusEffect cpy();
+	
 }
