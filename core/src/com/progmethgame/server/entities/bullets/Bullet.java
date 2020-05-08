@@ -34,6 +34,13 @@ public abstract class Bullet extends Entity {
 			onCollide((Player) other);
 	}
 	
+	@Override
+	public float getPhysicalSize() {
+		return 0.5f;
+	}
+	
+	public abstract Bullet cpy();
+	
 	
 
 }

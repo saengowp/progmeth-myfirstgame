@@ -21,4 +21,10 @@ public class HookBullet extends Bullet {
 		hitPlayer.getVelocity().set((owner.getPosition().cpy().add(hitPlayer.getPosition().cpy().scl(-1)).nor().scl(hookSpeed)));
 		GameContext.getServerContext().removeEntity(this);
 	}
+
+	@Override
+	public Bullet cpy() {
+		// TODO Auto-generated method stub
+		return new HookBullet(owner);
+	}
 }

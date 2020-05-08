@@ -5,21 +5,17 @@ import com.progmethgame.common.context.GameContext;
 import com.progmethgame.server.entities.Player;
 import com.progmethgame.server.entities.effects.Stunt;
 
-public class StuntBullet extends Bullet {
+public class StuntBullet extends StatusBullet {
 
 	public StuntBullet(Player owner) {
 		super(DisplayType.BULLET_STUNT, BulletConfig.STUNT_BULLET_SPEED, owner);
 		// TODO Auto-generated constructor stub
+		this.effect = new Stunt();
 	}
 
 	@Override
-	public void onCollide(Player hitPlayer) {
+	public Bullet cpy() {
 		// TODO Auto-generated method stub
-		if(!hitPlayer.equals(owner)) {
-			hitPlayer.setEffect(new Stunt());
-			GameContext.getServerContext().removeEntity(this);
-		}
-
+		return new StuntBullet(owner);
 	}
-
 }

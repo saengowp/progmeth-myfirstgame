@@ -20,6 +20,11 @@ public class TeleportBullet extends Bullet {
 		hitPlayer.getPosition().set(ownerPosition);
 		owner.getPosition().set(hitPosition);
 		GameContext.getServerContext().removeEntity(this);
-		
+	}
+
+	@Override
+	public Bullet cpy() {
+		// TODO Auto-generated method stub
+		return new TeleportBullet(owner);
 	}
 }

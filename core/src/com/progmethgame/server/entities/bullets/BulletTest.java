@@ -21,4 +21,12 @@ public class BulletTest extends Bullet {
 		}
 	}
 
+	@Override
+	public Bullet cpy() {
+		// TODO Auto-generated method stub
+		return new BulletTest(owner);
+	}
+	
+	
+
 }

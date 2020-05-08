@@ -4,11 +4,13 @@ import com.progmethgame.common.DisplayType;
 import com.progmethgame.common.context.GameContext;
 import com.progmethgame.server.entities.Player;
 import com.progmethgame.server.entities.effects.Burn;
+import com.progmethgame.server.entities.effects.StatusEffect;
 
-public class TestBullet extends Bullet {
+public abstract class StatusBullet extends Bullet {
+	protected StatusEffect effect;
 
-	public TestBullet(Player owner) {
-		super(DisplayType.TEST, 9.0f, owner);
+	public StatusBullet(DisplayType type, float speed, Player owner) {
+		super(type, speed, owner);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -16,15 +18,10 @@ public class TestBullet extends Bullet {
 	public void onCollide(Player hitPlayer) {
 		// TODO Auto-generated method stub
 		if(!hitPlayer.equals(owner)) {
-			hitPlayer.setEffect(new Burn());
+			hitPlayer.setEffect(effect.cpy());
 			GameContext.getServerContext().removeEntity(this);
 		}
-	}
 
-	@Override
-	public Bullet cpy() {
-		// TODO Auto-generated method stub
-		return new TestBullet(owner);
 	}
 
 }
