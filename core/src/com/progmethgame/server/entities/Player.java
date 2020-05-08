@@ -18,17 +18,15 @@ import com.progmethgame.server.entities.bullets.SlowBullet;
 import com.progmethgame.server.entities.bullets.StuntBullet;
 import com.progmethgame.server.entities.bullets.TeleportBullet;
 import com.progmethgame.server.entities.effects.StatusEffect;
+import com.progmethgame.server.entities.guns.BurnGun;
+import com.progmethgame.server.entities.guns.ConfuseGun;
+import com.progmethgame.server.entities.guns.Gun;
+import com.progmethgame.server.entities.guns.HookGun;
+import com.progmethgame.server.entities.guns.SlowGun;
+import com.progmethgame.server.entities.guns.StuntGun;
+import com.progmethgame.server.entities.guns.TeleportGun;
 
 public class Player extends Entity{
-	public enum GunType{
-		BURN_GUN,
-		CONFUSE_GUN,
-		SLOW_GUN,
-		HOOK_GUN,
-		TELEPORT_GUN,
-		STUNT_GUN,
-		TEST_GUN
-	}
 	
 	enum Color {
 		BLUE(DisplayType.PLAYER_BLUE_ICON, DisplayType.PLAYER_BLUE),
@@ -56,8 +54,8 @@ public class Player extends Entity{
 	private StatusEffect effect;
 	private Vector2 faceDirection;
 	private int tickCount;
-	private GunType[] gunSlot;
-	private GunType holdedGun;
+	private Gun[] gunSlot;
+	private Gun holdedGun;
 	private int gunIndex;
 	
 	
@@ -77,18 +75,17 @@ public class Player extends Entity{
 		this.walkDirection = new Vector2();
 		this.movable = true;
 		
-		this.gunSlot = new GunType[] { 
-				GunType.TEST_GUN,
-				GunType.BURN_GUN, 
-				GunType.CONFUSE_GUN, 
-				GunType.SLOW_GUN, 
-				GunType.STUNT_GUN,
-				GunType.HOOK_GUN,
-				GunType.TELEPORT_GUN};
+		this.faceDirection = new Vector2(1,0);
+		this.gunSlot = new Gun[] { 
+				new BurnGun(this), 
+				new ConfuseGun(this), 
+				new SlowGun(this), 
+				new StuntGun(this),
+				new HookGun(this),
+				new TeleportGun(this)};
 		
 		this.gunIndex = 0;
 		this.holdedGun = gunSlot[gunIndex];
-		this.faceDirection = new Vector2(1,0);
 		
 		this.hud = new HudOverlay();
 		this.hud.health = 0;
@@ -99,6 +96,7 @@ public class Player extends Entity{
 		
 		this.overlays.add(healthOv);
 		this.overlays.add(this.hud);
+		
 		
 		setColor(
 				Color.values()[
@@ -140,7 +138,9 @@ public class Player extends Entity{
 		//check if no effect
 		if (this.effect == null) {
 			this.effect = effect;
-			this.effect.getEffect(this);
+			if(effect!=null) {
+				this.effect.getEffect(this);
+			}
 			
 		}else if (this.effect.type == effect.type) {
 			//expand the duration
@@ -182,10 +182,13 @@ public class Player extends Entity{
 		this.velocity.set(walkDirection.nor().scl(speed));
 		
 		this.hud.health = hp/100f;
-		this.hud.weaponName = "Debug: Gun type:" + (this.gunSlot[this.gunIndex].toString());
+		
+		this.hud.weaponName = this.gunSlot[this.gunIndex].getName()+"\nStatus: "+this.gunSlot[this.gunIndex].getStatus();
 		this.healthOv.health = hp/100f;
-		this.hud.gunIcon = bulletFromGun(holdedGun).getType();
+		this.hud.gunIcon = holdedGun.getBullet().getType();
 		this.healthOv.effectIcon = effect != null ? effect.getDisplayType() : null;
+		
+		holdedGun.recharge(GameConfig.SERVER_TICK_RATE);
 	}
 	
 	public void setWalkDirection(Vector2 dir) {
@@ -200,41 +203,10 @@ public class Player extends Entity{
 	public Vector2 getFaceDirection() {
 		return faceDirection;
 	}
-	
-	private Bullet bulletFromGun(GunType t) {
-		//Might need refactoring.
-		Bullet shotBullet;
-		switch(t) {
-		case BURN_GUN:
-			shotBullet = new BurnBullet(this);
-			break;
-		case CONFUSE_GUN:
-			shotBullet = new ConfuseBullet(this);
-			break;
-		case SLOW_GUN:
-			shotBullet = new SlowBullet(this);
-			break;
-		case STUNT_GUN:
-			shotBullet = new StuntBullet(this);
-			break;
-		case HOOK_GUN:
-			shotBullet = new HookBullet(this);
-			break;
-		case TELEPORT_GUN:
-			shotBullet = new TeleportBullet(this);
-			break;
-		default:
-			shotBullet = new TestBullet(this);
-			break;
-		}
-		return shotBullet;
-	}
 
 	public void fire() {
 		GameContext.getServerContext().playSound(SoundType.PEW);
-		
-		
-		GameContext.getServerContext().addEntity(bulletFromGun(holdedGun));
+		holdedGun.shoot();
 		
 	}
 	
