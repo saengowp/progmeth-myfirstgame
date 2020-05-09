@@ -28,6 +28,9 @@ public abstract class Entity implements Tickable {
 	
 	/** Overlays attached */
 	protected ArrayList<Overlay> overlays;
+	
+	/** Facing direction */
+	protected Vector2 facingDirection;
 
 	/**
 	 * Create a new entity with specified ID and type
@@ -39,6 +42,7 @@ public abstract class Entity implements Tickable {
 		this.type = type;
 		this.position = new Vector2();
 		this.velocity = new Vector2();
+		this.facingDirection = new Vector2(0, 1);
 		this.overlays = new ArrayList<Overlay>();
 	}
 	
@@ -106,6 +110,7 @@ public abstract class Entity implements Tickable {
 		d.id = this.gid;
 		d.dispType = this.type;
 		d.position = this.position;
+		d.facingDirection = this.facingDirection;
 		d.overlays = this.overlays;
 		return d;
 	}

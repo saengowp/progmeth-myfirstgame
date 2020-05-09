@@ -22,6 +22,7 @@ import com.progmethgame.network.event.server.ServerUpdateEntityEvent;
 import com.progmethgame.server.entities.Entity;
 import com.progmethgame.server.entities.Player;
 import com.progmethgame.server.entities.SmallTestEntity;
+import com.progmethgame.server.entities.SpinningEntity;
 import com.progmethgame.server.entities.TestEntity;
 import com.progmethgame.server.entities.WinningBannerEntity;
 
@@ -248,6 +249,12 @@ public class ServerRuntime implements ServerBusListener, Disposable, ServerConte
 		}
 		case "reset": {
 			reset();
+			break;
+		}
+		case "spawnspinning": {
+			SpinningEntity e = new SpinningEntity();
+			e.getPosition().set(players.get(id).getPosition());
+			addEntity(e);
 			break;
 		}
 		default:
