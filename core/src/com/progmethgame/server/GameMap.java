@@ -27,6 +27,9 @@ public class GameMap {
 	/** 2d array of map's block id */
 	private int map[][];
 	
+	/** 2d array of map's block object*/
+	private Block blocks[][];
+	
 	/** width of the map */
 	private int mapWidth;
 	
@@ -49,6 +52,13 @@ public class GameMap {
 			parseMap();
 		} catch (MapParserException e) {
 			throw new ServerStartupError("Map Load fail", e);
+		}
+		
+		blocks = new Block[mapWidth][mapHeight];
+		for (int i = 0; i < mapWidth; i++) {
+			for (int j = 0; j < mapHeight; j++) {
+				blocks[i][j] = BlockManager.fromId(map[i][j]);
+			}
 		}
 		
 		Gdx.app.debug("Map", "Map initialized");
@@ -125,7 +135,7 @@ public class GameMap {
 	 * @return Block at that location or null if there's no block there
 	 */
 	public Block getBlock(int x, int y) {
-		return (x >= 0 && x < mapWidth && y >= 0 && y < mapHeight) ? BlockManager.fromId(map[x][y]):null;
+		return (x >= 0 && x < mapWidth && y >= 0 && y < mapHeight) ? blocks[x][y]:null;
 	}
 	
 	/**
