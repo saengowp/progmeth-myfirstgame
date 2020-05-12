@@ -109,7 +109,7 @@ public class GameLauncher extends Game {
 		String m = "Error occured\n";
 		Throwable e = error;
 		while (e != null) {
-			m += e.getMessage() + " caused by \n";
+			m += " caused by " + e.getMessage() +"\n";
 			e = e.getCause();
 		}
 		

@@ -1,6 +1,7 @@
 package com.progmethgame.launcher.screen;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.Align;
 
 /**
  * Display a message
@@ -16,6 +17,8 @@ public class TextStage extends BaseStage {
 		super();
 		Label label = new Label(text, skin);
 		label.setFillParent(true);
+		label.setWrap(true);
+		label.setAlignment(Align.center);
 		this.addActor(label);
 	}
 }
