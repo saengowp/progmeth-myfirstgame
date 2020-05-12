@@ -13,5 +13,6 @@ public class EntityData {
 	public UUID id;
 	public DisplayType dispType;
 	public Vector2 position;
+	public Vector2 facingDirection;
 	public ArrayList<Overlay> overlays;
 }

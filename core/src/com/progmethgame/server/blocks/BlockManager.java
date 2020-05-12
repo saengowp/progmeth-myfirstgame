@@ -10,19 +10,19 @@ public class BlockManager {
 	public static Block fromId(int id) {
 		switch(id) {
 		case 1:
-			return WALK;
+			return new WalkableBlock();
 		case 2:
-			return BURN_FLOOR;
+			return new BurnFloor();
 		case 3:
-			return CURE;
+			return new CureFloor();
 		case 4:
 			return new SpikeFloor();
 		case 7:
-			return BURN_BLOCK;
+			return new BurnBlock();
 		case 11:
 			return new SpikeBlock();
 		default:
-			return SOLID;
+			return new SolidBlock();
 		}
 	}
 }

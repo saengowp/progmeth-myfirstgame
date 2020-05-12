@@ -39,6 +39,9 @@ public class ClientEntity extends Sprite{
 	/** Overlays attached to this entity */
 	private List<Overlay> overlays;
 	
+	/** Facing direction according to the server (storing the last 2) (doesn't interpolate)*/
+	private Vector2[] lastDirBuffer;
+	
 	/**
 	 * Create new entity from data
 	 * @param data entity's data
@@ -49,6 +52,8 @@ public class ClientEntity extends Sprite{
 		this.lastPosBuffer[1] = new Vector2();
 		this.lastUpdateTimeBuffer = new long[2];
 		this.lastUpdateTimeBuffer[0] = this.lastUpdateTimeBuffer[1] = System.currentTimeMillis();
+		this.lastDirBuffer = new Vector2[2];
+		this.lastDirBuffer[0] = this.lastDirBuffer[1] = new Vector2(0, 1);
 		this.overlays = new ArrayList<Overlay>();
 		
 		setOrigin(0.5f, 0.5f);
@@ -95,6 +100,9 @@ public class ClientEntity extends Sprite{
 		lastPosBuffer[1].set(data.position);
 		lastUpdateTimeBuffer[0] = lastUpdateTimeBuffer[1];
 		lastUpdateTimeBuffer[1] = System.currentTimeMillis();
+		
+		lastDirBuffer[0] = lastDirBuffer[1];
+		lastDirBuffer[1] = data.facingDirection;
 	}
 	
 	/**
@@ -114,10 +122,13 @@ public class ClientEntity extends Sprite{
 		setPosition(pos.x,  pos.y);
 		
 		// Facing detection
+		/* Legacy
 		Vector2 facingVec = lastPosBuffer[1].cpy().sub(lastPosBuffer[0]);
 		if (!facingVec.isZero()) {
 			setRotation(facingVec.angle() - 90);
 		}
+		*/
+		setRotation(lastDirBuffer[0].angle() - 90);
 		
 		//Display type update
 		applyDisplayType();
