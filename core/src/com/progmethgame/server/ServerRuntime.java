@@ -287,4 +287,21 @@ public class ServerRuntime implements ServerBusListener, Disposable, ServerConte
 		}
 	}
 
+	@Override
+	public void checkWinCondition() {
+		// TODO Auto-generated method stub
+		int aliveCount = 0;
+		UUID alivePlayerID = null;
+		for(Player p:players.values()) {
+			if(p.isAlive()) {
+				aliveCount++;
+				alivePlayerID = p.getGid();
+			}
+		}
+		if(aliveCount == 1 && players.size() > 1) {
+			addEntity(new WinningBannerEntity(alivePlayerID));
+		}
+		
+	}
+
 }

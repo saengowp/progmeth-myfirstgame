@@ -50,7 +50,7 @@ public class Player extends Entity{
 			return this.front;
 		}
 	};
-	
+	private boolean alive;
 	private int dps;
 	private int hp;
 	private StatusEffect effect;
@@ -65,12 +65,14 @@ public class Player extends Entity{
 	private Vector2 walkDirection;
 	private boolean movable;
 	private boolean confuse;
+	private boolean shootable;
 	
 	HudOverlay hud;
 	StatusOverlay healthOv;
 
 	public Player(UUID gid) {
 		super(gid, DisplayType.PLAYER);
+		this.alive = true;
 		this.speed = 5.0f;
 		this.dps = 0;
 		this.hp = 100;
@@ -78,6 +80,7 @@ public class Player extends Entity{
 		this.walkDirection = new Vector2();
 		this.movable = true;
 		this.confuse = false;
+		this.shootable = true;
 		
 		this.faceDirection = new Vector2(1,0);
 		this.gunSlot = new Gun[] { 
@@ -170,6 +173,10 @@ public class Player extends Entity{
 		}else {
 			int remainHp = this.hp;
 			this.hp = 0;
+			this.alive = false;
+			this.movable = false;
+			this.shootable = false;
+			GameContext.getServerContext().checkWinCondition();
 			return remainHp;
 		}
 	}
@@ -212,10 +219,15 @@ public class Player extends Entity{
 	public Vector2 getFaceDirection() {
 		return faceDirection;
 	}
+	
+	public boolean isAlive() {
+		return alive;
+	}
 
 	public void fire() {
-		holdedGun.shoot();
-		
+		if(shootable) {
+			holdedGun.shoot();
+		}
 	}
 	
 	public void swapGun() {

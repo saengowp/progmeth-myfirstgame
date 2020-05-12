@@ -31,4 +31,9 @@ public interface ServerContext extends Disposable{
 	 * Reset and start a new game
 	 */
 	public void reset();
+	
+	/**
+	 * Check if have a player alive
+	 */
+	public void checkWinCondition();
 }
