@@ -3,6 +3,7 @@ package com.progmethgame.launcher;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.progmethgame.client.ClientRuntime;
 import com.progmethgame.common.context.GameContext;
 import com.progmethgame.launcher.screen.ConnectStage;
@@ -75,12 +76,19 @@ public class GameLauncher extends Game {
 	}
 	
 	/**
+	 * Display scene2d stage
+	 */
+	public void displayStage(Stage stage) {
+		stageScreen.setStage(stage);
+		setScreen(stageScreen);
+	}
+	
+	/**
 	 * Display message
 	 * @param message
 	 */
 	public void displayMessage(String message) {
-		stageScreen.setStage(new TextStage(message));
-		setScreen(stageScreen);
+		displayStage(new TextStage(message));
 	}
 	
 	/**
@@ -88,8 +96,7 @@ public class GameLauncher extends Game {
 	 * @param message
 	 */
 	public void displayMessageQuitable(String message) {
-		stageScreen.setStage(new QuitableTextStage(message));
-		setScreen(stageScreen);
+		displayStage(new QuitableTextStage(message));
 		
 		cleanUpContext();
 	}
