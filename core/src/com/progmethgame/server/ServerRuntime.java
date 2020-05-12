@@ -164,6 +164,9 @@ public class ServerRuntime implements ServerBusListener, Disposable, ServerConte
 			e.tick(delta);
 		}
 		
+		//Map Tick
+		map.tick(delta);
+		
 		//Physic
 		simulatePhysic(delta);
 		

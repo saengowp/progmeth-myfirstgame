@@ -18,11 +18,12 @@ import com.progmethgame.common.GameConfig;
 import com.progmethgame.server.blocks.Block;
 import com.progmethgame.server.blocks.BlockManager;
 import com.progmethgame.server.entities.Player;
+import com.progmethgame.server.entities.Tickable;
 
 /**
  * Store map's state and managed entity's interaction with the map
  */
-public class GameMap {
+public class GameMap implements Tickable {
 	
 	/** 2d array of map's block id */
 	private int map[][];
@@ -168,5 +169,14 @@ public class GameMap {
 	 */
 	public void reset() {
 		this.spawnPointsIdx = 0;
+	}
+
+	@Override
+	public void tick(float delta) {
+		for (int i = 0; i < mapWidth; i++) {
+			for (int j = 0; j < mapHeight; j++) {
+				blocks[i][j].tick(delta);
+			}
+		}
 	}
 }
