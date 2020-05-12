@@ -99,14 +99,14 @@ public class ClientRuntime implements ClientBusListener, Disposable, ClientConte
 		assetsMan.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
 		assetsMan.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
 		FreeTypeFontLoaderParameter fontParam = new  FreeTypeFontLoaderParameter();
-		fontParam.fontFileName = "futura.ttf";
-		fontParam.fontParameters.size = 20;
+		fontParam.fontFileName = "PressStart2P.ttf";
+		fontParam.fontParameters.size = 13;
 		fontParam.fontParameters.color = Color.BLACK;
 		fontParam.fontParameters.borderColor = Color.WHITE;
 		fontParam.fontParameters.borderWidth = 1;
 		assetsMan.load("font.ttf", BitmapFont.class, fontParam);
 		FreeTypeFontLoaderParameter fontBigParam = new FreeTypeFontLoaderParameter();
-		fontBigParam.fontFileName = "futura.ttf";
+		fontBigParam.fontFileName = "PressStart2P.ttf";
 		fontBigParam.fontParameters.size = 100;
 		fontBigParam.fontParameters.color = Color.BLACK;
 		fontBigParam.fontParameters.borderColor = Color.WHITE;
