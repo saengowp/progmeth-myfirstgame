@@ -9,6 +9,8 @@ import com.progmethgame.common.DisplayType;
 import com.progmethgame.common.GameConfig;
 import com.progmethgame.common.SoundType;
 import com.progmethgame.common.context.GameContext;
+import com.progmethgame.server.blocks.Block;
+import com.progmethgame.server.blocks.Interactable;
 import com.progmethgame.server.entities.bullets.Bullet;
 import com.progmethgame.server.entities.bullets.TestBullet;
 import com.progmethgame.server.entities.bullets.BurnBullet;
@@ -220,6 +222,20 @@ public class Player extends Entity{
 		gunIndex++;
 		gunIndex %= gunSlot.length;
 		holdedGun = gunSlot[gunIndex];
+	}
+	
+	@Override
+	public void onWalkOn(Block block) {
+		if(block instanceof Interactable) {
+			((Interactable) block).interact(this);
+		}
+	}
+	
+	@Override
+	public void onCollideSolid(Block block) {
+		if(block instanceof Interactable) {
+			((Interactable) block).interact(this);
+		}
 	}
 	
 
