@@ -8,7 +8,7 @@ public class SpikeBlock extends SolidBlock implements Interactable, Tickable {
 	
 	private static int damage = 10;
 	private int cooldown;
-	private static int maxCooldown = 5;
+	private static final int maxCooldown = 5;
 	private int tickCount;
 	
 	public SpikeBlock() {
