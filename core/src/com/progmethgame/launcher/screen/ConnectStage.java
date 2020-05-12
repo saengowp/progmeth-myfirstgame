@@ -61,6 +61,44 @@ public class ConnectStage extends BaseStage {
 			}
 		});
 		table.add(joinBtn);
+		
+		table.row().padTop(10);
+		
+		TextButton helpBtn = new TextButton("Help", skin);
+		helpBtn.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				super.clicked(event, x, y);
+				GameLauncher.getLauncher().displayStage(new HelpStage());
+			}
+		});
+		table.add();
+		table.add(helpBtn);
+		
+		TextButton aboutBtn = new  TextButton("About", skin);
+		aboutBtn.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				super.clicked(event, x, y);
+				GameLauncher.getLauncher().displayStage(new AboutStage());
+			}
+		});
+		table.row();
+		table.add();
+		table.add(aboutBtn);
+		
+		TextButton quitBtn = new TextButton("Quit", skin);
+		quitBtn.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				super.clicked(event, x, y);
+				Gdx.app.exit();
+			}
+		});
+		table.row();
+		table.add();
+		table.add(quitBtn);
+		
 
 		this.addActor(table);
 		
