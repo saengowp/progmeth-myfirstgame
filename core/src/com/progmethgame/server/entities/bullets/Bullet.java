@@ -41,6 +41,10 @@ public abstract class Bullet extends Entity {
 	
 	public abstract Bullet cpy();
 	
-	
+	@Override
+	public void tick(float delta) {
+		super.tick(delta);
+		this.facingDirection.set(velocity);
+	}
 
 }
