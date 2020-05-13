@@ -54,7 +54,6 @@ public class Player extends Entity{
 	private int dps;
 	private int hp;
 	private StatusEffect effect;
-	private Vector2 faceDirection;
 	private int tickCount;
 	private Gun[] gunSlot;
 	private Gun holdedGun;
@@ -82,7 +81,7 @@ public class Player extends Entity{
 		this.confuse = false;
 		this.shootable = true;
 		
-		this.faceDirection = new Vector2(1,0);
+		this.facingDirection = new Vector2(1,0);
 		this.gunSlot = new Gun[] { 
 				new BurnGun(this), 
 				new ConfuseGun(this), 
@@ -212,12 +211,12 @@ public class Player extends Entity{
 		}
 		walkDirection.set(dir);
 		if (!dir.isZero()) {
-			this.faceDirection = dir.cpy().nor();
+			this.facingDirection = dir.cpy().nor();
 		}
 	}
 	
 	public Vector2 getFaceDirection() {
-		return faceDirection;
+		return facingDirection;
 	}
 	
 	public boolean isAlive() {
