@@ -207,6 +207,6 @@ public class ClientRuntime implements ClientBusListener, Disposable, ClientConte
 	@Override
 	public void onPlaySound(SoundType sound) {
 		Sound s = assetsMan.get(sound.getFilepath(), Sound.class);
-		s.play(GameConfig.AUDIO_VOLUME);
+		s.play(1);
 	}
 }
