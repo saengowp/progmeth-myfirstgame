@@ -15,7 +15,7 @@ public final class GameConfig {
 	public static int SERVER_MAX_PACKET = 20;
 	
 	/** Music and Sound's volume */
-	public static float AUDIO_VOLUME = 0.20f;
+	public static float AUDIO_VOLUME = 0.50f;
 	
 	/** Width and Height of client's map viewport */
 	public static int CLIENT_MAP_VIEWPORT_SIZE = 20;
