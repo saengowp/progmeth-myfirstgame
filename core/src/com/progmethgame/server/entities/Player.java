@@ -72,7 +72,7 @@ public class Player extends Entity{
 	public Player(UUID gid) {
 		super(gid, DisplayType.PLAYER);
 		this.alive = true;
-		this.speed = 5.0f;
+		this.speed = 4f;
 		this.dps = 0;
 		this.hp = 100;
 		this.tickCount = 0;

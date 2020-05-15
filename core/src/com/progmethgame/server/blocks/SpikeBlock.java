@@ -6,7 +6,7 @@ import com.progmethgame.server.entities.Tickable;
 
 public class SpikeBlock extends SolidBlock implements Interactable, Tickable {
 	
-	private static int damage = 10;
+	private static int damage = 7;
 	private int cooldown;
 	private static final int maxCooldown = 5;
 	private int tickCount;
