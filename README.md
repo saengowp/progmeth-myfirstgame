@@ -88,7 +88,17 @@ But don't walk too much though or you would fall into **traps**!
 
 ### Traps
 
-[TODO]
+- **Burning Floor:** Make player who step on this type of floor get **Burn** status effect.
+
+- **Burning Block:** Make player who touch this type of floor get **Burn** status effect.
+
+- **Spike Trap Floor:** It deal little damage to players who step on this type of floor.
+
+- **Spike Trap Block:** It deal little damage to players who touch this type of block.
+
+- **Curing Floor:** It clear player who step on this type of floor their status effects.
+
+
 
 So now you know how to avoid them, But wouldn't it be good if you can use them! By shooting **effect bullets** you
 can cause other player to fall into a trap!.
@@ -96,11 +106,40 @@ can cause other player to fall into a trap!.
 
 ### Effect Bullets
 
-[TODO]
+- **Burn Bullet:** It cause a **Burn** status effect to the target player.
+
+- **Confuse Bullet:** It cause a **Confuse** status effect to the target player.
+
+- **Slow Bullet:** It cause a **Slow** status effect to the target player.
+
+- **Stunt Bullet:** It cause a **Stunt** status effect to the target player.
+
+- **Hook Bullet:** Move target player to user position.
+
+- **Teleport Bullet:** Swap location of user and target player.
+
+
+### Status Effects
+
+- **Burn:** Gradually deal damage to plaer who affected by this status effect.
+
+- **Confuse:** Make player who affected by this status effect move to the opposite direction of their intention.
+
+- **Slow:** Make player who affected by this status effect move slower.
+
+- **Stunt:** Make player who affected by this status effect unable to move.
+
 
 ### HUD status
 
-[TODO]
+- **HP bar:** Display your health point.
+
+- **Gun label:** Display the gun that you are holding.
+
+- **Bullet label:** Display the bullet from your gun.
+
+- **Character frame:** Display your character model.
+
 
 
 Technical Description
