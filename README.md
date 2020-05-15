@@ -106,6 +106,81 @@ can cause other player to fall into a trap!.
 Technical Description
 --------------------
 
+### Introduction
+
+The game's engine is designed to be a general purpose, multiplayer shooter engine.  
+The game engine is divided into serveral components and implemented using external
+libraries whenever possible.
+
+The following section describes its components and its implementation detail.
+
+### Components
+
+The most complex functionality in the game's engine is the multiplayer client-server functionality.
+so the source code's structure is built around it.
+
+The game consist of two major component. The server and the client.
+
+#### The server
+
+package: `com.progmethgame.server`
+
+The server is a component that processes the player's input and simulate the game's law including
+
+- Physic law
+- Entity interaction rules
+- Entity status reporting.
+
+The server then send the resulting calculation (graphic, sound) through the network
+
+#### The network
+
+package: `com.progmethgame.network`
+
+The networking is a component that tranparently provides the client-server communication.
+
+It provides
+
+- Transparent networking system
+- Interface for event source and sink.
+- Data serialization
+
+The networking component then transfer server's data to the client
+
+#### The client
+
+package: `com.progmethgame.client`
+
+The client is a component that
+
+- Render graphic.
+- Play the sound and music
+- Send user's keyboard input.
+
+The server and the client are both initialized by the launcher
+
+
+#### The launcher
+
+package: `com.progmethgame.launcher`
+
+The launcher is a component that provides GUI for creation and disposal of the client and the server.
+
+### Implementation
+
+The game engine is implemented using various library.
+
+#### Graphic, Sound and Controller
+
+**LibGDX** provides graphic, sound and controller library. We choose this over JavaFX because it
+
+- Provides GL acceleration
+- Have many useful utils (eg. Vector arithmetic, Asset management, TMX Map loading)
+- Comes with boiler plate (eg. Game-loop, Screen management)
+
+### Networking
+
+**KryoNet** provides object serialization and networking system.
 
 Copyright Material
 --------------------
@@ -114,3 +189,4 @@ Copyright Material
 - **KryoNet** is a networking library by Nathan Sweet licensed under BSD-3-Clause.
 - **PressStart2P** is a font by CodeMan38 licensed under Open Font License.
 - **plain-james** is a scene2d ui skin by Raymond "Raeleus" Buckley licensed under CC BY 4.0
+- **TMX Format** is a tiled map data format by mapeditor.org licensed under CC BY-SA 3.0.
