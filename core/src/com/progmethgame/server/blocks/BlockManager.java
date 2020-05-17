@@ -1,12 +1,18 @@
 package com.progmethgame.server.blocks;
 
+/**
+ * A Factory to generate a block from an ID
+ * @author pigt
+ *
+ */
 public class BlockManager {
-	public final static Block SOLID = new SolidBlock();
-	public final static Block WALK = new WalkableBlock();
-	public final static Block BURN_FLOOR = new BurnFloor();
-	public final static Block CURE = new CureFloor();
-	public final static Block BURN_BLOCK = new BurnBlock();
 	
+	/**
+	 * Create a block object with that id type
+	 * 
+	 * @param id id of the block
+	 * @return Block with specified id
+	 */
 	public static Block fromId(int id) {
 		switch(id) {
 		case 1:

@@ -2,14 +2,13 @@ package com.progmethgame.server.entities.bullets;
 
 import com.badlogic.gdx.math.Vector2;
 import com.progmethgame.common.DisplayType;
-import com.progmethgame.common.context.GameContext;
 import com.progmethgame.server.entities.Player;
 
+/** A bullet that will swap the owner and the victim's position */
 public class TeleportBullet extends Bullet {
 
 	public TeleportBullet(Player owner) {
 		super(DisplayType.BULLET_TELEPORT, BulletConfig.TELEPORT_BULLET_SPEED, owner);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public void onCollide(Player hitPlayer) {
@@ -19,12 +18,10 @@ public class TeleportBullet extends Bullet {
 		//swap position
 		hitPlayer.getPosition().set(ownerPosition);
 		owner.getPosition().set(hitPosition);
-		GameContext.getServerContext().removeEntity(this);
 	}
 
 	@Override
 	public Bullet cpy() {
-		// TODO Auto-generated method stub
 		return new TeleportBullet(owner);
 	}
 }

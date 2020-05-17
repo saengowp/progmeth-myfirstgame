@@ -1,5 +1,6 @@
 package com.progmethgame.client;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
@@ -19,6 +20,15 @@ public class GameInputController implements InputProcessor {
 	/** Initialize controller */
 	public GameInputController() {
 		this.movementVec = new Vector2();
+		if (Gdx.input.isKeyPressed(Keys.W))
+			movementVec.y += 1;
+		if (Gdx.input.isKeyPressed(Keys.A))
+			movementVec.x -= 1;
+		if (Gdx.input.isKeyPressed(Keys.S))
+			movementVec.y -= 1;
+		if (Gdx.input.isKeyPressed(Keys.D))
+			movementVec.x += 1;
+		
 	}
 	
 	/** Notify direction vector changes to the server */

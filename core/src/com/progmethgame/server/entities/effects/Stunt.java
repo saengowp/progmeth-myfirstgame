@@ -3,19 +3,17 @@ package com.progmethgame.server.entities.effects;
 import com.progmethgame.common.DisplayType;
 import com.progmethgame.server.entities.Player;
 
+/** An effect that caused player to stop moving */
 public class Stunt extends StatusEffect {
 
 	public Stunt() {
-		super(StatusType.STUNT);
-		// TODO Auto-generated constructor stub
+		super(DisplayType.EFFECT_STUNT);
 		this.maxDuration = EffectConfig.STUNT_MAX_DURATION;
 		this.duration = maxDuration;
-		this.dispType = DisplayType.EFFECT_STUNT;
 	}
 
 	@Override
 	public void getEffect(Player p) {
-		// TODO Auto-generated method stub
 		p.getVelocity().setZero();
 		p.setMovable(false);
 
@@ -23,10 +21,10 @@ public class Stunt extends StatusEffect {
 
 	@Override
 	public void removeEffect(Player p) {
-		// TODO Auto-generated method stub
 		p.setMovable(true);
 	}
 	
+	@Override
 	public Stunt cpy() {
 		return new Stunt();
 	}

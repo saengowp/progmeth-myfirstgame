@@ -1,9 +1,15 @@
 package com.progmethgame.server.blocks;
 
-import com.progmethgame.server.entities.Player;
-import com.progmethgame.server.entities.Tickable;
-import com.progmethgame.server.entities.effects.Burn;
+/** 
+ * A floor that burn the player when touched
+ * @author pigt
+ *
+ */
+public class BurnFloor extends BurningBlock {
 
-public class BurnFloor extends WalkableBlock implements Burnable{
+	@Override
+	public boolean isSolid() {
+		return false;
+	}
 	
 }
