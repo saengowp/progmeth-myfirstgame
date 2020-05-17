@@ -182,7 +182,6 @@ public class ServerRuntime implements ServerBusListener, Disposable, ServerConte
 		players.put(id, player);
 		
 		//Sync game state
-		bus.sendEvent(id, new ServerResetEvent());
 		addEntity(player);
 		
 		//Sync other entities
@@ -275,6 +274,7 @@ public class ServerRuntime implements ServerBusListener, Disposable, ServerConte
 		entitiesRemovalQueue.clear();
 		map.reset();
 		players.clear();
+		bus.sendEvent(null, new ServerResetEvent());
 		for (UUID id: bus.getConnectionUUIDs()) {
 			onClientJoin(id);
 		}
