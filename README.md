@@ -221,6 +221,12 @@ The game engine is implemented using various library.
 
 **KryoNet** provides object serialization and networking system.
 
+API Documentation
+--------------------
+
+Every classes are documented using javadoc. please open `javadoc/index.html` with your browser or if you prefer PDF files
+please see `refman.pdf`
+
 Copyright Material
 --------------------
 
