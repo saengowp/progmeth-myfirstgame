@@ -251,5 +251,10 @@ public class Player extends Entity{
 		}
 	}
 	
+	@Override
+	public float getPhysicalSize() {
+		return 0.8f;
+	}
+	
 
 }
