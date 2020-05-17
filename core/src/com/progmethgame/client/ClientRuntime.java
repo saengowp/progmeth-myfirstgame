@@ -181,6 +181,7 @@ public class ClientRuntime implements ClientBusListener, Disposable, ClientConte
 		entities.clear();
 	}
 
+	@Override
 	public void tick(float delta) {
 		for (ClientEntity e: entities.values())
 			e.tick(delta);
