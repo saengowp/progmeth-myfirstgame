@@ -5,6 +5,7 @@ import com.progmethgame.common.context.GameContext;
 import com.progmethgame.server.entities.Player;
 import com.progmethgame.server.entities.effects.Burn;
 
+/** A bullet that set Burn effect on player*/
 public class BurnBullet extends StatusBullet {
 
 	public BurnBullet(Player owner) {

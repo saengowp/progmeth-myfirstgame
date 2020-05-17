@@ -5,6 +5,7 @@ import com.progmethgame.common.context.GameContext;
 import com.progmethgame.server.entities.Player;
 import com.progmethgame.server.entities.effects.Stunt;
 
+/** A bullet that pull target player to owner*/
 public class HookBullet extends Bullet {
 	
 	public static final float hookSpeed = BulletConfig.HOOK_SPEED;

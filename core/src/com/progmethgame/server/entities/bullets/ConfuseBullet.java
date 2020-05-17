@@ -5,6 +5,7 @@ import com.progmethgame.common.context.GameContext;
 import com.progmethgame.server.entities.Player;
 import com.progmethgame.server.entities.effects.Confuse;
 
+/** A bullet that set Confuse effect on player*/
 public class ConfuseBullet extends StatusBullet {
 
 	public ConfuseBullet(Player owner) {

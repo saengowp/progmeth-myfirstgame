@@ -5,6 +5,7 @@ import com.progmethgame.common.context.GameContext;
 import com.progmethgame.server.entities.Player;
 import com.progmethgame.server.entities.effects.Slow;
 
+/** A bullet that set Slow effect on player*/
 public class SlowBullet extends StatusBullet {
 
 	public SlowBullet(Player owner) {
