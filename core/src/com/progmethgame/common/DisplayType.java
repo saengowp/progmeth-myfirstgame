@@ -20,10 +20,20 @@ public enum DisplayType {
 	EFFECT_CONFUSE("effects/confuse.png"),
 	EFFECT_SLOW("effects/slow.png"),
 	EFFECT_STUNT("effects/stunt.png"),
+	PLAYER_RED("players/TopRed.png"),
+	PLAYER_RED_ICON("players/Red.png"),
 	PLAYER_BLUE("players/TopBlue.png"),
 	PLAYER_BLUE_ICON("players/Blue.png"),
-	PLAYER_RED("players/TopRed.png"),
-	PLAYER_RED_ICON("players/Red.png");
+	PLAYER_GREEN("players/TopGreen.png"),
+	PLAYER_GREEN_ICON("players/Green.png"),
+	PLAYER_ORANGE("players/TopOrange.png"),
+	PLAYER_ORANGE_ICON("players/Orange.png"),
+	PLAYER_PURPLE("players/TopPurple.png"),
+	PLAYER_PURPLE_ICON("players/Purple.png"),
+	PLAYER_YELLOW("players/TopYellow.png"),
+	PLAYER_YELLOW_ICON("players/Yellow.png");
+	
+	
 	
 	/**
 	 *  Location of the file associated with this DisplayType

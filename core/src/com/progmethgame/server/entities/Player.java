@@ -32,7 +32,12 @@ public class Player extends Entity{
 	
 	enum Color {
 		BLUE(DisplayType.PLAYER_BLUE_ICON, DisplayType.PLAYER_BLUE),
-		RED(DisplayType.PLAYER_RED_ICON, DisplayType.PLAYER_RED);
+		RED(DisplayType.PLAYER_RED_ICON, DisplayType.PLAYER_RED),
+		GREEN(DisplayType.PLAYER_GREEN_ICON, DisplayType.PLAYER_GREEN),
+		ORANGE(DisplayType.PLAYER_ORANGE_ICON, DisplayType.PLAYER_ORANGE),
+		PURPLE(DisplayType.PLAYER_PURPLE_ICON, DisplayType.PLAYER_PURPLE),
+		YELLOW(DisplayType.PLAYER_YELLOW_ICON, DisplayType.PLAYER_YELLOW);
+		
 		
 		private DisplayType top;
 		private DisplayType front;
