@@ -5,7 +5,7 @@ import com.progmethgame.server.entities.Player;
 import com.progmethgame.server.entities.Tickable;
 
 public class SpikeFloor extends WalkableBlock implements Interactable, Tickable{
-	private static int damage = 10;
+	private static int damage = 5;
 	private int cooldown;
 	private static int maxCooldown = 5;
 	private int tickCount;
