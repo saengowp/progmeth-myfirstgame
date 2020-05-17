@@ -28,6 +28,7 @@ import com.progmethgame.server.entities.guns.SlowGun;
 import com.progmethgame.server.entities.guns.StuntGun;
 import com.progmethgame.server.entities.guns.TeleportGun;
 
+/**Game player*/
 public class Player extends Entity{
 	
 	enum Color {
@@ -37,7 +38,6 @@ public class Player extends Entity{
 		ORANGE(DisplayType.PLAYER_ORANGE_ICON, DisplayType.PLAYER_ORANGE),
 		PURPLE(DisplayType.PLAYER_PURPLE_ICON, DisplayType.PLAYER_PURPLE),
 		YELLOW(DisplayType.PLAYER_YELLOW_ICON, DisplayType.PLAYER_YELLOW);
-		
 		
 		private DisplayType top;
 		private DisplayType front;
@@ -55,23 +55,49 @@ public class Player extends Entity{
 			return this.front;
 		}
 	};
+	/** Status if the player is alive*/
 	private boolean alive;
+	
+	/** Damage dealing to player per second*/
 	private int dps;
+	
+	/**Health point*/
 	private int hp;
+	
+	/** Effect that affect player*/
 	private StatusEffect effect;
+	
+	/**integer for tick method*/
 	private int tickCount;
+	
+	/**Gun Slot for player*/
 	private Gun[] gunSlot;
+	
+	/**The gun that player is holding*/
 	private Gun holdedGun;
+	
+	/**Index of the gun that player is holding*/
 	private int gunIndex;
 	
-	
+	/**Speed of move*/
 	private float speed;
+	
+	/**Walk direction*/
 	private Vector2 walkDirection;
+	
+	/**Status if player can move*/
 	private boolean movable;
+	
+	/**Status if player confuse*/
 	private boolean confuse;
+	
+	/**Status if player can shoot*/
 	private boolean shootable;
 	
+	/**HUD for Player*/
 	HudOverlay hud;
+	
+	/**health bar on player*/
 	StatusOverlay healthOv;
 
 	public Player(UUID gid) {
@@ -112,40 +138,73 @@ public class Player extends Entity{
 				               % Color.values().length
 				               ]);
 	}
-	
+	/**
+	 * set color of player
+	 * @param color
+	 */
 	public void setColor(Color c) {
 		this.hud.setPlayerIcon(c.getFront());
 		this.setDisplay(c.getTop());
 	}
-
+	
+	/**
+	 * set player movable status
+	 * @param movable
+	 */
 	public void setMovable(boolean movable) {
 		this.movable = movable;
 	}
 	
+	/**
+	 * set player confuse status
+	 * @param confuse
+	 */
 	public void setConfuse(boolean confuse) {
 		this.confuse = confuse;
 	}
-
+	
+	/**
+	 * @return player's speed
+	 */
 	public float getSpeed() {
 		return speed;
 	}
-
+	
+	/**
+	 * set player speed
+	 * @param speed
+	 */
 	public void setSpeed(float speed) {
 		this.speed = speed;
 	}
-
+	
+	/**
+	 * get player damage per second
+	 * @return
+	 */
 	public int getDps() {
 		return dps;
 	}
-
+	
+	/**
+	 * set damage per second
+	 * @param damage per second
+	 */
 	public void setDps(int dps) {
 		this.dps = dps;
 	}
-
+	
+	/**
+	 * @return player's status effect
+	 */
 	public StatusEffect getEffect() {
 		return effect;
 	}
 
+	/**
+	 * set player's effect
+	 * @param effect
+	 */
 	public void setEffect(StatusEffect effect) {
 		//check if effect is null
 		if(effect ==null) {
@@ -167,6 +226,11 @@ public class Player extends Entity{
 		}
 	}
 	
+	/**
+	 * deal damage to player
+	 * @param damage
+	 * @return amount of damage that deal to player
+	 */
 	public int dealDamge(int damage) {
 		if (this.hp > damage) {
 			this.hp -= damage;
@@ -207,30 +271,47 @@ public class Player extends Entity{
 		holdedGun.recharge(GameConfig.SERVER_TICK_RATE);
 	}
 	
+	/**
+	 * set player walk direction
+	 * @param dir
+	 */
 	public void setWalkDirection(Vector2 dir) {
 		if(confuse) {
 			dir.set(dir.scl(-1));
 		}
 		walkDirection.set(dir);
 		if (!dir.isZero()) {
+			//set face direction of player
 			this.facingDirection = dir.cpy().nor();
 		}
 	}
 	
+	/**
+	 * @return player's face direction
+	 */
 	public Vector2 getFaceDirection() {
 		return facingDirection;
 	}
 	
+	/**
+	 * @return alive
+	 */
 	public boolean isAlive() {
 		return alive;
 	}
-
+	
+	/**
+	 * shoot gun 
+	 */
 	public void fire() {
 		if(shootable) {
 			holdedGun.shoot();
 		}
 	}
 	
+	/**
+	 * swap player's holded gun
+	 */
 	public void swapGun() {
 		gunIndex++;
 		gunIndex %= gunSlot.length;
@@ -249,11 +330,6 @@ public class Player extends Entity{
 		if(block instanceof Interactable) {
 			((Interactable) block).interact(this);
 		}
-	}
-	
-	@Override
-	public float getPhysicalSize() {
-		return 0.8f;
 	}
 	
 
