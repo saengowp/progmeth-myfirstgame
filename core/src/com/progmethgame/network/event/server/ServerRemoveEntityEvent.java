@@ -12,7 +12,13 @@ import com.progmethgame.network.event.base.ServerEvent;
 public class ServerRemoveEntityEvent extends ServerEvent {
 
 	/** ID of the entity removed */
-	public UUID entityId;
+	private UUID entityId;
+	
+	private ServerRemoveEntityEvent() {};
+	
+	public ServerRemoveEntityEvent(UUID entityId) {
+		this.entityId = entityId;
+	}
 	
 	@Override
 	public void notifyListener(ClientBusListener target) {

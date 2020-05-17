@@ -15,6 +15,12 @@ public class ServerReadyEvent extends ServerEvent {
 	/** ID that the server assigned to this client */
 	public UUID assignedId;
 	
+	private ServerReadyEvent() {}
+	
+	public ServerReadyEvent(UUID assignedId) {
+		this.assignedId = assignedId;
+	}
+	
 	@Override
 	public void notifyListener(ClientBusListener target) {
 		target.onServerReady(assignedId);

@@ -11,16 +11,20 @@ import com.progmethgame.network.event.base.ServerEvent;
  *
  */
 public class ServerAddEntityEvent extends ServerEvent {
-
-	/** id of the added entity */
-	public UUID entityId;
 	
 	/** data of the added entity */
-	public EntityData data;
+	private EntityData data;
+	
+	public ServerAddEntityEvent(EntityData data) {
+		this.data = data;
+	}
+	
+	private ServerAddEntityEvent() {
+	}
 	
 	@Override
 	public void notifyListener(ClientBusListener target) {
-		target.onEntityAdd(entityId, data);
+		target.onEntityAdd(data);
 	}
 
 }

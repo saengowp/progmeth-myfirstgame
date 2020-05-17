@@ -11,10 +11,9 @@ import com.progmethgame.network.event.base.ServerEvent;
 public class ServerPlaySoundEvent extends ServerEvent {
 
 	/** Sound requested */
-	public SoundType sound;
+	private SoundType sound;
 	
-	public ServerPlaySoundEvent() {
-		
+	private ServerPlaySoundEvent() {
 	}
 	
 	/** 

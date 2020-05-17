@@ -16,16 +16,22 @@ import com.progmethgame.common.context.GameContext;
 public class HudOverlay extends Overlay {
 	
 	/** Current health portion*/
-	public float health;
+	private float health;
 	
 	/** Weapon's name*/
-	public String weaponName;
+	private String weaponName;
 	
 	/** Current gun's icon */
-	public DisplayType gunIcon;
+	private DisplayType gunIcon;
 	
 	/** Current player's icon*/
-	public DisplayType playerIcon;
+	private DisplayType playerIcon;
+	
+	public HudOverlay() {
+		this.health = 0;
+		this.weaponName = "";
+		this.gunIcon = this.playerIcon = DisplayType.TEST;
+	}
 	
 	@Override
 	public void render(Viewport view, Batch batch, Rectangle rect, ClientEntity target) {
@@ -54,6 +60,22 @@ public class HudOverlay extends Overlay {
 		Texture playerTex = assets.get(playerIcon.filename(), Texture.class);
 		batch.draw(playerTex, 52, 49, 138, 138);
 		
+	}
+
+	public void setHealth(float health) {
+		this.health = health;
+	}
+
+	public void setWeaponName(String weaponName) {
+		this.weaponName = weaponName;
+	}
+
+	public void setGunIcon(DisplayType gunIcon) {
+		this.gunIcon = gunIcon;
+	}
+
+	public void setPlayerIcon(DisplayType playerIcon) {
+		this.playerIcon = playerIcon;
 	}
 
 }

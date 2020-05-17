@@ -12,10 +12,9 @@ public interface ClientBusListener {
 	
 	/**
 	 * Server added an entity
-	 * @param id entity's id
 	 * @param data entity's data
 	 */
-	public void onEntityAdd(UUID id, EntityData data);
+	public void onEntityAdd(EntityData data);
 	
 	/**
 	 * Server remove an entity

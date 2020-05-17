@@ -143,8 +143,8 @@ public class ClientRuntime implements ClientBusListener, Disposable, ClientConte
 	}
 
 	@Override
-	public void onEntityAdd(UUID id, EntityData data) {
-		entities.put(id, new ClientEntity(data));
+	public void onEntityAdd(EntityData data) {
+		entities.put(data.id, new ClientEntity(data));
 	}
 
 	@Override

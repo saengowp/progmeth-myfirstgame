@@ -15,10 +15,15 @@ import com.progmethgame.common.context.GameContext;
 public class StatusOverlay extends Overlay {
 
 	/** Player's health */
-	public float health;
+	private float health;
 	
 	/** Effect applied to the player */
-	public DisplayType effectIcon;
+	private DisplayType effectIcon;
+	
+	public StatusOverlay() {
+		this.health = 0;
+		this.effectIcon = null;
+	}
 	
 	@Override
 	public void render(Viewport view, Batch batch, Rectangle rect, ClientEntity target) {
@@ -34,6 +39,14 @@ public class StatusOverlay extends Overlay {
 			Texture effectTex = assetMan.get(effectIcon.filename(), Texture.class);
 			batch.draw(effectTex, x , y, w, h);
 		}
+	}
+
+	public void setHealth(float health) {
+		this.health = health;
+	}
+
+	public void setEffectIcon(DisplayType effectIcon) {
+		this.effectIcon = effectIcon;
 	}
 
 }

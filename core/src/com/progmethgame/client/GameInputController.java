@@ -23,9 +23,7 @@ public class GameInputController implements InputProcessor {
 	
 	/** Notify direction vector changes to the server */
 	private void notifyMovement() {
-		PlayerMovementEvent e = new PlayerMovementEvent();
-		e.movementVec = movementVec;
-		GameContext.getClientContext().getNetworkBus().sendEvent(e);
+		GameContext.getClientContext().getNetworkBus().sendEvent(new PlayerMovementEvent(movementVec));
 	}
 
 	@Override

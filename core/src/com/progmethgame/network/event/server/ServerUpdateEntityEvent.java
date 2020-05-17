@@ -12,7 +12,13 @@ import com.progmethgame.network.event.base.ServerEvent;
 public class ServerUpdateEntityEvent extends ServerEvent {
 
 	/** Updated data */
-	public EntityData data;
+	private EntityData data;
+	
+	private ServerUpdateEntityEvent() {}
+	
+	public ServerUpdateEntityEvent(EntityData data) {
+		this.data = data;
+	}
 	
 	@Override
 	public void notifyListener(ClientBusListener target) {

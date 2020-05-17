@@ -133,17 +133,14 @@ public class ServerRuntime implements ServerBusListener, Disposable, ServerConte
 	@Override
 	public void addEntity(Entity e) {
 		entitiesAddQueue.addLast(e);
-		ServerAddEntityEvent ev = new ServerAddEntityEvent();
-		ev.entityId = e.getGid();
-		ev.data = e.getData();
+		ServerAddEntityEvent ev = new ServerAddEntityEvent(e.getData());
 		bus.sendEvent(null, ev);
 	}
 	
 	@Override
 	public void removeEntity(Entity e) {
 		entitiesRemovalQueue.addLast(e);
-		ServerRemoveEntityEvent event = new ServerRemoveEntityEvent();
-		event.entityId = e.getGid();
+		ServerRemoveEntityEvent event = new ServerRemoveEntityEvent(e.getGid());
 		bus.sendEvent(null, event);
 	}
 
@@ -172,8 +169,7 @@ public class ServerRuntime implements ServerBusListener, Disposable, ServerConte
 		
 		//Sync entities data
 		for (Entity e : entities.values()) {
-			ServerUpdateEntityEvent event = new ServerUpdateEntityEvent();
-			event.data = e.getData();
+			ServerUpdateEntityEvent event = new ServerUpdateEntityEvent(e.getData());
 			bus.sendEvent(null, event);
 		}
 	}
@@ -191,15 +187,12 @@ public class ServerRuntime implements ServerBusListener, Disposable, ServerConte
 		
 		//Sync other entities
 		for (Entity e : entities.values()) {
-			ServerAddEntityEvent addevent = new ServerAddEntityEvent();
-			addevent.entityId = e.getGid();
-			addevent.data = e.getData();
+			ServerAddEntityEvent addevent = new ServerAddEntityEvent(e.getData());
 			bus.sendEvent(id, addevent);
 		}
 		
 		//Tell the client we're ready
-		ServerReadyEvent readyevent = new ServerReadyEvent();
-		readyevent.assignedId = id;
+		ServerReadyEvent readyevent = new ServerReadyEvent(id);
 		bus.sendEvent(id, readyevent);
 	}
 

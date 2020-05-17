@@ -91,11 +91,8 @@ public class Player extends Entity{
 		this.holdedGun = gunSlot[gunIndex];
 		
 		this.hud = new HudOverlay();
-		this.hud.health = 0;
-		this.hud.weaponName = "";
 		
 		this.healthOv = new StatusOverlay();
-		this.healthOv.health = 0;
 		
 		this.overlays.add(healthOv);
 		this.overlays.add(this.hud);
@@ -109,7 +106,7 @@ public class Player extends Entity{
 	}
 	
 	public void setColor(Color c) {
-		this.hud.playerIcon = c.getFront();
+		this.hud.setPlayerIcon(c.getFront());
 		this.setDisplay(c.getTop());
 	}
 
@@ -188,12 +185,12 @@ public class Player extends Entity{
 		if(movable) {
 			this.velocity.set(walkDirection.nor().scl(speed));
 		}
-		this.hud.health = hp/100f;
+		this.hud.setHealth(hp/100f);
 		
-		this.hud.weaponName = this.gunSlot[this.gunIndex].getName()+"\nStatus: "+this.gunSlot[this.gunIndex].getStatus();
-		this.healthOv.health = hp/100f;
-		this.hud.gunIcon = holdedGun.getBullet().getType();
-		this.healthOv.effectIcon = effect != null ? effect.getDisplayType() : null;
+		this.hud.setWeaponName(this.gunSlot[this.gunIndex].getName()+"\nStatus: "+this.gunSlot[this.gunIndex].getStatus());
+		this.healthOv.setHealth(hp/100f);
+		this.hud.setGunIcon(holdedGun.getBullet().getType());
+		this.healthOv.setEffectIcon(effect != null ? effect.getDisplayType() : null);
 		
 		holdedGun.recharge(GameConfig.SERVER_TICK_RATE);
 	}

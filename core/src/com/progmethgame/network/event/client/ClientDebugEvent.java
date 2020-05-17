@@ -10,9 +10,9 @@ import com.progmethgame.network.event.base.ClientEvent;
 public class ClientDebugEvent extends ClientEvent {
 
 	/** Debug command */
-	public String debugMsg;
+	private String debugMsg;
 	
-	public ClientDebugEvent() {
+	private ClientDebugEvent() {
 		this("");
 	}
 	

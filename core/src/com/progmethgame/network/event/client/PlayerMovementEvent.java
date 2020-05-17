@@ -10,7 +10,13 @@ import com.progmethgame.network.event.base.ClientEvent;
  */
 public class PlayerMovementEvent extends ClientEvent {
 	
-	public Vector2 movementVec;
+	private Vector2 movementVec;
+	
+	private PlayerMovementEvent() {}
+	
+	public PlayerMovementEvent(Vector2 movementVec) {
+		this.movementVec = movementVec;
+	}
 
 	@Override
 	public void notifyListener(ServerBusListener target) {
