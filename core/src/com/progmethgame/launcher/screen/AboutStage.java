@@ -19,7 +19,7 @@ public class AboutStage extends QuitableTextStage {
 			"    PressStart2P is a font by CodeMan38 licensed under Open Font License.\n" + 
 			"    plain-james is a scene2d ui skin by Raymond \"Raeleus\" Buckley licensed under CC BY 4.0\n" + 
 			"    TMX Format is a tiled map data format by mapeditor.org licensed under CC BY-SA 3.0.\n" + 
-			"";
+			"    8-bit Game Over sound effect by Euphrosyyn via freesound.org CC BY 3.0\n";
 	
 	public AboutStage() {
 		super(ABOUTTEXT);

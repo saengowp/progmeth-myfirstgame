@@ -2,7 +2,8 @@ package com.progmethgame.common;
 
 /** Sound effect available on the client */
 public enum SoundType {
-	PEW("pew.wav");
+	PEW("pew.wav")
+	,END("end.ogg");
 	
 	/** File path to the sound */
 	private String filename;

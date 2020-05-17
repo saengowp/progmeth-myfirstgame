@@ -18,6 +18,7 @@ import org.xml.sax.SAXException;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.progmethgame.common.GameConfig;
+import com.progmethgame.common.SoundType;
 import com.progmethgame.common.context.GameContext;
 import com.progmethgame.server.blocks.Block;
 import com.progmethgame.server.blocks.BlockManager;
@@ -215,6 +216,7 @@ public class GameMap implements Tickable {
 		
 		if(aliveCount == 1 && players.size() > 1) {
 			GameContext.getServerContext().addEntity(new WinningBannerEntity(alivePlayerID));
+			GameContext.getServerContext().playSound(SoundType.END);
 			resetTimer = GameConfig.SERVER_GAMEOVER_TIMER;
 		}
 		
