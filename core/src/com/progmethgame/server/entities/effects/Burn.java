@@ -3,26 +3,25 @@ package com.progmethgame.server.entities.effects;
 import com.progmethgame.common.DisplayType;
 import com.progmethgame.server.entities.Player;
 
+/** An status effect that constantly decrease the player's health */
 public class Burn extends StatusEffect {
+	
+	/** Damage per second after this effect is applied */
 	static final int dps = EffectConfig.BURN_DPS;
 
 	public Burn() {
-		// TODO Auto-generated constructor stub
-		super(StatusType.BURN);
+		super(DisplayType.EFFECT_BURN);
 		this.maxDuration = EffectConfig.BURN_MAX_DURATION;
 		this.duration = maxDuration;
-		this.dispType = DisplayType.EFFECT_BURN;
 	}
 
 	@Override
 	public void getEffect(Player p) {
-		// TODO Auto-generated method stub
 		p.setDps(p.getDps()+dps);
 	}
 
 	@Override
 	public void removeEffect(Player p) {
-		// TODO Auto-generated method stub
 		p.setDps(p.getDps()-dps);
 
 	}

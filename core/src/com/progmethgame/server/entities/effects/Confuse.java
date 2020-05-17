@@ -1,27 +1,24 @@
 package com.progmethgame.server.entities.effects;
 
+import com.progmethgame.common.DisplayType;
 import com.progmethgame.server.entities.Player;
 
+/** An effect that reverse the player's control */
 public class Confuse extends StatusEffect {
 
-
 	public Confuse() {
-		super(StatusType.CONFUSE);
-		// TODO Auto-generated constructor stub
+		super(DisplayType.EFFECT_CONFUSE);
 		this.maxDuration = EffectConfig.CONFUSE_MAX_DURATION;
 		this.duration = maxDuration;
-		this.dispType = dispType.EFFECT_CONFUSE;
 	}
 
 	@Override
 	public void getEffect(Player p) {
-		// TODO Auto-generated method stub
 		p.setConfuse(true);
 	}
 
 	@Override
 	public void removeEffect(Player p) {
-		// TODO Auto-generated method stub
 		p.setConfuse(false);
 	}
 	
