@@ -9,16 +9,19 @@ import com.badlogic.gdx.utils.Align;
  */
 public class TextStage extends BaseStage {
 	
+	/** Text label displayed */
+	protected Label textLabel;
+	
 	/**
 	 * Create new text stage with specified message
 	 * @param text a message to display
 	 */
 	public TextStage(String text) {
 		super();
-		Label label = new Label(text, skin);
-		label.setFillParent(true);
-		label.setWrap(true);
-		label.setAlignment(Align.center);
-		this.addActor(label);
+		textLabel = new Label(text, skin);
+		textLabel.setFillParent(true);
+		textLabel.setWrap(true);
+		textLabel.setAlignment(Align.center);
+		this.addActor(textLabel);
 	}
 }
