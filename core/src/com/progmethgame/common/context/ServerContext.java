@@ -1,8 +1,12 @@
 package com.progmethgame.common.context;
 
+import java.util.Map;
+import java.util.UUID;
+
 import com.badlogic.gdx.utils.Disposable;
 import com.progmethgame.common.SoundType;
 import com.progmethgame.server.entities.Entity;
+import com.progmethgame.server.entities.Player;
 
 /**
  * Provides methods for interacting with server runtime
@@ -33,7 +37,8 @@ public interface ServerContext extends Disposable{
 	public void reset();
 	
 	/**
-	 * Check if have a player alive
+	 * Get all players
+	 * @return Map of UUID to Player
 	 */
-	public void checkWinCondition();
+	public Map<UUID, Player> getPlayers();
 }

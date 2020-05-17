@@ -2,6 +2,9 @@ package com.progmethgame.server;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -15,10 +18,12 @@ import org.xml.sax.SAXException;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.progmethgame.common.GameConfig;
+import com.progmethgame.common.context.GameContext;
 import com.progmethgame.server.blocks.Block;
 import com.progmethgame.server.blocks.BlockManager;
 import com.progmethgame.server.entities.Player;
 import com.progmethgame.server.entities.Tickable;
+import com.progmethgame.server.entities.WinningBannerEntity;
 
 /**
  * Store map's state and managed entity's interaction with the map
@@ -42,6 +47,9 @@ public class GameMap implements Tickable {
 	
 	/** Index of the next spawn location*/
 	private int spawnPointsIdx = 0;
+	
+	/** Number of tick until the server reset itself */
+	private int resetTimer = -1; 
 	
 	/**
 	 * Read and initialize the map
@@ -169,6 +177,7 @@ public class GameMap implements Tickable {
 	 */
 	public void reset() {
 		this.spawnPointsIdx = 0;
+		this.resetTimer = -1;
 	}
 
 	@Override
@@ -178,5 +187,36 @@ public class GameMap implements Tickable {
 				blocks[i][j].tick(delta);
 			}
 		}
+		
+		
+		if (resetTimer < 0) {
+			checkWinCondition();
+		} else if (resetTimer == 0) {
+			GameContext.getServerContext().reset();
+		} else {
+			resetTimer--;
+		}
+	}
+	
+	
+	/**
+	 * Check and handle win condition
+	 */
+	public void checkWinCondition() {
+		int aliveCount = 0;
+		UUID alivePlayerID = null;
+		Collection<Player> players = GameContext.getServerContext().getPlayers().values();
+		for(Player p : players) {
+			if(p.isAlive()) {
+				aliveCount++;
+				alivePlayerID = p.getGid();
+			}
+		}
+		
+		if(aliveCount == 1 && players.size() > 1) {
+			GameContext.getServerContext().addEntity(new WinningBannerEntity(alivePlayerID));
+			resetTimer = GameConfig.SERVER_GAMEOVER_TIMER;
+		}
+		
 	}
 }

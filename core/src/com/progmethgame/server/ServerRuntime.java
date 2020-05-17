@@ -1,8 +1,11 @@
 package com.progmethgame.server;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
@@ -279,22 +282,10 @@ public class ServerRuntime implements ServerBusListener, Disposable, ServerConte
 			onClientJoin(id);
 		}
 	}
-
+	
 	@Override
-	public void checkWinCondition() {
-		// TODO Auto-generated method stub
-		int aliveCount = 0;
-		UUID alivePlayerID = null;
-		for(Player p:players.values()) {
-			if(p.isAlive()) {
-				aliveCount++;
-				alivePlayerID = p.getGid();
-			}
-		}
-		if(aliveCount == 1 && players.size() > 1) {
-			addEntity(new WinningBannerEntity(alivePlayerID));
-		}
-		
+	public Map<UUID, Player> getPlayers() {
+		return Collections.unmodifiableMap(this.players);
 	}
 
 }

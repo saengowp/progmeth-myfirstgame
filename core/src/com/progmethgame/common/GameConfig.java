@@ -22,4 +22,6 @@ public final class GameConfig {
 	
 	/** Map file's location*/
 	public static String MAP_FILEPATH = "map/map.tmx";
+	
+	public static int SERVER_GAMEOVER_TIMER = (int) (5/SERVER_TICK_RATE);
 }
