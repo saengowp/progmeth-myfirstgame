@@ -170,6 +170,7 @@ public class Player extends Entity{
 			int remainHp = this.hp;
 			this.hp = 0;
 			this.alive = false;
+			this.velocity.setZero();
 			this.movable = false;
 			this.shootable = false;
 			GameContext.getServerContext().checkWinCondition();
