@@ -1,8 +1,15 @@
 package com.progmethgame.server.blocks;
 
-import com.progmethgame.server.entities.Player;
-import com.progmethgame.server.entities.effects.Burn;
-
-public class BurnBlock extends SolidBlock implements Burnable{
+/**
+ * A solid block that burn the player when touched
+ * @author pigt
+ *
+ */
+public class BurnBlock extends BurningBlock {
+	
+	@Override
+	public boolean isSolid() {
+		return true;
+	}
 
 }

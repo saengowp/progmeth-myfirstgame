@@ -1,37 +1,28 @@
 package com.progmethgame.server.blocks;
 
-import com.progmethgame.common.GameConfig;
 import com.progmethgame.server.entities.Player;
-import com.progmethgame.server.entities.Tickable;
 
-public class SpikeBlock extends SolidBlock implements Interactable, Tickable {
+/**
+ * A block that damage the player when touched
+ * @author pigt
+ *
+ */
+public class SpikeBlock extends CooldownBlock {
 	
-	private static int damage = 7;
-	private int cooldown;
-	private static final int maxCooldown = 5;
-	private int tickCount;
+	/** Damage dealt*/
+	protected int damage = 7;
 	
 	public SpikeBlock() {
 		super();
-		this.cooldown = 0;
-		this.tickCount = 0;
+	}
+	
+	@Override
+	protected void applyEffect(Player p) {
+		p.dealDamge(damage);
 	}
 
 	@Override
-	public void interact(Player p) {
-		// TODO Auto-generated method stub
-		if (cooldown <= 0) {
-			p.dealDamge(damage);
-			this.cooldown = maxCooldown;
-		}
-	}
-	
-	public void tick(float delta) {
-		
-		if (tickCount == 0) {
-			if (cooldown > 0) this.cooldown -= 1;
-		}
-		tickCount++;
-		tickCount %= (int) 1/GameConfig.SERVER_TICK_RATE;
+	public boolean isSolid() {
+		return true;
 	}
 }
